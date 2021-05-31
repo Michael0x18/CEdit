@@ -2527,58 +2527,50 @@ _openfile:
 	section	.text,"ax",@progbits
 	public	_scroll_up
 _scroll_up:
-	ld	hl, -9
+	ld	hl, -3
 	call	__frameset
-	ld	hl, 32
-	ld	(ix + -3), hl
-	ld	hl, (_scr_offset)
-	ld	iy, (_c2)
-	ld	de, (_c1)
+	ld	de, (_scr_offset)
 	dec	de
-	ld	(ix + -9), iy
+	ld	bc, (_c2)
+	ld	iy, (_c1)
+	dec	iy
+	ld	(ix + -3), bc
 BB10_1:
-	dec	hl
-	ld	(ix + -6), hl
-	lea	bc, iy + 0
-	or	a, a
-	sbc	hl, bc
+	dec	de
 	push	de
 	pop	hl
+	or	a, a
+	sbc	hl, bc
+	lea	bc, iy + 0
 	jq	z, BB10_3
-	ld	hl, (ix + -6)
-BB10_3:
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	push	hl
+	push	de
 	pop	bc
-	jq	z, BB10_8
-	ld	hl, (ix + -3)
-	dec	hl
-	ld	(ix + -3), hl
+BB10_3:
+	push	bc
+	pop	hl
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB10_9
+	jq	z, BB10_7
 	ld	hl, _text
 	add	hl, bc
 	ld	a, (hl)
 	cp	a, 10
 	push	bc
 	pop	hl
-	ld	iy, (ix + -9)
+	push	bc
+	pop	de
+	ld	bc, (ix + -3)
 	jq	nz, BB10_1
-	inc	bc
-	jq	BB10_7
-BB10_8:
-	ld	de, 0
-	push	de
+	push	hl
 	pop	bc
-	jq	BB10_7
-BB10_9:
+	inc	bc
+	jq	BB10_6
 BB10_7:
+	ld	bc, 0
+BB10_6:
 	ld	(_scr_offset), bc
-	ld	sp, ix
+	pop	hl
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
@@ -2622,7 +2614,7 @@ BB11_3:
 	jq	nz, BB11_1
 	push	hl
 	pop	bc
-	dec	bc
+	inc	bc
 	jq	BB11_6
 BB11_7:
 	ld	bc, 16383
@@ -2636,7 +2628,7 @@ BB11_6:
 	section	.text,"ax",@progbits
 	public	_redraw
 _redraw:
-	ld	hl, -13
+	ld	hl, -16
 	call	__frameset
 	ld	l, 10
 	ld	(ix + -2), l
@@ -2678,18 +2670,27 @@ BB12_1:
 	push	hl
 	call	_gfx_SetColor
 	pop	hl
-	ld	hl, (_scr_offset)
-	ld	(ix + -6), hl
-	xor	a, a
-	ld	l, (ix + -2)
-	ld	h, (ix + -1)
-	ld	h, a
-	ld	(ix + -2), l
-	ld	(ix + -1), h
-	ld	(ix + -7), a
-	ld	iy, 0
-	ld	(ix + -3), a
+	ld	bc, (_scr_offset)
+	ld	l, 0
+	ld	e, (ix + -2)
+	ld	d, (ix + -1)
+	ld	d, l
+	ld	(ix + -2), e
+	ld	(ix + -1), d
+	ld	a, l
+	ld	de, 0
+	ld	(ix + -6), de
+	ld	(ix + -3), l
 BB12_2:
+	push	bc
+	pop	iy
+	push	bc
+	pop	hl
+	ld	de, 16384
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	jq	p, BB12_15
 	ld	de, (_c2)
 	ld	hl, 16384
 	or	a, a
@@ -2698,29 +2699,28 @@ BB12_2:
 	add	hl, de
 	push	hl
 	pop	bc
-	ld	(ix + -10), iy
-	lea	hl, iy + 0
+	ld	hl, (ix + -6)
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
-	jq	p, BB12_14
+	jq	p, BB12_15
 	ld	c, (ix + -2)
 	ld	b, (ix + -1)
+	ld	(ix + -7), a
 	ld	a, b
 	rlc	a
 	sbc	hl, hl
-	push	hl
-	pop	iy
 	ld	a, b
 	cp	a, 22
 	call	__setflag
-	jq	p, BB12_14
-	ld	bc, (ix + -6)
+	jq	p, BB12_15
+	ld	(ix + -10), hl
+	lea	bc, iy + 0
 	push	bc
 	pop	hl
 	or	a, a
 	sbc	hl, de
-	jq	nz, BB12_6
+	jq	nz, BB12_7
 	ld	e, (ix + -7)
 	ld	a, e
 	rlc	a
@@ -2737,9 +2737,7 @@ BB12_2:
 	push	bc
 	push	de
 	push	hl
-	ld	(ix + -6), iy
 	call	_gfx_VertLine_NoClip
-	ld	iy, (ix + -6)
 	pop	hl
 	pop	hl
 	pop	hl
@@ -2747,27 +2745,24 @@ BB12_2:
 	inc	bc
 	ld	a, 1
 	ld	(ix + -3), a
-BB12_6:
+BB12_7:
 	ld	hl, _text
 	add	hl, bc
-	ld	(ix + -13), hl
 	ld	a, (hl)
 	cp	a, 10
-	ld	l, (ix + -2)
-	ld	h, (ix + -1)
-	jq	nz, BB12_9
-	inc	h
-	ld	(ix + -2), l
-	ld	(ix + -1), h
+	ld	e, (ix + -2)
+	ld	d, (ix + -1)
+	jq	nz, BB12_10
+	inc	d
+	ld	(ix + -2), e
+	ld	(ix + -1), d
 	xor	a, a
-	ld	(ix + -7), a
+	jq	BB12_9
+BB12_10:
+	ld	(ix + -13), bc
+	ld	(ix + -16), hl
 	ld	iy, (ix + -10)
-	jq	BB12_8
-BB12_9:
-	ld	(ix + -6), bc
-	ex	de, hl
 	ld	iyl, d
-	ex	de, hl
 	ld	e, (ix + -7)
 	ld	a, e
 	rlc	a
@@ -2785,21 +2780,21 @@ BB12_9:
 	call	_gfx_SetTextXY
 	pop	hl
 	pop	hl
-	ld	hl, (ix + -13)
+	ld	hl, (ix + -16)
 	ld	a, (hl)
 	ld	l, a
 	push	hl
 	call	_gfx_PrintChar
+	ld	d, (ix + -7)
 	pop	hl
-	ld	a, (ix + -7)
-	inc	a
-	ld	h, a
+	inc	d
+	ld	a, d
 	cp	a, 32
 	call	__setflag
 	ld	l, 1
-	jq	p, BB12_11
+	jq	p, BB12_12
 	ld	l, 0
-BB12_11:
+BB12_12:
 	ld	a, l
 	and	a, 1
 	ld	e, a
@@ -2813,18 +2808,17 @@ BB12_11:
 	bit	0, l
 	ld	iyl, 0
 	ld	a, iyl
-	jq	nz, BB12_13
-	ld	a, h
-BB12_13:
-	ld	(ix + -7), a
-	ld	iy, (ix + -10)
-	ld	bc, (ix + -6)
-BB12_8:
-	inc	iy
-	inc	bc
-	ld	(ix + -6), bc
-	jq	BB12_2
+	jq	nz, BB12_14
+	ld	a, d
 BB12_14:
+	ld	bc, (ix + -13)
+BB12_9:
+	ld	hl, (ix + -6)
+	inc	hl
+	ld	(ix + -6), hl
+	inc	bc
+	jq	BB12_2
+BB12_15:
 	call	_gfx_SwapDraw
 	ld	a, (ix + -3)
 	and	a, 1
@@ -2832,19 +2826,19 @@ BB12_14:
 	xor	a, l
 	xor	a, l
 	bit	0, a
-	jq	nz, BB12_18
+	jq	nz, BB12_19
 	ld	hl, (_c1)
 	ld	de, (_scr_offset)
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	p, BB12_17
+	jq	p, BB12_18
 	call	_scroll_up
 	jq	BB12_1
-BB12_17:
+BB12_18:
 	call	_scroll_down
 	jq	BB12_1
-BB12_18:
+BB12_19:
 	ld	sp, ix
 	pop	ix
 	ret

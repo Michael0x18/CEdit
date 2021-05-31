@@ -70,7 +70,7 @@ void openfile() {
 
 void scroll_up(){
 	//scroll up 1 row
-	int i = scr_offset;int cp = 0;
+	int i = scr_offset-1;int cp = 0;
 	while(1){
 		i--;
 		if(i==c2)i=c1-1;
@@ -79,10 +79,10 @@ void scroll_up(){
 			scr_offset=0;
 			return;
 		}
-		if(cp==32){
-			scr_offset=i;
-			return;
-		}
+		//if(cp==31){
+		//	scr_offset=i;
+		//	return;
+		//}
 		if(text[i]=='\n'){
 			scr_offset=i+1;
 			return;
@@ -92,6 +92,8 @@ void scroll_up(){
 
 void scroll_down(){
 	//no work
+	//scr_offset+=32;
+	//return;
 	int i = scr_offset;int cp=0;
 	while(1){
 		i++;
@@ -101,11 +103,11 @@ void scroll_down(){
 			scr_offset=MAX_BUFFER_SIZE-1;
 			return;
 		}
-		if(cp==32){
-			scr_offset=i;
-		}
+		//if(cp==32){
+		//	scr_offset=i;
+		//}
 		if(text[i]=='\n'){
-			scr_offset=i-1;
+			scr_offset=i+1;
 			return;
 		}
 	}
@@ -123,7 +125,7 @@ void redraw() {
 	int8_t col = 0;
 	int24_t cp = 0;
 	bool drawn = 0;
-	while((cp<MAX_BUFFER_SIZE-c2+c1) && row<22) {
+	while(i < MAX_BUFFER_SIZE && (cp<MAX_BUFFER_SIZE-c2+c1) && row<22) {
 
 		if(i==c1) {
 			gfx_VertLine_NoClip(10*col,10*row+10,10);
