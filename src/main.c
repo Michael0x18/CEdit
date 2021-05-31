@@ -13,7 +13,9 @@
 #define BG_COLOR 0
 #define FG_COLOR 255
 #define STATUSBAR_COLOR
-
+bool isControl(short);
+bool hasfilename = 0;
+static char filename[10];
 static char text[MAX_BUFFER_SIZE];
 static int24_t c1;
 static int24_t c2;
@@ -26,6 +28,62 @@ void redraw();
 
 //static int8_t cr;
 //static int8_t cc;
+
+void drawFileSaveDialog(){
+	gfx_ZeroScreen();
+	gfx_SetTextXY(0,0);
+	gfx_PrintString("Enter a file name to (over)write");
+	gfx_SetTextXY(0,10);
+	gfx_PrintString(filename);
+}
+
+bool isValid(){
+	return 1;//TODO add filename validation
+}
+
+void save_file(){
+	ti_var_t var;
+	ti_CloseAll();
+	//TODO add check if the file exists
+	//var = ti_Open(filename, "w");
+	
+	if(!hasfilename){
+		short k=0;
+		//prompt
+		drawFileSaveDialog();
+		gfx_SwapDraw();
+		int sp=0;
+		while(k!='\n'){
+			k=ngetchx();
+			if(!isControl(k)){
+				if(k=='\n')break;
+				if(sp<8){
+					filename[sp]=k;
+					sp++;
+				}
+			}else if(k==KEY_BS){
+				if(sp>0){
+					filename[sp-1]=0;
+					sp--;
+				}
+			}
+			drawFileSaveDialog();
+			gfx_SwapDraw();
+		}
+		if(!isValid()){
+			return;//TODO print error message and error out
+		}
+		hasfilename=1;
+	}
+	var=ti_Open(filename,"w");
+	ti_Write(text,c1,1,var);
+	ti_Write(text+c2+1,MAX_BUFFER_SIZE-c2-1,1,var);
+	ti_CloseAll();
+}
+
+void open_file(){
+	
+}
 
 void cursor_left() {
 	if(c1>0) {
@@ -41,6 +99,43 @@ void cursor_right() {
 		text[c1]=text[c2];
 		c1++;
 	}
+}
+
+void cursor_up(){
+	int i = 0;
+	while(c1>0 && text[c1-1]!='\n'){
+		i++;cursor_left();
+	}
+	cursor_left();
+	if(c1==0)return;
+	while(c1>0 && text[c1-1]!='\n'){
+		cursor_left();
+	}
+	for(;i>0;i--){
+		if(text[c2+1]=='\n')return;
+		cursor_right();
+	}
+	
+}
+
+void cursor_down(){
+	int i = 0;
+        while(c1>0 && text[c1-1]!='\n'){
+                i++;cursor_left();
+        }
+        //cursor_left();
+        while(c2<MAX_BUFFER_SIZE-1 && text[c2+1]!='\n'){
+                cursor_right();
+        }
+	cursor_right();
+	//while(c2<MAX_BUFFER_SIZE-1 && text[c2+1]!='\n'){                 
+	//	cursor_right();
+	//}
+	//cursor_right();
+        for(;i>0;i--){
+                if(text[c2+1]=='\n')return;
+                cursor_right();
+        }
 }
 
 void insertChar(char c) {
@@ -132,6 +227,7 @@ void redraw() {
 			i=c2+1;
 			cr=row;
 			drawn=1;
+			if(i>=MAX_BUFFER_SIZE)break;
 		}
 		if(text[i]=='\n') {
 			row++;
@@ -152,26 +248,9 @@ void redraw() {
 	}
 	gfx_SwapDraw();
 	if(!drawn) {
-		//scroll
-
 		if(c1<scr_offset) {
-			//scroll up
-			/*
-			   int j = c1;
-			   while(j >= 0 && text[j]!='\n') {
-			   --j;
-			   }
-			   scr_offset=j+1;
-			   */
 			scroll_up();
 		}else{
-			/*
-			   int j = c1;
-			   while(j >= 0 && text[j]!='\n') {
-			   ++j;
-			   }
-			   scr_offset=j-cp-1;
-			   */
 			scroll_down();
 		}
 		redraw();
@@ -183,14 +262,11 @@ bool isControl(short k) {
 }
 
 void main() {
-	//printf("Hello, World!");
-	//ngetchx();
 	gfx_Begin();
 	gfx_SetTransparentColor(TRANSPARENT_COLOR);
 	gfx_SetTextTransparentColor(TRANSPARENT_COLOR);
 	gfx_SetTextFGColor(FG_COLOR);
 	gfx_SetTextBGColor(TRANSPARENT_COLOR);
-	//gfx_FillScreen(BG_COLOR);
 	gfx_SetColor(FG_COLOR);
 	gfx_SetDrawBuffer();
 	c2=0;
@@ -201,7 +277,6 @@ void main() {
 	scr_end=0;
 	redraw();
 	gfx_SwapDraw();
-	//short i = 0;
 	short k = 0;
 	while(k!=KEY_CLEAR) {
 		k=ngetchx();
@@ -221,12 +296,24 @@ void main() {
 				cursor_right();
 				redraw();
 			}
+			if(k==KEY_DOWN) {
+				cursor_down();
+				redraw();
+			}
+			if(k==KEY_UP) {
+				cursor_up();
+				redraw();
+			}
 			if(k==KEY_BS) {
 				bs();
 				redraw();
 			}
 			if(k==KEY_DEL) {
 				del();
+				redraw();
+			}
+			if(k==KEY_SAVE) {
+				save_file();
 				redraw();
 			}
 		}
