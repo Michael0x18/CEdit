@@ -1,0 +1,3524 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_ngetchx_backend
+_ngetchx_backend:
+	ld	hl, -4
+	call	__frameset
+	call	_kb_Scan
+	ld	hl, 7
+	ld	c, 0
+	ld	b, 1
+BB0_1:
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB0_15
+	ld	(ix + -1), c
+	ld	d, b
+	push	hl
+	pop	iy
+	add	iy, iy
+	ld	(ix + -4), iy
+	ld	bc, -720880
+	push	bc
+	pop	iy
+	ld	bc, (ix + -4)
+	add	iy, bc
+	ld	a, d
+	add	a, 8
+	ld	b, a
+	ld	e, 1
+BB0_3:
+	ld	c, (ix + -1)
+	ld	a, e
+	or	a, a
+	jq	z, BB0_14
+	ld	(ix + -4), iy
+	push	hl
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	ex	(sp), hl
+	pop	iy
+	ld	a, iyl
+	and	a, e
+	or	a, a
+	jq	z, BB0_7
+	ld	a, d
+	cp	a, 40
+	jq	z, BB0_7
+	ld	a, d
+	cp	a, 48
+	jq	z, BB0_7
+	ld	a, d
+	sub	a, 54
+	cp	a, 2
+	jq	nc, BB0_12
+BB0_7:
+	ld	a, c
+BB0_13:
+	ld	(ix + -1), a
+	sla	e
+	inc	d
+	ld	iy, (ix + -4)
+	jq	BB0_3
+BB0_12:
+	ld	a, c
+	or	a, a
+	ld	a, d
+	jq	nz, BB0_21
+	jq	BB0_13
+BB0_14:
+	dec	hl
+	jq	BB0_1
+BB0_15:
+	ld	a, (_ngetchx_backend.last_key)
+	ld	b, a
+	ld	e, 0
+BB0_16:
+	ld	a, c
+	cp	a, b
+	jq	z, BB0_20
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB0_20
+	ld	a, c
+	ld	(_ngetchx_backend.last_key), a
+	ld	e, c
+BB0_20:
+	ld	a, e
+	ld	sp, ix
+	pop	ix
+	ret
+BB0_21:
+	ld	e, 0
+	ld	a, e
+	ld	(_ngetchx_backend.last_key), a
+	ld	b, e
+	jq	BB0_16
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_ngetchx
+_ngetchx:
+BB1_1:
+	call	_ngetchx_backend
+	ld	c, a
+	or	a, a
+	jq	z, BB1_1
+	ld	iy, -720878
+	ld	e, (iy)
+	ld	d, (iy + 1)
+	ld	a, e
+	bit	5, a
+	jq	z, BB1_4
+	ld	hl, -720874
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	jq	m, BB1_12
+BB1_4:
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	ld	a, l
+	bit	6, a
+	jq	z, BB1_6
+	ld	hl, -720876
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	jq	m, BB1_13
+BB1_6:
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	ld	a, l
+	bit	6, a
+	jq	nz, BB1_11
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	ld	a, l
+	bit	5, a
+	jq	nz, BB1_14
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	jq	m, BB1_15
+	ld	hl, -720876
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	iy, 0
+	ld	iyl, c
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	jq	m, BB1_16
+	add	iy, iy
+	lea	de, iy + 0
+	ld	hl, _kmain
+	jq	BB1_17
+BB1_11:
+	or	a, a
+	sbc	hl, hl
+	ld	l, c
+	add	hl, hl
+	ex	de, hl
+	ld	hl, _kmeta
+	jq	BB1_17
+BB1_12:
+	or	a, a
+	sbc	hl, hl
+	ld	l, c
+	add	hl, hl
+	ex	de, hl
+	ld	hl, _ksecshift
+	jq	BB1_17
+BB1_13:
+	or	a, a
+	sbc	hl, hl
+	ld	l, c
+	add	hl, hl
+	ex	de, hl
+	ld	hl, _kmetashift
+	jq	BB1_17
+BB1_14:
+	or	a, a
+	sbc	hl, hl
+	ld	l, c
+	add	hl, hl
+	ex	de, hl
+	ld	hl, _ksec
+	jq	BB1_17
+BB1_15:
+	or	a, a
+	sbc	hl, hl
+	ld	l, c
+	add	hl, hl
+	ex	de, hl
+	ld	hl, _kshift
+	jq	BB1_17
+BB1_16:
+	add	iy, iy
+	lea	de, iy + 0
+	ld	hl, _kalpha
+BB1_17:
+	add	hl, de
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_ngetchx2
+_ngetchx2:
+	ld	hl, -1
+	call	__frameset
+	ld	a, 1
+	ld	(ix + -1), a
+BB2_1:
+	call	_kb_Scan
+	ld	a, (_ngetchx2.prevpolls.0)
+	ld	e, 1
+	xor	a, e
+	xor	a, e
+	bit	0, a
+	jq	nz, BB2_4
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	5, a
+	jq	z, BB2_4
+	ld	a, (_ngetchx2.latches.0)
+	xor	a, 1
+	ld	(_ngetchx2.latches.0), a
+BB2_4:
+	ld	a, (_ngetchx2.prevpolls.1)
+	xor	a, e
+	xor	a, e
+	bit	0, a
+	jq	nz, BB2_7
+	ld	hl, -720876
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	jq	p, BB2_7
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, 1
+	ld	(_ngetchx2.latches.1), a
+BB2_7:
+	ld	a, (_ngetchx2.prevpolls.2)
+	xor	a, e
+	xor	a, e
+	bit	0, a
+	jq	nz, BB2_10
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	6, a
+	jq	z, BB2_10
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, 1
+	ld	(_ngetchx2.latches.2), a
+BB2_10:
+	ld	a, (_ngetchx2.prevpolls.3)
+	xor	a, e
+	xor	a, e
+	bit	0, a
+	jq	nz, BB2_13
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	jq	p, BB2_13
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, 1
+	ld	(_ngetchx2.latches.3), a
+BB2_13:
+	ld	iy, -720878
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	ld	c, 5
+	call	__sshru
+	ld	a, l
+	and	a, 1
+	ld	(_ngetchx2.prevpolls.0), a
+	ld	hl, -720876
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	ld	b, 7
+	call	__bshru
+	ld	(_ngetchx2.prevpolls.1), a
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	inc	c
+	call	__sshru
+	ld	a, l
+	and	a, 1
+	ld	(_ngetchx2.prevpolls.2), a
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	call	__bshru
+	ld	(_ngetchx2.prevpolls.3), a
+	call	_ngetchx_backend
+	sub	a, 9
+	ld	de, 0
+	cp	a, 38
+	jq	nc, BB2_1
+	ld	e, a
+	ld	hl, LJTI2_0
+	add	hl, de
+	add	hl, de
+	add	hl, de
+	ld	hl, (hl)
+	jp	(hl)
+BB2_281:
+	ld	a, (_ngetchx2.latches.0)
+	ld	l, 1
+	xor	a, l
+	xor	a, l
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, l
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.2)
+	ld	l, a
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, l
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, (_ngetchx2.latches.3)
+	bit	6, l
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	e, c
+	jq	BB2_289
+BB2_242:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_344
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 85
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_357
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	p, BB2_289
+	ld	e, 117
+	jq	BB2_289
+BB2_193:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_333
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 79
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_334
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 45
+	jq	p, BB2_202
+	ld	e, 111
+BB2_202:
+	jq	BB2_289
+BB2_143:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_322
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 74
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_323
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 42
+	jq	p, BB2_152
+	ld	e, 106
+BB2_152:
+	jq	BB2_289
+BB2_93:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_309
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, 93
+	ld	c, 0
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_310
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 69
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_311
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 47
+	jq	p, BB2_102
+	ld	e, 101
+BB2_102:
+	jq	BB2_289
+BB2_47:
+	ld	a, (_ngetchx2.latches.0)
+	ld	l, 1
+	xor	a, l
+	xor	a, l
+	bit	0, a
+	jq	nz, BB2_296
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, l
+	ld	c, 0
+	jq	nz, BB2_294
+	or	a, a
+	jq	nz, BB2_295
+	ld	hl, -720876
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 94
+	jq	p, BB2_52
+	ld	e, 1
+BB2_52:
+	jq	BB2_289
+BB2_271:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_355
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, (_ngetchx2.latches.3)
+	bit	6, l
+	jq	nz, BB2_353
+	or	a, a
+	jq	nz, BB2_354
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	jq	p, BB2_280
+	ld	a, 32
+	ld	(ix + -1), a
+BB2_280:
+	ld	e, (ix + -1)
+	jq	BB2_289
+BB2_232:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_342
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 83
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_343
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 51
+	jq	p, BB2_241
+	ld	e, 115
+BB2_241:
+	jq	BB2_289
+BB2_183:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_331
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 78
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_332
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 54
+	jq	p, BB2_192
+	ld	e, 110
+BB2_192:
+	jq	BB2_289
+BB2_133:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_319
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, 59
+	ld	c, 0
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_320
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 73
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_321
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 57
+	jq	p, BB2_142
+	ld	e, 105
+BB2_142:
+	jq	BB2_289
+BB2_83:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_306
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, 91
+	ld	c, 0
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_307
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 68
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_308
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 44
+	jq	p, BB2_92
+	ld	e, 100
+BB2_92:
+	jq	BB2_289
+BB2_39:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_293
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	6, a
+	ld	e, 116
+	jq	z, BB2_46
+	ld	e, 84
+BB2_46:
+	jq	BB2_289
+BB2_261:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_349
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, 62
+	ld	c, 0
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_350
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, 1
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_351
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 87
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_352
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 46
+	jq	p, BB2_270
+	ld	e, 119
+BB2_270:
+	jq	BB2_289
+BB2_222:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_339
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, 92
+	ld	c, 0
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_340
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 82
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_341
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 50
+	jq	p, BB2_231
+	ld	e, 114
+BB2_231:
+	jq	BB2_289
+BB2_173:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_329
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 77
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_330
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 53
+	jq	p, BB2_182
+	ld	e, 109
+BB2_182:
+	jq	BB2_289
+BB2_123:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_317
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 72
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_318
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 56
+	jq	p, BB2_132
+	ld	e, 104
+BB2_132:
+	jq	BB2_289
+BB2_73:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_303
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, 125
+	ld	c, 0
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_304
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 67
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_305
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 41
+	jq	p, BB2_82
+	ld	e, 99
+BB2_82:
+	jq	BB2_289
+BB2_31:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_292
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	6, a
+	ld	e, 122
+	jq	z, BB2_38
+	ld	e, 90
+BB2_38:
+	jq	BB2_289
+BB2_251:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_345
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, 60
+	ld	c, 0
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_346
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, 1
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_347
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 86
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_348
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 48
+	jq	p, BB2_260
+	ld	e, 118
+BB2_260:
+	jq	BB2_289
+BB2_212:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_336
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, 34
+	ld	c, 0
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_337
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 81
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_338
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 49
+	jq	p, BB2_221
+	ld	e, 113
+BB2_221:
+	jq	BB2_289
+BB2_163:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_326
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, 58
+	ld	c, 0
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_327
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 76
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_328
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 52
+	jq	p, BB2_172
+	ld	e, 108
+BB2_172:
+	jq	BB2_289
+BB2_113:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_315
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 71
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_316
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 55
+	jq	p, BB2_122
+	ld	e, 103
+BB2_122:
+	jq	BB2_289
+BB2_63:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_300
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, 123
+	ld	c, 0
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_301
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 66
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_302
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 40
+	jq	p, BB2_72
+	ld	e, 98
+BB2_72:
+	jq	BB2_289
+BB2_23:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_291
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	6, a
+	ld	e, 121
+	jq	z, BB2_30
+	ld	e, 89
+BB2_30:
+	jq	BB2_289
+BB2_203:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_335
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 80
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_356
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	p, BB2_289
+	ld	e, 112
+	jq	BB2_289
+BB2_153:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_324
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 75
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_325
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 69
+	jq	p, BB2_162
+	ld	e, 107
+BB2_162:
+	jq	BB2_289
+BB2_53:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_297
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, 101
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_298
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 65
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_299
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 61
+	jq	p, BB2_62
+	ld	e, 97
+BB2_62:
+	jq	BB2_289
+BB2_15:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	c, 0
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, (_ngetchx2.latches.1)
+	bit	5, e
+	ld	e, c
+	jq	nz, BB2_289
+	or	a, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_290
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	6, a
+	ld	e, 120
+	jq	z, BB2_22
+	ld	e, 88
+BB2_22:
+	jq	BB2_289
+BB2_103:
+	ld	a, (_ngetchx2.latches.0)
+	ld	b, 1
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_312
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	5, a
+	ld	e, 1
+	ld	c, 0
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.1)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	ld	e, c
+	jq	nz, BB2_289
+	ld	hl, -720876
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	cp	a, 0
+	call	__setflag
+	ld	e, c
+	jq	m, BB2_289
+	ld	a, (_ngetchx2.latches.2)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_313
+	ld	hl, -720878
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	a, e
+	bit	6, a
+	ld	e, 70
+	jq	nz, BB2_289
+	ld	a, (_ngetchx2.latches.3)
+	xor	a, b
+	xor	a, b
+	bit	0, a
+	jq	nz, BB2_314
+	ld	hl, -720874
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	cp	a, 0
+	call	__setflag
+	ld	e, 124
+	jq	p, BB2_112
+	ld	e, 102
+BB2_112:
+	jq	BB2_289
+BB2_309:
+	ld	e, 93
+	ld	c, 0
+	jq	BB2_289
+BB2_296:
+	ld	e, 1
+	ld	c, 0
+	jq	BB2_289
+BB2_319:
+	ld	e, 59
+	ld	c, 0
+	jq	BB2_289
+BB2_306:
+	ld	e, 91
+	ld	c, 0
+	jq	BB2_289
+BB2_349:
+	ld	e, 62
+	ld	c, 0
+	jq	BB2_289
+BB2_339:
+	ld	e, 92
+	ld	c, 0
+	jq	BB2_289
+BB2_303:
+	ld	e, 125
+	ld	c, 0
+	jq	BB2_289
+BB2_345:
+	ld	e, 60
+	ld	c, 0
+	jq	BB2_289
+BB2_336:
+	ld	e, 34
+	ld	c, 0
+	jq	BB2_289
+BB2_326:
+	ld	e, 58
+	ld	c, 0
+	jq	BB2_289
+BB2_300:
+	ld	e, 123
+	ld	c, 0
+	jq	BB2_289
+BB2_312:
+	ld	e, 1
+	ld	c, 0
+	jq	BB2_289
+BB2_294:
+	ld	e, 1
+	jq	BB2_289
+BB2_295:
+	ld	e, 1
+	jq	BB2_289
+BB2_350:
+	ld	e, 1
+	jq	BB2_289
+BB2_346:
+	ld	e, 1
+	jq	BB2_289
+BB2_297:
+	ld	e, 101
+	jq	BB2_289
+BB2_344:
+	ld	e, 85
+	jq	BB2_289
+BB2_333:
+	ld	e, 79
+	jq	BB2_289
+BB2_322:
+	ld	e, 74
+	jq	BB2_289
+BB2_310:
+	ld	e, 69
+	jq	BB2_289
+BB2_355:
+	ld	e, 32
+	jq	BB2_289
+BB2_342:
+	ld	e, 83
+	jq	BB2_289
+BB2_331:
+	ld	e, 78
+	jq	BB2_289
+BB2_320:
+	ld	e, 73
+	jq	BB2_289
+BB2_307:
+	ld	e, 68
+	jq	BB2_289
+BB2_293:
+	ld	e, 84
+	jq	BB2_289
+BB2_351:
+	ld	e, 87
+	jq	BB2_289
+BB2_340:
+	ld	e, 82
+	jq	BB2_289
+BB2_329:
+	ld	e, 77
+	jq	BB2_289
+BB2_317:
+	ld	e, 72
+	jq	BB2_289
+BB2_304:
+	ld	e, 67
+	jq	BB2_289
+BB2_292:
+	ld	e, 90
+	jq	BB2_289
+BB2_347:
+	ld	e, 86
+	jq	BB2_289
+BB2_337:
+	ld	e, 81
+	jq	BB2_289
+BB2_327:
+	ld	e, 76
+	jq	BB2_289
+BB2_315:
+	ld	e, 71
+	jq	BB2_289
+BB2_301:
+	ld	e, 66
+	jq	BB2_289
+BB2_291:
+	ld	e, 89
+	jq	BB2_289
+BB2_335:
+	ld	e, 80
+	jq	BB2_289
+BB2_324:
+	ld	e, 75
+	jq	BB2_289
+BB2_298:
+	ld	e, 65
+	jq	BB2_289
+BB2_290:
+	ld	e, 88
+	jq	BB2_289
+BB2_313:
+	ld	e, 70
+	jq	BB2_289
+BB2_353:
+	ld	e, 32
+	jq	BB2_289
+BB2_357:
+	ld	e, 117
+	jq	BB2_289
+BB2_334:
+	ld	e, 111
+	jq	BB2_289
+BB2_323:
+	ld	e, 106
+	jq	BB2_289
+BB2_311:
+	ld	e, 101
+	jq	BB2_289
+BB2_354:
+	ld	e, 32
+	jq	BB2_289
+BB2_343:
+	ld	e, 115
+	jq	BB2_289
+BB2_332:
+	ld	e, 110
+	jq	BB2_289
+BB2_321:
+	ld	e, 105
+	jq	BB2_289
+BB2_308:
+	ld	e, 100
+	jq	BB2_289
+BB2_352:
+	ld	e, 119
+	jq	BB2_289
+BB2_341:
+	ld	e, 114
+	jq	BB2_289
+BB2_330:
+	ld	e, 109
+	jq	BB2_289
+BB2_318:
+	ld	e, 104
+	jq	BB2_289
+BB2_305:
+	ld	e, 99
+	jq	BB2_289
+BB2_348:
+	ld	e, 118
+	jq	BB2_289
+BB2_338:
+	ld	e, 113
+	jq	BB2_289
+BB2_328:
+	ld	e, 108
+	jq	BB2_289
+BB2_316:
+	ld	e, 103
+	jq	BB2_289
+BB2_302:
+	ld	e, 98
+	jq	BB2_289
+BB2_356:
+	ld	e, 112
+	jq	BB2_289
+BB2_325:
+	ld	e, 107
+	jq	BB2_289
+BB2_299:
+	ld	e, 97
+	jq	BB2_289
+BB2_314:
+	ld	e, 102
+BB2_289:
+	ld	a, c
+	ld	(_ngetchx2.latches.0), a
+	ld	(_ngetchx2.latches.1), a
+	ld	(_ngetchx2.latches.2), a
+	ld	(_ngetchx2.latches.3), a
+	ld	a, e
+	inc	sp
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+	section	.rodata,"a",@progbits
+lJTI2_0:
+	private	LJTI2_0
+LJTI2_0:
+	dl	BB2_281
+	dl	BB2_242
+	dl	BB2_193
+	dl	BB2_143
+	dl	BB2_93
+	dl	BB2_47
+	dl	BB2_1
+	dl	BB2_1
+	dl	BB2_271
+	dl	BB2_232
+	dl	BB2_183
+	dl	BB2_133
+	dl	BB2_83
+	dl	BB2_39
+	dl	BB2_1
+	dl	BB2_1
+	dl	BB2_261
+	dl	BB2_222
+	dl	BB2_173
+	dl	BB2_123
+	dl	BB2_73
+	dl	BB2_31
+	dl	BB2_1
+	dl	BB2_1
+	dl	BB2_251
+	dl	BB2_212
+	dl	BB2_163
+	dl	BB2_113
+	dl	BB2_63
+	dl	BB2_23
+	dl	BB2_1
+	dl	BB2_1
+	dl	BB2_1
+	dl	BB2_203
+	dl	BB2_153
+	dl	BB2_103
+	dl	BB2_53
+	dl	BB2_15
+
+	section	.text,"ax",@progbits
+	public	_cursor_left
+_cursor_left:
+	ld	de, (_c1)
+	ld	bc, 1
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	jq	m, BB3_2
+	ld	iy, _text
+	dec	de
+	ld	(_c1), de
+	lea	hl, iy + 0
+	add	hl, de
+	ld	a, (hl)
+	ld	de, (_c2)
+	add	iy, de
+	ld	(iy), a
+	dec	de
+	ld	(_c2), de
+BB3_2:
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_cursor_right
+_cursor_right:
+	ld	de, (_c2)
+	ld	bc, 16383
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	jq	p, BB4_2
+	ld	iy, _text
+	inc	de
+	ld	(_c2), de
+	lea	hl, iy + 0
+	add	hl, de
+	ld	a, (hl)
+	ld	de, (_c1)
+	add	iy, de
+	ld	(iy), a
+	inc	de
+	ld	(_c1), de
+BB4_2:
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_insertChar
+_insertChar:
+	call	__frameset0
+	ld	a, (ix + 6)
+	ld	hl, _text
+	ld	de, (_c1)
+	add	hl, de
+	ld	(hl), a
+	inc	de
+	ld	(_c1), de
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_bs
+_bs:
+	ld	hl, (_c1)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB6_2
+	dec	hl
+	ld	(_c1), hl
+BB6_2:
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_del
+_del:
+	ld	de, (_c2)
+	ld	bc, 16383
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	jq	p, BB7_2
+	inc	de
+	ld	(_c2), de
+BB7_2:
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_savefile
+_savefile:
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_openfile
+_openfile:
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_scroll_up
+_scroll_up:
+	ld	hl, -9
+	call	__frameset
+	ld	hl, 32
+	ld	(ix + -3), hl
+	ld	hl, (_scr_offset)
+	ld	iy, (_c2)
+	ld	de, (_c1)
+	dec	de
+	ld	(ix + -9), iy
+BB10_1:
+	dec	hl
+	ld	(ix + -6), hl
+	lea	bc, iy + 0
+	or	a, a
+	sbc	hl, bc
+	push	de
+	pop	hl
+	jq	z, BB10_3
+	ld	hl, (ix + -6)
+BB10_3:
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	push	hl
+	pop	bc
+	jq	z, BB10_8
+	ld	hl, (ix + -3)
+	dec	hl
+	ld	(ix + -3), hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB10_9
+	ld	hl, _text
+	add	hl, bc
+	ld	a, (hl)
+	cp	a, 10
+	push	bc
+	pop	hl
+	ld	iy, (ix + -9)
+	jq	nz, BB10_1
+	inc	bc
+	jq	BB10_7
+BB10_8:
+	ld	de, 0
+	push	de
+	pop	bc
+	jq	BB10_7
+BB10_9:
+BB10_7:
+	ld	(_scr_offset), bc
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_scroll_down
+_scroll_down:
+	ld	hl, -3
+	call	__frameset
+	ld	de, (_scr_offset)
+	ld	bc, (_c1)
+	ld	iy, (_c2)
+	inc	iy
+	ld	(ix + -3), bc
+BB11_1:
+	inc	de
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	lea	bc, iy + 0
+	jq	z, BB11_3
+	push	de
+	pop	bc
+BB11_3:
+	push	bc
+	pop	hl
+	ld	de, 16383
+	or	a, a
+	sbc	hl, de
+	jq	z, BB11_7
+	ld	hl, _text
+	add	hl, bc
+	ld	a, (hl)
+	cp	a, 10
+	push	bc
+	pop	hl
+	push	bc
+	pop	de
+	ld	bc, (ix + -3)
+	jq	nz, BB11_1
+	push	hl
+	pop	bc
+	dec	bc
+	jq	BB11_6
+BB11_7:
+	ld	bc, 16383
+BB11_6:
+	ld	(_scr_offset), bc
+	pop	hl
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_redraw
+_redraw:
+	ld	hl, -13
+	call	__frameset
+	ld	l, 10
+	ld	(ix + -2), l
+	ld	(ix + -1), h
+BB12_1:
+	call	_gfx_ZeroScreen
+	ld	hl, 120
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, 320
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	push	hl
+	call	_gfx_FillRectangle_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, 320
+	push	hl
+	ld	hl, -26
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillRectangle_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, -1
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, (_scr_offset)
+	ld	(ix + -6), hl
+	xor	a, a
+	ld	l, (ix + -2)
+	ld	h, (ix + -1)
+	ld	h, a
+	ld	(ix + -2), l
+	ld	(ix + -1), h
+	ld	(ix + -7), a
+	ld	iy, 0
+	ld	(ix + -3), a
+BB12_2:
+	ld	de, (_c2)
+	ld	hl, 16384
+	or	a, a
+	sbc	hl, de
+	ld	de, (_c1)
+	add	hl, de
+	push	hl
+	pop	bc
+	ld	(ix + -10), iy
+	lea	hl, iy + 0
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	jq	p, BB12_14
+	ld	c, (ix + -2)
+	ld	b, (ix + -1)
+	ld	a, b
+	rlc	a
+	sbc	hl, hl
+	push	hl
+	pop	iy
+	ld	a, b
+	cp	a, 22
+	call	__setflag
+	jq	p, BB12_14
+	ld	bc, (ix + -6)
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	jq	nz, BB12_6
+	ld	e, (ix + -7)
+	ld	a, e
+	rlc	a
+	sbc	hl, hl
+	ld	l, e
+	ld	bc, 10
+	call	__imulu
+	ld	e, (ix + -2)
+	ld	d, (ix + -1)
+	mlt	de
+	ld	a, e
+	add	a, 10
+	ld	e, a
+	push	bc
+	push	de
+	push	hl
+	ld	(ix + -6), iy
+	call	_gfx_VertLine_NoClip
+	ld	iy, (ix + -6)
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	bc, (_c2)
+	inc	bc
+	ld	a, 1
+	ld	(ix + -3), a
+BB12_6:
+	ld	hl, _text
+	add	hl, bc
+	ld	(ix + -13), hl
+	ld	a, (hl)
+	cp	a, 10
+	ld	l, (ix + -2)
+	ld	h, (ix + -1)
+	jq	nz, BB12_9
+	inc	h
+	ld	(ix + -2), l
+	ld	(ix + -1), h
+	xor	a, a
+	ld	(ix + -7), a
+	ld	iy, (ix + -10)
+	jq	BB12_8
+BB12_9:
+	ld	(ix + -6), bc
+	ex	de, hl
+	ld	iyl, d
+	ex	de, hl
+	ld	e, (ix + -7)
+	ld	a, e
+	rlc	a
+	sbc	hl, hl
+	ld	l, e
+	ld	bc, 10
+	call	__imulu
+	push	hl
+	pop	de
+	lea	hl, iy + 0
+	call	__imulu
+	add	hl, bc
+	push	hl
+	push	de
+	call	_gfx_SetTextXY
+	pop	hl
+	pop	hl
+	ld	hl, (ix + -13)
+	ld	a, (hl)
+	ld	l, a
+	push	hl
+	call	_gfx_PrintChar
+	pop	hl
+	ld	a, (ix + -7)
+	inc	a
+	ld	h, a
+	cp	a, 32
+	call	__setflag
+	ld	l, 1
+	jq	p, BB12_11
+	ld	l, 0
+BB12_11:
+	ld	a, l
+	and	a, 1
+	ld	e, a
+	ld	c, (ix + -2)
+	ld	b, (ix + -1)
+	ld	a, b
+	add	a, e
+	ld	b, a
+	ld	(ix + -2), c
+	ld	(ix + -1), b
+	bit	0, l
+	ld	iyl, 0
+	ld	a, iyl
+	jq	nz, BB12_13
+	ld	a, h
+BB12_13:
+	ld	(ix + -7), a
+	ld	iy, (ix + -10)
+	ld	bc, (ix + -6)
+BB12_8:
+	inc	iy
+	inc	bc
+	ld	(ix + -6), bc
+	jq	BB12_2
+BB12_14:
+	call	_gfx_SwapDraw
+	ld	a, (ix + -3)
+	and	a, 1
+	ld	l, 1
+	xor	a, l
+	xor	a, l
+	bit	0, a
+	jq	nz, BB12_18
+	ld	hl, (_c1)
+	ld	de, (_scr_offset)
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	jq	p, BB12_17
+	call	_scroll_up
+	jq	BB12_1
+BB12_17:
+	call	_scroll_down
+	jq	BB12_1
+BB12_18:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_isControl
+_isControl:
+	call	__frameset0
+	ld	l, (ix + 6)
+	ld	h, (ix + 7)
+	dec.sis	hl
+	ld.sis	de, 255
+	or	a, a
+	sbc.sis	hl, de
+	jq	nc, BB13_1
+	ld	a, 0
+	jq	BB13_3
+BB13_1:
+	ld	a, 1
+BB13_3:
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_main
+_main:
+	ld	hl, -2
+	call	__frameset
+	call	_gfx_Begin
+	ld	hl, 1
+	push	hl
+	call	_gfx_SetTransparentColor
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_SetTextTransparentColor
+	pop	hl
+	ld	hl, -1
+	push	hl
+	call	_gfx_SetTextFGColor
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_SetTextBGColor
+	pop	hl
+	ld	hl, -1
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_SetDraw
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	ld	(_scr_offset), hl
+	ld	de, 16383
+	ld	(_c2), de
+	inc	de
+	push	de
+	push	hl
+	ld	hl, _text
+	push	hl
+	call	_memset
+	pop	hl
+	pop	hl
+	pop	hl
+	call	_redraw
+	call	_gfx_SwapDraw
+	ld.sis	de, 0
+	ld.sis	bc, 296
+BB14_1:
+	ld	l, e
+	ld	h, d
+	or	a, a
+	sbc.sis	hl, bc
+	jq	z, BB14_15
+	call	_ngetchx
+	ld	e, l
+	ld	d, h
+	dec.sis	hl
+	ld.sis	bc, 255
+	or	a, a
+	sbc.sis	hl, bc
+	ld	(ix + -2), e
+	ld	(ix + -1), d
+	jq	c, BB14_3
+	ld	l, e
+	ld	h, d
+	ld.sis	bc, 272
+	or	a, a
+	sbc.sis	hl, bc
+	jq	nz, BB14_5
+	call	_cursor_left
+	jq	BB14_14
+BB14_3:
+	ld	a, e
+	ld	de, (_c1)
+	ld	hl, _text
+	add	hl, de
+	ld	(hl), a
+	inc	de
+	ld	(_c1), de
+BB14_14:
+	call	_redraw
+	ld	e, (ix + -2)
+	ld	d, (ix + -1)
+	ld.sis	bc, 296
+	jq	BB14_1
+BB14_5:
+	ld	l, e
+	ld	h, d
+	ld.sis	bc, 273
+	or	a, a
+	sbc.sis	hl, bc
+	jq	nz, BB14_6
+	call	_cursor_right
+	jq	BB14_14
+BB14_6:
+	ld	l, e
+	ld	h, d
+	ld.sis	bc, 298
+	or	a, a
+	sbc.sis	hl, bc
+	jq	nz, BB14_7
+	ld	de, (_c2)
+	push	de
+	pop	hl
+	ld	bc, 16383
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	jq	p, BB14_14
+	inc	de
+	ld	(_c2), de
+	jq	BB14_14
+BB14_7:
+	ld	l, e
+	ld	h, d
+	ld.sis	bc, 299
+	or	a, a
+	sbc.sis	hl, bc
+	ld.sis	bc, 296
+	jq	nz, BB14_1
+	ld	hl, (_c1)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB14_14
+	dec	hl
+	ld	(_c1), hl
+	jq	BB14_14
+BB14_15:
+	ld	sp, ix
+	pop	ix
+	jp	_gfx_End
+	section	.text,"ax",@progbits
+
+	section	.bss,"aw",@nobits
+	private	_ngetchx_backend.last_key
+_ngetchx_backend.last_key:
+	rb	1
+
+	section	.data,"aw",@progbits
+	public	_kmain
+_kmain:
+	dw	0
+	dw	275
+	dw	272
+	dw	273
+	dw	274
+	dw	0
+	dw	0
+	dw	0
+	dw	0
+	dw	10
+	dw	43
+	dw	45
+	dw	42
+	dw	47
+	dw	94
+	dw	297
+	dw	0
+	dw	45
+	dw	51
+	dw	54
+	dw	57
+	dw	41
+	dw	65534
+	dw	65534
+	dw	0
+	dw	46
+	dw	50
+	dw	53
+	dw	56
+	dw	40
+	dw	65534
+	dw	65534
+	dw	304
+	dw	48
+	dw	49
+	dw	52
+	dw	55
+	dw	44
+	dw	65534
+	dw	65534
+	dw	0
+	dw	65535
+	dw	304
+	dw	92
+	dw	124
+	dw	61
+	dw	65534
+	dw	65534
+	dw	0
+	dw	263
+	dw	262
+	dw	261
+	dw	260
+	dw	259
+	dw	0
+	dw	0
+	dw	299
+
+	section	.data,"aw",@progbits
+	public	_ksec
+_ksec:
+	dw	0
+	dw	279
+	dw	276
+	dw	277
+	dw	278
+	dw	0
+	dw	0
+	dw	0
+	dw	0
+	dw	65534
+	dw	39
+	dw	93
+	dw	91
+	dw	65534
+	dw	65534
+	dw	296
+	dw	0
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	125
+	dw	65534
+	dw	65534
+	dw	0
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	123
+	dw	65534
+	dw	65534
+	dw	304
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	0
+	dw	65535
+	dw	304
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	0
+	dw	268
+	dw	267
+	dw	266
+	dw	265
+	dw	264
+	dw	0
+	dw	0
+	dw	298
+
+	section	.data,"aw",@progbits
+	public	_kalpha
+_kalpha:
+	dw	0
+	dw	275
+	dw	272
+	dw	273
+	dw	274
+	dw	0
+	dw	0
+	dw	0
+	dw	0
+	dw	10
+	dw	34
+	dw	119
+	dw	114
+	dw	109
+	dw	104
+	dw	297
+	dw	0
+	dw	63
+	dw	95
+	dw	118
+	dw	113
+	dw	108
+	dw	103
+	dw	65534
+	dw	0
+	dw	58
+	dw	122
+	dw	117
+	dw	112
+	dw	107
+	dw	102
+	dw	99
+	dw	0
+	dw	32
+	dw	121
+	dw	116
+	dw	111
+	dw	106
+	dw	101
+	dw	98
+	dw	0
+	dw	65535
+	dw	120
+	dw	115
+	dw	110
+	dw	105
+	dw	100
+	dw	97
+	dw	0
+	dw	263
+	dw	262
+	dw	261
+	dw	260
+	dw	259
+	dw	0
+	dw	0
+	dw	299
+
+	section	.data,"aw",@progbits
+	public	_kshift
+_kshift:
+	dw	0
+	dw	283
+	dw	280
+	dw	281
+	dw	282
+	dw	0
+	dw	0
+	dw	0
+	dw	0
+	dw	65534
+	dw	39
+	dw	87
+	dw	82
+	dw	77
+	dw	72
+	dw	65534
+	dw	0
+	dw	60
+	dw	62
+	dw	86
+	dw	81
+	dw	76
+	dw	71
+	dw	65534
+	dw	0
+	dw	59
+	dw	90
+	dw	85
+	dw	80
+	dw	75
+	dw	70
+	dw	67
+	dw	304
+	dw	32
+	dw	89
+	dw	84
+	dw	79
+	dw	74
+	dw	69
+	dw	66
+	dw	0
+	dw	65535
+	dw	88
+	dw	83
+	dw	78
+	dw	73
+	dw	68
+	dw	65
+	dw	0
+	dw	263
+	dw	262
+	dw	261
+	dw	260
+	dw	259
+	dw	0
+	dw	0
+	dw	65534
+
+	section	.data,"aw",@progbits
+	public	_kmeta
+_kmeta:
+	dw	0
+	dw	291
+	dw	288
+	dw	289
+	dw	290
+	dw	0
+	dw	0
+	dw	0
+	dw	0
+	dw	65534
+	dw	33
+	dw	64
+	dw	35
+	dw	36
+	dw	37
+	dw	38
+	dw	0
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	0
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	304
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65535
+	dw	304
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	310
+	dw	309
+	dw	271
+	dw	270
+	dw	269
+	dw	65534
+	dw	65534
+	dw	311
+
+	section	.data,"aw",@progbits
+	public	_ksecshift
+_ksecshift:
+	dw	0
+	dw	287
+	dw	284
+	dw	285
+	dw	286
+	dw	0
+	dw	0
+	dw	0
+	dw	0
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	0
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	0
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	304
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65535
+	dw	304
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	311
+
+	section	.data,"aw",@progbits
+	public	_kmetashift
+_kmetashift:
+	dw	0
+	dw	295
+	dw	292
+	dw	293
+	dw	294
+	dw	0
+	dw	0
+	dw	0
+	dw	0
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	0
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	0
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	304
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65535
+	dw	304
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	65534
+	dw	311
+
+	section	.bss,"aw",@nobits
+	private	_c1
+_c1:
+	rb	3
+
+	section	.bss,"aw",@nobits
+	private	_text
+_text:
+	rb	16384
+
+	section	.bss,"aw",@nobits
+	private	_c2
+_c2:
+	rb	3
+
+	section	.bss,"aw",@nobits
+	private	_scr_offset
+_scr_offset:
+	rb	3
+
+	section	.bss,"aw",@nobits
+	private	_ngetchx2.latches.0
+_ngetchx2.latches.0:
+	rb	1
+
+	section	.bss,"aw",@nobits
+	private	_ngetchx2.latches.1
+_ngetchx2.latches.1:
+	rb	1
+
+	section	.bss,"aw",@nobits
+	private	_ngetchx2.latches.2
+_ngetchx2.latches.2:
+	rb	1
+
+	section	.bss,"aw",@nobits
+	private	_ngetchx2.latches.3
+_ngetchx2.latches.3:
+	rb	1
+
+	section	.bss,"aw",@nobits
+	private	_ngetchx2.prevpolls.0
+_ngetchx2.prevpolls.0:
+	rb	1
+
+	section	.bss,"aw",@nobits
+	private	_ngetchx2.prevpolls.1
+_ngetchx2.prevpolls.1:
+	rb	1
+
+	section	.bss,"aw",@nobits
+	private	_ngetchx2.prevpolls.2
+_ngetchx2.prevpolls.2:
+	rb	1
+
+	section	.bss,"aw",@nobits
+	private	_ngetchx2.prevpolls.3
+_ngetchx2.prevpolls.3:
+	rb	1
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__Unwind_SjLj_Register
+	extern	_gfx_SetTextTransparentColor
+	extern	_gfx_SetTextFGColor
+	extern	_gfx_PrintChar
+	extern	_gfx_Begin
+	extern	__sshru
+	extern	__setflag
+	extern	_memset
+	extern	__frameset
+	extern	_gfx_SetTransparentColor
+	extern	_gfx_SetTextBGColor
+	extern	_gfx_FillRectangle_NoClip
+	extern	_kb_Scan
+	extern	_gfx_VertLine_NoClip
+	extern	_gfx_SwapDraw
+	extern	_gfx_SetDraw
+	extern	__Unwind_SjLj_Unregister
+	extern	_gfx_ZeroScreen
+	extern	_gfx_SetColor
+	extern	__imulu
+	extern	_gfx_End
+	extern	__bshru
+	extern	__frameset0
+	extern	_gfx_SetTextXY
