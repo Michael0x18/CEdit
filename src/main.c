@@ -21,6 +21,7 @@ static int24_t c1;
 static int24_t c2;
 static int24_t scr_offset;
 static int24_t scr_end;
+static string_t* Ans_Data;
 
 static int24_t cr;
 
@@ -83,17 +84,21 @@ void save_file(){
 }
 
 void loadfilename(){
-	ti_RclVar(TI_STRING_TYPE, ti_Ans, &Ans_Data);
-	if (!Ans_Data->data || Ans_Data == NULL){
+	
+	ti_RclVar(TI_STRING_TYPE, ti_Ans, (void*)(&Ans_Data));
+	if ((Ans_Data->data)==NULL || Ans_Data == NULL){
 		//gfx_PopupMessage("Message:","Project name: 'SCRDATA'", 1, gfx_green);
 		//gfx_Blit(1);
 		return;
 	}else{
-		gfx_SetTextXY(1, 10);
-		proj.name = Ans_Data->data;
-		gfx_PopupMessage("Project Name:", Ans_Data->data, 0, gfx_green);
+		//gfx_SetTextXY(1, 10);
+		memcpy(filename,Ans_Data->data,8);
+		hasfilename=1;
+		printf("Got filename %s",filename);
+		ngetchx();
+		//gfx_PopupMessage("Project Name:", Ans_Data->data, 0, gfx_green);
 		
-		gfx_Blit(1);
+		//gfx_Blit(1);
 	}
 }
 
@@ -247,6 +252,7 @@ void redraw() {
 	int8_t col = 0;
 	int24_t cp = 0;
 	bool drawn = 0;
+	if(hasfilename)open_file();
 	while(i < MAX_BUFFER_SIZE && (cp<MAX_BUFFER_SIZE-c2+c1) && row<22) {
 
 		if(i==c1) {
