@@ -78,8 +78,15 @@ void save_file(){
 		hasfilename=1;
 	}
 	var=ti_Open(filename,"w");
-	ti_Write(text,c1,1,var);
-	ti_Write(text+c2+1,MAX_BUFFER_SIZE-c2-1,1,var);
+	//ti_Write(text,c1,1,var);
+	//ti_Write(text+c2+1,MAX_BUFFER_SIZE-c2-1,1,var);
+	int i = 0;
+	while(i<MAX_BUFFER_SIZE){
+		if(i==c1)i=c2+1;
+		if(i>=MAX_BUFFER_SIZE)break;
+		ti_PutC(text[i],var);
+		i++;
+	}
 	ti_CloseAll();
 }
 
@@ -185,16 +192,6 @@ void del() {
 		c2++;
 }
 
-//Saves a text file
-void savefile() {
-
-}
-
-//opens a file for editing
-void openfile() {
-
-}
-
 void scroll_up(){
 	//scroll up 1 row
 	int i = scr_offset-1;int cp = 0;
@@ -252,7 +249,7 @@ void redraw() {
 	int8_t col = 0;
 	int24_t cp = 0;
 	bool drawn = 0;
-	if(hasfilename)open_file();
+	//if(hasfilename)open_file();
 	while(i < MAX_BUFFER_SIZE && (cp<MAX_BUFFER_SIZE-c2+c1) && row<22) {
 
 		if(i==c1) {
@@ -312,6 +309,9 @@ void main() {
 	redraw();
 	gfx_SwapDraw();
 	short k = 0;
+	if(hasfilename){
+		open_file();
+	}
 	while(k!=KEY_CLEAR) {
 		k=ngetchx();
 		//if(k==KEY_CUT)k='1';

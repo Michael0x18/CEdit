@@ -2456,9 +2456,6 @@ _isValid:
 _save_file:
 	ld	hl, -6
 	call	__frameset
-	or	a, a
-	sbc	hl, hl
-	ld	(ix + -6), hl
 	call	_ti_CloseAll
 	ld	a, (_hasfilename)
 	ld	l, 1
@@ -2467,7 +2464,9 @@ _save_file:
 	bit	0, a
 	jq	nz, BB5_12
 	ld.sis	bc, 0
-BB5_2:
+	or	a, a
+	sbc	hl, hl
+	ld	(ix + -6), hl
 BB5_3:
 	ld	(ix + -3), c
 	ld	(ix + -2), b
@@ -2486,7 +2485,7 @@ BB5_3:
 	ld.sis	de, 255
 	or	a, a
 	sbc.sis	hl, de
-	jq	c, BB5_5
+	jq	c, BB5_7
 	ld	hl, (ix + -6)
 	ld	de, 1
 	or	a, a
@@ -2500,7 +2499,7 @@ BB5_3:
 	sbc.sis	hl, de
 	jq	nz, BB5_3
 	jq	BB5_10
-BB5_5:
+BB5_7:
 	ld	l, c
 	ld	h, b
 	ld.sis	de, 10
@@ -2520,7 +2519,7 @@ BB5_5:
 	ld	(hl), a
 	inc	de
 	ld	(ix + -6), de
-	jq	BB5_2
+	jq	BB5_3
 BB5_10:
 	ld	de, (ix + -6)
 	dec	de
@@ -2528,7 +2527,7 @@ BB5_10:
 	ld	(ix + -6), de
 	add	hl, de
 	ld	(hl), 0
-	jq	BB5_2
+	jq	BB5_3
 BB5_11:
 	ld	a, 1
 	ld	(_hasfilename), a
@@ -2538,38 +2537,51 @@ BB5_12:
 	ld	hl, _filename
 	push	hl
 	call	_ti_Open
-	ld	e, a
-	ld	(ix + -3), de
+	ld	iyl, a
 	pop	hl
 	pop	hl
-	ld	hl, (_c1)
-	push	de
-	ld	de, 1
-	push	de
-	push	hl
-	ld	hl, _text
-	push	hl
-	call	_ti_Write
+	ld	de, 16384
+	ld	bc, 0
+BB5_13:
+	push	bc
 	pop	hl
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	de, (_c2)
-	ld	hl, _text
-	add	hl, de
-	inc	hl
-	push	hl
-	pop	bc
-	ld	hl, 16383
 	or	a, a
 	sbc	hl, de
-	ld	de, (ix + -3)
-	push	de
-	ld	de, 1
-	push	de
-	push	hl
+	call	__setflag
+	jq	p, BB5_20
+	ld	de, (_c1)
 	push	bc
-	call	_ti_Write
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	jq	nz, BB5_17
+	ld	bc, (_c2)
+	inc	bc
+BB5_17:
+	ld	de, 16384
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	jq	p, BB5_20
+	ld	hl, _text
+	add	hl, bc
+	ld	a, (hl)
+	push	iy
+	ld	l, a
+	push	hl
+	ld	(ix + -3), bc
+	ld	(ix + -6), iy
+	call	_ti_PutC
+	ld	de, 16384
+	ld	iy, (ix + -6)
+	ld	bc, (ix + -3)
+	pop	hl
+	pop	hl
+	inc	bc
+	jq	BB5_13
+BB5_20:
 	ld	sp, ix
 	pop	ix
 	jp	_ti_CloseAll
@@ -2945,18 +2957,6 @@ BB15_2:
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
-	public	_savefile
-_savefile:
-	ret
-	section	.text,"ax",@progbits
-
-	section	.text,"ax",@progbits
-	public	_openfile
-_openfile:
-	ret
-	section	.text,"ax",@progbits
-
-	section	.text,"ax",@progbits
 	public	_scroll_up
 _scroll_up:
 	ld	hl, -3
@@ -2967,23 +2967,23 @@ _scroll_up:
 	ld	iy, (_c1)
 	dec	iy
 	ld	(ix + -3), bc
-BB18_1:
+BB16_1:
 	dec	de
 	push	de
 	pop	hl
 	or	a, a
 	sbc	hl, bc
 	lea	bc, iy + 0
-	jq	z, BB18_3
+	jq	z, BB16_3
 	push	de
 	pop	bc
-BB18_3:
+BB16_3:
 	push	bc
 	pop	hl
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB18_7
+	jq	z, BB16_7
 	ld	hl, _text
 	add	hl, bc
 	ld	a, (hl)
@@ -2993,14 +2993,14 @@ BB18_3:
 	push	bc
 	pop	de
 	ld	bc, (ix + -3)
-	jq	nz, BB18_1
+	jq	nz, BB16_1
 	push	hl
 	pop	bc
 	inc	bc
-	jq	BB18_6
-BB18_7:
+	jq	BB16_6
+BB16_7:
 	ld	bc, 0
-BB18_6:
+BB16_6:
 	ld	(_scr_offset), bc
 	pop	hl
 	pop	ix
@@ -3017,23 +3017,23 @@ _scroll_down:
 	ld	iy, (_c2)
 	inc	iy
 	ld	(ix + -3), bc
-BB19_1:
+BB17_1:
 	inc	de
 	push	de
 	pop	hl
 	or	a, a
 	sbc	hl, bc
 	lea	bc, iy + 0
-	jq	z, BB19_3
+	jq	z, BB17_3
 	push	de
 	pop	bc
-BB19_3:
+BB17_3:
 	push	bc
 	pop	hl
 	ld	de, 16383
 	or	a, a
 	sbc	hl, de
-	jq	z, BB19_7
+	jq	z, BB17_7
 	ld	hl, _text
 	add	hl, bc
 	ld	a, (hl)
@@ -3043,14 +3043,14 @@ BB19_3:
 	push	bc
 	pop	de
 	ld	bc, (ix + -3)
-	jq	nz, BB19_1
+	jq	nz, BB17_1
 	push	hl
 	pop	bc
 	inc	bc
-	jq	BB19_6
-BB19_7:
+	jq	BB17_6
+BB17_7:
 	ld	bc, 16383
-BB19_6:
+BB17_6:
 	ld	(_scr_offset), bc
 	pop	hl
 	pop	ix
@@ -3060,12 +3060,12 @@ BB19_6:
 	section	.text,"ax",@progbits
 	public	_redraw
 _redraw:
-	ld	hl, -13
+	ld	hl, -16
 	call	__frameset
 	ld	l, 10
 	ld	(ix + -2), l
 	ld	(ix + -1), h
-BB20_1:
+BB18_1:
 	call	_gfx_ZeroScreen
 	ld	hl, 120
 	push	hl
@@ -3102,45 +3102,38 @@ BB20_1:
 	push	hl
 	call	_gfx_SetColor
 	pop	hl
-	ld	hl, (_scr_offset)
-	ld	(ix + -5), hl
-	ld	a, (_hasfilename)
-	ld	l, 1
-	xor	a, l
-	bit	0, a
-	call	z, _open_file
-	xor	a, a
-	ld	l, (ix + -2)
-	ld	h, (ix + -1)
-	ld	h, a
-	ld	(ix + -2), l
-	ld	(ix + -1), h
-	ld	(ix + -7), a
-	ld	bc, 0
-	ld	(ix + -6), a
-BB20_4:
-	ld	hl, (ix + -5)
+	ld	iy, (_scr_offset)
+	ld	l, 0
+	ld	c, (ix + -2)
+	ld	b, (ix + -1)
+	ld	b, l
+	ld	a, l
+	ld	de, 0
+	ld	(ix + -6), de
+	ld	(ix + -3), l
+BB18_2:
+	lea	hl, iy + 0
 	ld	de, 16384
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	p, BB20_26
+	ld	(ix + -2), c
+	ld	(ix + -1), b
+	jq	p, BB18_24
 	ld	de, (_c2)
 	ld	hl, 16384
 	or	a, a
 	sbc	hl, de
-	push	hl
-	pop	iy
 	ld	de, (_c1)
-	add	iy, de
-	ld	(ix + -10), bc
-	push	bc
-	pop	hl
-	lea	bc, iy + 0
+	add	hl, de
+	push	hl
+	pop	bc
+	ld	hl, (ix + -6)
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
-	jq	p, BB20_25
+	jq	p, BB18_23
+	ld	(ix + -7), a
 	ld	c, (ix + -2)
 	ld	b, (ix + -1)
 	ld	a, b
@@ -3149,14 +3142,14 @@ BB20_4:
 	ld	a, b
 	cp	a, 22
 	call	__setflag
-	jq	p, BB20_24
-	ld	(ix + -13), hl
-	ld	bc, (ix + -5)
+	jq	p, BB18_22
+	ld	(ix + -10), hl
+	lea	bc, iy + 0
 	push	bc
 	pop	hl
 	or	a, a
 	sbc	hl, de
-	jq	nz, BB20_10
+	jq	nz, BB18_8
 	ld	e, (ix + -7)
 	ld	a, e
 	rlc	a
@@ -3184,34 +3177,36 @@ BB20_4:
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	p, BB20_23
+	jq	p, BB18_21
 	inc	bc
 	ld	a, 1
-	ld	(ix + -6), a
-BB20_10:
+	ld	(ix + -3), a
+BB18_8:
 	ld	hl, _text
-	ld	(ix + -5), bc
 	add	hl, bc
 	ld	a, (hl)
 	cp	a, 10
-	ld	e, (ix + -7)
-	jq	nz, BB20_13
-	ld	l, (ix + -2)
-	ld	h, (ix + -1)
-	ld	a, h
-	inc	a
-	ld	l, 0
-	ld	(ix + -7), l
-	ld	bc, (ix + -10)
-	jq	BB20_12
-BB20_13:
-	ld	iy, (ix + -13)
+	push	bc
+	pop	de
+	jq	nz, BB18_11
 	ld	c, (ix + -2)
 	ld	b, (ix + -1)
-	ld	iyl, b
+	ld	a, b
+	inc	a
+	ld	iyl, 0
+	jq	BB18_10
+BB18_11:
+	ld	(ix + -13), de
+	ld	(ix + -16), hl
+	ld	l, (ix + -2)
+	ld	h, (ix + -1)
+	ld	iy, (ix + -10)
+	ex	de, hl
+	ld	iyl, d
+	ex	de, hl
+	ld	e, (ix + -7)
 	ld	a, e
 	rlc	a
-	ld	(ix + -13), hl
 	sbc	hl, hl
 	ld	l, e
 	ld	bc, 10
@@ -3226,7 +3221,7 @@ BB20_13:
 	call	_gfx_SetTextXY
 	pop	hl
 	pop	hl
-	ld	hl, (ix + -13)
+	ld	hl, (ix + -16)
 	ld	a, (hl)
 	ld	l, a
 	push	hl
@@ -3238,9 +3233,9 @@ BB20_13:
 	cp	a, 32
 	call	__setflag
 	ld	l, 1
-	jq	p, BB20_15
+	jq	p, BB18_13
 	ld	l, 0
-BB20_15:
+BB18_13:
 	ld	a, l
 	and	a, 1
 	ld	e, a
@@ -3249,53 +3244,57 @@ BB20_15:
 	ld	a, b
 	add	a, e
 	bit	0, l
-	ld	l, 0
-	ld	bc, (ix + -10)
-	jq	nz, BB20_17
+	ld	iyl, 0
+	ex	de, hl
+	ld	e, iyl
+	ex	de, hl
+	jq	nz, BB18_15
 	ld	l, d
-BB20_17:
-	ld	(ix + -7), l
-BB20_12:
-	inc	bc
-	ld	hl, (ix + -5)
+BB18_15:
+	ex	de, hl
+	ld	iyl, e
+	ex	de, hl
+	ld	de, (ix + -13)
+BB18_10:
+	ld	hl, (ix + -6)
 	inc	hl
-	ld	(ix + -5), hl
-	ld	l, (ix + -2)
-	ld	h, (ix + -1)
-	ld	h, a
-	ld	(ix + -2), l
-	ld	(ix + -1), h
-	jq	BB20_4
-BB20_26:
-	jq	BB20_18
-BB20_25:
-	jq	BB20_18
-BB20_24:
-BB20_18:
+	ld	(ix + -6), hl
+	inc	de
+	ld	b, a
+	ld	a, iyl
+	push	de
+	pop	iy
+	jq	BB18_2
+BB18_24:
+	jq	BB18_16
+BB18_23:
+	jq	BB18_16
+BB18_22:
+BB18_16:
 	call	_gfx_SwapDraw
-	ld	a, (ix + -6)
+	ld	a, (ix + -3)
 	and	a, 1
 	ld	l, 1
 	xor	a, l
 	xor	a, l
 	bit	0, a
-	jq	nz, BB20_22
+	jq	nz, BB18_20
 	ld	hl, (_c1)
 	ld	de, (_scr_offset)
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	p, BB20_21
+	jq	p, BB18_19
 	call	_scroll_up
-	jq	BB20_1
-BB20_21:
+	jq	BB18_1
+BB18_19:
 	call	_scroll_down
-	jq	BB20_1
-BB20_23:
+	jq	BB18_1
+BB18_21:
 	ld	a, 1
-	ld	(ix + -6), a
-	jq	BB20_18
-BB20_22:
+	ld	(ix + -3), a
+	jq	BB18_16
+BB18_20:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -3348,14 +3347,19 @@ _main:
 	pop	hl
 	call	_redraw
 	call	_gfx_SwapDraw
-	ld.sis	bc, 0
+	ld	a, (_hasfilename)
+	ld	l, 1
+	xor	a, l
+	bit	0, a
+	call	z, _open_file
 	ld.sis	de, 296
-BB21_1:
+	ld.sis	bc, 0
+BB19_3:
 	ld	l, c
 	ld	h, b
 	or	a, a
 	sbc.sis	hl, de
-	jq	z, BB21_19
+	jq	z, BB19_21
 	call	_ngetchx
 	ld	c, l
 	ld	b, h
@@ -3365,7 +3369,7 @@ BB21_1:
 	sbc.sis	hl, de
 	ld	(ix + -2), c
 	ld	(ix + -1), b
-	jq	c, BB21_3
+	jq	c, BB19_5
 	ld	l, c
 	ld	h, b
 	ld.sis	de, 272
@@ -3380,13 +3384,13 @@ BB21_1:
 	ld	de, 4
 	or	a, a
 	sbc	hl, de
-	jq	c, BB21_6
+	jq	c, BB19_8
 	ld	l, c
 	ld	h, b
 	ld.sis	de, 298
 	or	a, a
 	sbc.sis	hl, de
-	jq	nz, BB21_7
+	jq	nz, BB19_9
 	ld	de, (_c2)
 	push	de
 	pop	hl
@@ -3394,11 +3398,11 @@ BB21_1:
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
-	jq	p, BB21_18
+	jq	p, BB19_20
 	inc	de
 	ld	(_c2), de
-	jq	BB21_18
-BB21_3:
+	jq	BB19_20
+BB19_5:
 	ld	a, c
 	ld	de, (_c1)
 	ld	hl, _text
@@ -3406,70 +3410,70 @@ BB21_3:
 	ld	(hl), a
 	inc	de
 	ld	(_c1), de
-BB21_18:
+BB19_20:
 	call	_redraw
 	ld	c, (ix + -2)
 	ld	b, (ix + -1)
 	ld.sis	de, 296
-	jq	BB21_1
-BB21_6:
-	ld	hl, LJTI21_0
+	jq	BB19_3
+BB19_8:
+	ld	hl, LJTI19_0
 	lea	de, iy + 0
 	add	hl, de
 	add	hl, de
 	add	hl, de
 	ld	hl, (hl)
 	jp	(hl)
-BB21_9:
+BB19_11:
 	call	_cursor_left
-	jq	BB21_18
-BB21_7:
+	jq	BB19_20
+BB19_9:
 	ld	l, c
 	ld	h, b
 	ld.sis	de, 299
 	or	a, a
 	sbc.sis	hl, de
-	jq	nz, BB21_8
+	jq	nz, BB19_10
 	ld	hl, (_c1)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB21_18
+	jq	z, BB19_20
 	dec	hl
 	ld	(_c1), hl
-	jq	BB21_18
-BB21_12:
+	jq	BB19_20
+BB19_14:
 	call	_cursor_up
-	jq	BB21_18
-BB21_10:
+	jq	BB19_20
+BB19_12:
 	call	_cursor_right
-	jq	BB21_18
-BB21_11:
+	jq	BB19_20
+BB19_13:
 	call	_cursor_down
-	jq	BB21_18
-BB21_8:
+	jq	BB19_20
+BB19_10:
 	ld	l, c
 	ld	h, b
 	ld.sis	de, 304
 	or	a, a
 	sbc.sis	hl, de
 	ld.sis	de, 296
-	jq	nz, BB21_1
+	jq	nz, BB19_3
 	call	_save_file
-	jq	BB21_18
-BB21_19:
+	jq	BB19_20
+BB19_21:
 	ld	sp, ix
 	pop	ix
 	jp	_gfx_End
 	section	.text,"ax",@progbits
 	section	.rodata,"a",@progbits
-lJTI21_0:
-	private	LJTI21_0
-LJTI21_0:
-	dl	BB21_9
-	dl	BB21_10
-	dl	BB21_12
-	dl	BB21_11
+lJTI19_0:
+	private	LJTI19_0
+LJTI19_0:
+	dl	BB19_11
+	dl	BB19_12
+	dl	BB19_14
+	dl	BB19_13
 
 	section	.bss,"aw",@nobits
 	private	_ngetchx_backend.last_key
@@ -3924,11 +3928,6 @@ L_.str.1:
 	db	"w",000o
 
 	section	.bss,"aw",@nobits
-	private	_text
-_text:
-	rb	16384
-
-	section	.bss,"aw",@nobits
 	private	_c1
 _c1:
 	rb	3
@@ -3937,6 +3936,11 @@ _c1:
 	private	_c2
 _c2:
 	rb	3
+
+	section	.bss,"aw",@nobits
+	private	_text
+_text:
+	rb	16384
 
 	section	.rodata,"a",@progbits
 	private	L_.str.2
@@ -4004,11 +4008,12 @@ _ngetchx2.prevpolls.3:
 	rb	1
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
-	extern	__Unwind_SjLj_Register
-	extern	_gfx_SetTextTransparentColor
+	extern	_ti_PutC
 	extern	_gfx_PrintChar
 	extern	_gfx_SetTextFGColor
+	extern	_gfx_SetTextTransparentColor
 	extern	_gfx_Begin
+	extern	__Unwind_SjLj_Register
 	extern	_gfx_PrintString
 	extern	__sshru
 	extern	__setflag
@@ -4022,13 +4027,12 @@ _ngetchx2.prevpolls.3:
 	extern	_gfx_FillRectangle_NoClip
 	extern	_kb_Scan
 	extern	_printf_
-	extern	_ti_Write
 	extern	_gfx_VertLine_NoClip
-	extern	_gfx_SetDraw
 	extern	_gfx_SwapDraw
 	extern	_ti_CloseAll
-	extern	__Unwind_SjLj_Unregister
+	extern	_gfx_SetDraw
 	extern	_gfx_ZeroScreen
+	extern	__Unwind_SjLj_Unregister
 	extern	_gfx_SetColor
 	extern	__imulu
 	extern	_gfx_End
