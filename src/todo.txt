@@ -1,0 +1,8 @@
+TODO:
+ - debug up/down movement and line scrolling
+ - add selection ability
+ - copy/paste
+ - ask Beck again about BOSshell format
+ - ping about xenon again
+ - allow editing of other files
+
