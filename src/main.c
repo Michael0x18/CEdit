@@ -25,6 +25,7 @@ static int24_t scr_end;
 static int24_t cr;
 
 void redraw();
+void insertChar(char);
 
 //static int8_t cr;
 //static int8_t cc;
@@ -81,8 +82,34 @@ void save_file(){
 	ti_CloseAll();
 }
 
+void loadfilename(){
+	ti_RclVar(TI_STRING_TYPE, ti_Ans, &Ans_Data);
+	if (!Ans_Data->data || Ans_Data == NULL){
+		//gfx_PopupMessage("Message:","Project name: 'SCRDATA'", 1, gfx_green);
+		//gfx_Blit(1);
+		return;
+	}else{
+		gfx_SetTextXY(1, 10);
+		proj.name = Ans_Data->data;
+		gfx_PopupMessage("Project Name:", Ans_Data->data, 0, gfx_green);
+		
+		gfx_Blit(1);
+	}
+}
+
 void open_file(){
-	
+	ti_var_t var;
+	ti_CloseAll();
+	var=ti_Open(filename,"r");
+	//hasfilename=1;
+	if(var==0){
+		return;//no error out
+	}
+	//hasfilename=1;
+	char c;
+	while((c=ti_GetC(var))!=EOF){
+		insertChar(c);
+	}
 }
 
 void cursor_left() {
@@ -262,6 +289,7 @@ bool isControl(short k) {
 }
 
 void main() {
+	loadfilename();
 	gfx_Begin();
 	gfx_SetTransparentColor(TRANSPARENT_COLOR);
 	gfx_SetTextTransparentColor(TRANSPARENT_COLOR);
