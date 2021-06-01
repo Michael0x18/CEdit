@@ -1,8 +1,11 @@
 ////////////////////////////////////////
-// { PROGRAM NAME } { VERSION }
-// Author:
-// License:
-// Description:
+// CEDIT Version 0.0A ALPHA
+// Author: Michael Ferolito
+// License: GNU Lesser General Public License
+// Description: A text editor for the CE,
+//              with support for multi-key
+//              shortcuts, and a rich functionality
+//              set
 ////////////////////////////////////////
 
 #include "tigcclib.h"
@@ -101,8 +104,8 @@ void loadfilename(){
 		//gfx_SetTextXY(1, 10);
 		memcpy(filename,Ans_Data->data,8);
 		hasfilename=1;
-		printf("Got filename %s",filename);
-		ngetchx();
+		//printf("Got filename %s",filename);
+		//ngetchx();
 		//gfx_PopupMessage("Project Name:", Ans_Data->data, 0, gfx_green);
 		
 		//gfx_Blit(1);
@@ -322,6 +325,7 @@ void main() {
 			insertChar(k);
 			redraw();
 		} else {
+			//TODO make it a switch statement
 			if(k==KEY_LEFT) {
 				cursor_left();
 				redraw();
