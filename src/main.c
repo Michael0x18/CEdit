@@ -6,6 +6,11 @@
 //              with support for multi-key
 //              shortcuts, and a rich functionality
 //              set
+//
+//              Currently, it is compatible with the following shells:
+//              CESIUM -- arguments as a space separated list in the ANS variable
+//		BOSshell - no, but planned
+//		Xenon - no, but planned
 ////////////////////////////////////////
 
 #include "tigcclib.h"
@@ -102,10 +107,18 @@ void loadfilename(){
 		return;
 	}else{
 		//gfx_SetTextXY(1, 10);
-		memcpy(filename,Ans_Data->data,8);
+		//memcpy(filename,Ans_Data->data,8);
+		memset(filename,0,10);
+		int size = Ans_Data->len;
+		if(size>8)size=8;
+		for(int i = 0; i < size; i++){
+			if(Ans_Data->data[i]==0 || Ans_Data->data[i]==' ')break;
+			filename[i]=Ans_Data->data[i];
+		}
 		hasfilename=1;
-		//printf("Got filename %s",filename);
-		//ngetchx();
+		printf("Got filename %s\n",filename);
+		printf("Length is %d",strlen(filename));
+		ngetchx();
 		//gfx_PopupMessage("Project Name:", Ans_Data->data, 0, gfx_green);
 		
 		//gfx_Blit(1);
@@ -170,10 +183,10 @@ void cursor_down(){
                 cursor_right();
         }
 	cursor_right();
-	//while(c2<MAX_BUFFER_SIZE-1 && text[c2+1]!='\n'){                 
-	//	cursor_right();
-	//}
-	//cursor_right();
+//	while(c2<MAX_BUFFER_SIZE-1 && text[c2+1]!='\n'){                 
+//		cursor_right();
+//	}
+	cursor_right();
         for(;i>0;i--){
                 if(text[c2+1]=='\n')return;
                 cursor_right();
@@ -311,6 +324,7 @@ void main() {
 	scr_end=0;
 	redraw();
 	gfx_SwapDraw();
+	redraw();
 	short k = 0;
 	if(hasfilename){
 		open_file();
