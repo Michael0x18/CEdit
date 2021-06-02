@@ -389,6 +389,31 @@ void main(int argc, char** argv)
 			redraw_editor();
 		} else {
 			//TODO make it a switch statement
+			switch(k){
+			case KEY_LEFT:
+				cursor_left();
+				break;
+			case KEY_RIGHT:
+				cursor_right();
+				break;
+			case KEY_DOWN:
+				cursor_right();
+				break;
+			case KEY_UP:
+				cursor_up();
+				break;
+			case KEY_BS:
+				bs();
+				break;
+			case KEY_DEL:
+				del();
+				break;
+			case KEY_SAVE:
+				save_file();
+				break;
+			}
+			redraw_editor();
+			/*
 			if(k==KEY_LEFT) {
 				cursor_left();
 				redraw_editor();
@@ -416,7 +441,7 @@ void main(int argc, char** argv)
 			if(k==KEY_SAVE) {
 				save_file();
 				redraw_editor();
-			}
+			}*/
 		}
 	}
 
