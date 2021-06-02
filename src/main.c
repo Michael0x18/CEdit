@@ -30,6 +30,17 @@
 #include "tigcclib.h"
 
 
+short get_len(){
+	int24_t i = 0;
+	while(c1>0 && text[c1-1] != '\n'){
+		i++;cursor_left();
+	}
+	for(int j = 0; j < i; j++){
+		cursor_right();
+	}
+	return i;
+}
+
 //Returns true if the short passed as an argument
 //is a control character, false otherwise.
 bool is_control(short k)
@@ -245,6 +256,22 @@ void cursor_right(void)
 //moves the text cursor one character up
 void cursor_up(void)
 {
+	int line_len = get_len();
+	//int shift = line_len % 32;
+	//while(c1>0 && text[c1-1]!='\n'){
+	//	cursor_left();
+	//}
+	//if(!c1)return;
+	//cursor_left();
+	//while(c1>0 && text[c1-1]!='\n'){
+	//	cursor_left();
+	//}
+	if(line_len>=32){
+		for(int i = 0; i < 32; i++){
+			cursor_left();
+		}
+		return;
+	}
 	int i = 0;
 	while(c1>0 && text[c1-1]!='\n'){
 		i++;cursor_left();
@@ -261,23 +288,24 @@ void cursor_up(void)
 			return;
 		cursor_right();
 	}
+	
 }
 
 //moves the text cursor one character down
 void cursor_down(void)
 {
 	int i = 0;
-    while(c1>0 && text[c1-1]!='\n'){
-            i++;cursor_left();
-    }
-    while(c2<MAX_BUFFER_SIZE-1 && text[c2+1]!='\n'){
-            cursor_right();
-    }
+	while(c1>0 && text[c1-1]!='\n'){
+        	i++;cursor_left();
+    	}
+    	while(c2<MAX_BUFFER_SIZE-1 && text[c2+1]!='\n'){
+        	cursor_right();
+    	}
 	cursor_right();
-    for(;i>0;i--){
-        if(text[c2+1]=='\n')
+    	for(;i>0;i--){
+        	if(text[c2+1]=='\n')
 			return;
-        cursor_right();
+        	cursor_right();
 	}
 }
 
@@ -397,7 +425,7 @@ void main(int argc, char** argv)
 				cursor_right();
 				break;
 			case KEY_DOWN:
-				cursor_right();
+				cursor_down();
 				break;
 			case KEY_UP:
 				cursor_up();
