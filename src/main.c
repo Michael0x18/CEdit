@@ -256,7 +256,9 @@ void cursor_right(void)
 //moves the text cursor one character up
 void cursor_up(void)
 {
+	//cursor_left();
 	int line_len = get_len();
+	//cursor_right();
 	//int shift = line_len % 32;
 	//while(c1>0 && text[c1-1]!='\n'){
 	//	cursor_left();
@@ -266,23 +268,29 @@ void cursor_up(void)
 	//while(c1>0 && text[c1-1]!='\n'){
 	//	cursor_left();
 	//}
+	
+	//Move within line
 	if(line_len>=32){
 		for(int i = 0; i < 32; i++){
 			cursor_left();
 		}
 		return;
 	}
-	int i = 0;
-	while(c1>0 && text[c1-1]!='\n'){
-		i++;cursor_left();
-	}
-
-	cursor_left();
-	if(c1==0)return;
+	//Move between lines
+	
+	//Scoot to start of line
 	while(c1>0 && text[c1-1]!='\n'){
 		cursor_left();
 	}
-
+	
+	//enter new line
+	cursor_left();
+	int upper_line = get_len();//retrieve length
+	if(c1==0)return;//but if we're at the start return now
+	while(c1>0 && text[c1-1]!='\n'){
+		cursor_left();//move left to start of new line
+	}
+	int i = upper_line-upper_line%32+line_len;
 	for(;i>0;i--){
 		if(text[c2+1]=='\n')
 			return;
