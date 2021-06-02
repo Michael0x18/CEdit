@@ -108,5 +108,5 @@ void scroll_up(void);
 void scroll_down(void);
 
 //main function
-void main(void);
+void main(int argc, char** argv);
 #endif

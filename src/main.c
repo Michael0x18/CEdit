@@ -345,9 +345,15 @@ void scroll_down(void)
 }
 
 //main function
-void main(void)
+void main(int argc, char** argv)
 {
-	load_file_name();
+	//load_file_name();
+	if(argc>=2){
+		strncpy(filename,argv[1],8);
+		if(is_valid()){
+			hasfilename=1;
+		}
+	}
 	gfx_Begin();
 	gfx_SetTransparentColor(TRANSPARENT_COLOR);
 	gfx_SetTextTransparentColor(TRANSPARENT_COLOR);
@@ -360,15 +366,18 @@ void main(void)
 	scr_offset=0;
 	c2=16383;
 	memset(text,0,16384);
+	if(hasfilename){
+		open_file();
+	}
 	//scr_end=0;
 	redraw_editor();
 	//gfx_SwapDraw();
 	//redraw_editor();
     //gfx_SwapDraw();
 	short k = 0;
-	if(hasfilename){
-		open_file();
-	}
+	//if(hasfilename){
+	//	open_file();
+	//}
 	while(k!=KEY_CLEAR) {
 		k=ngetchx();
 		//if(k==KEY_CUT)k='1';
