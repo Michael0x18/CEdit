@@ -94,7 +94,12 @@ void redraw_editor(void)
 		}
 
 	}
-
+	gfx_SetTextXY(0,0);
+	gfx_PrintString(hasfilename?filename:"*Untitled*");
+	gfx_SetTextXY(0,232);
+	gfx_PrintInt(lines[lc1],4);
+	gfx_SetTextXY(60,232);
+	gfx_PrintInt(lc_offset,4);
 	gfx_SwapDraw();
 	//Scroll if cursor is not on screen
 	if(!drawn) {
@@ -108,12 +113,25 @@ void redraw_editor(void)
 
 }
 
+void insert_newline(){
+	lc1++;
+	lines[lc1]=0;
+	lc_offset=0;
+}
+
 //Inserts the specified character into the buffer, updating
 //the pointers accordingly.
 void insert_char(char c)
 {
 	text[c1]=c;
 	c1++;
+	if(text[c1-1]=='\n'){
+		//stuff to update
+		insert_newline();
+	}else{
+		lines[lc1]++;
+		lc_offset++;
+	}
 }
 
 //Draws a file save screen
@@ -233,10 +251,40 @@ void open_file(void)
 	}
 }
 
+void line_up(void)
+{
+	if(lc1>0){
+		lines[lc2]=lines[lc1];
+		lc1--;
+		lc2--;
+		lc_offset=lines[lc1];
+	}
+}
+
+void line_down(void)
+{
+	if(lc2<MAX_BUFFER_SIZE){
+		lc2++;
+		lc1++;
+		lines[lc1]=lines[lc2];
+		lc_offset=0;
+	}
+}
+
+
 //moves the text cursor one character left
 void cursor_left(void)
 {
 	if(c1>0) {
+		if(/*text[c1-1]=='\n' || */lc_offset==0){
+			//we're moving left across a line feed
+			//Move to previous line
+			line_up();
+			//lc_offset=lines[lc1];
+		}else{
+			//Moving on same line
+			lc_offset--;
+		}
 		c1--;
 		text[c2]=text[c1];
 		c2--;
@@ -247,6 +295,12 @@ void cursor_left(void)
 void cursor_right(void)
 {
 	if(c2<MAX_BUFFER_SIZE-1) {
+		if(/*text[c2+1]=='\n' || */lc_offset==lines[lc1]){
+			line_down();
+			//lc_offset=0;
+		}else{
+			lc_offset++;
+		}
 		c2++;
 		text[c1]=text[c2];
 		c1++;
@@ -256,6 +310,33 @@ void cursor_right(void)
 //moves the text cursor one character up
 void cursor_up(void)
 {
+	//if the current line is long enough
+	if(lc_offset>32){
+		for(int i = 0; i < 32; i++){
+			cursor_left();
+		}
+	}else{
+		//cache the current offset -- use this later
+		int old = lc_offset;
+		while(lc_offset>=0){
+			cursor_left();
+		}
+		//on last char of next line
+		//now need to move until old
+		
+		//return if the end is what you want
+		if(lc_offset%32<=old)
+			return;
+		int c = lc_offset-(lc_offset%32);
+		int cc = lc_offset;
+		for(int i = 0; i < cc-c-old;i++){
+			cursor_left();
+		}
+		
+	}
+
+	//Old stuff
+	/*
 	int line_len = get_len();
 	//Move within line
 	if(line_len>=32){
@@ -283,7 +364,7 @@ void cursor_up(void)
 		if(text[c2+1]=='\n')
 			return;
 		cursor_right();
-	}
+	}*/
 	
 }
 
@@ -339,8 +420,22 @@ void cursor_down_old(void)
 //backspace
 void bs(void)
 {
-	if(c1)
+	if(c1){
+		if(/*text[c1-1]=='\n' || */lc_offset==0){
+			gfx_SetDrawScreen();
+			gfx_SetTextXY(10,10);
+			gfx_PrintString("YES!!!");
+			gfx_SetDrawBuffer();
+			ngetchx();
+			lc1--;//Delete line
+			lc_offset=lines[lc1];
+			lines[lc1]+=lines[lc1+1];
+		}else{
+			lc_offset--;//else go back
+			lines[lc1]--;
+		}
 		c1--;
+	}
 }
 
 //delete
@@ -498,7 +593,8 @@ void main(int argc, char** argv)
 	gfx_SetTextBGColor(TRANSPARENT_COLOR);
 	gfx_SetColor(FG_COLOR);
 	gfx_SetDrawBuffer();
-	c2=0;
+	c1=0;
+	lc2=16383;
 	//cr=0;
 	scr_offset=0;
 	c2=16383;

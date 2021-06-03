@@ -35,6 +35,13 @@ bool hasfilename = 0;
 static char filename[10];
 //The text currently in the editor buffer
 static char text[MAX_BUFFER_SIZE];
+//The line lengths buffer
+static char lines[MAX_BUFFER_SIZE];
+//left line cursor -- is on the line with the cursor
+static int24_t lc1;
+static int24_t lc2;
+static int24_t lc_offset;
+static int24_t ls_offset;
 //The left side of the cursor
 static int24_t c1;
 //The right side of the cursor
