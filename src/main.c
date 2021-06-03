@@ -256,19 +256,7 @@ void cursor_right(void)
 //moves the text cursor one character up
 void cursor_up(void)
 {
-	//cursor_left();
 	int line_len = get_len();
-	//cursor_right();
-	//int shift = line_len % 32;
-	//while(c1>0 && text[c1-1]!='\n'){
-	//	cursor_left();
-	//}
-	//if(!c1)return;
-	//cursor_left();
-	//while(c1>0 && text[c1-1]!='\n'){
-	//	cursor_left();
-	//}
-	
 	//Move within line
 	if(line_len>=32){
 		for(int i = 0; i < 32; i++){
@@ -299,8 +287,38 @@ void cursor_up(void)
 	
 }
 
-//moves the text cursor one character down
 void cursor_down(void)
+{
+	int i = 0;
+	//Move to end of line
+	while(c2<MAX_BUFFER_SIZE-1 && text[c2+1]!='\n'){
+		cursor_right();
+		i++;
+	}
+	//get line length
+	int line_len=get_len();
+	//if can move within line
+	if(i>=32){
+		for(int i1 = 0; i1 < i; i1++){
+			cursor_left();
+		}
+		for(int i1=0;i1<32; i1++){
+			cursor_right();
+		}
+		return;
+	}
+	//else
+	int offset = line_len%32;
+	cursor_right();
+	for(int i1 = 0; i1 < offset-i; i1++){
+		if(text[c2+1]=='\n')return;
+		cursor_right();
+	}
+
+}
+
+//moves the text cursor one character down
+void cursor_down_old(void)
 {
 	int i = 0;
 	while(c1>0 && text[c1-1]!='\n'){
