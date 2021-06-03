@@ -353,6 +353,64 @@ void del(void)
 //scrolls up a single row
 void scroll_up(void)
 {
+	int i = scr_offset-1;
+	int cm=0;
+	//seek for new line
+	while(i>=0 && text[i-1]!='\n'){
+		i--;
+		if(i==c2)i=c1-1;
+		cm++;
+	}
+	//Found either SOF or newline, doesn't matter
+	//We go ahead any way
+	if(cm>32){
+		for(int i1=0;i1<32; i1++){
+			t--;
+			if(t==c2)
+				t=c1-1;	
+			if(t==0){
+				scr_offset=0;return;
+			}
+		}
+		scr_offset=t;
+		return;
+	}
+	int offset = cm;
+	i--;
+	if(i==c2)i=c1-1;
+	i--;
+	if(i==c2)i=c1-1;
+	int cm2=0;
+	while(i>=0 && text[i-1]!='\n'){
+		i--;
+		if(i==c2)i=c1-1;
+		cm2++;
+	}
+	int t = scr_offset;
+	for(int i2 = 0; i2 < cm2-offset; i2++){
+		
+	}
+
+
+
+
+
+	//wtf was I thinking?
+	/*int cm2 = cm%32;
+	if(!cm2){
+		cm2=32;
+	}
+	int t = scr_offset;
+	for(int i1=0;i1<32; i1++){
+		t--;
+		if(t==c2)
+			t=c1-1;	
+		if(t==0){
+			scr_offset=0;return;
+		}
+	}
+	scr_offset=t;
+	*/
 	
 }
 
