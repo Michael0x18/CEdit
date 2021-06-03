@@ -325,7 +325,7 @@ void cursor_up(void)
 		cursor_left();
 		//on last char of next line
 		//now need to move until old
-		
+
 		//return if the end is what you want
 		if(lc_offset%32<=old)
 			return;
@@ -335,48 +335,43 @@ void cursor_up(void)
 		for(int i = 0; i < to_move; i++){
 			cursor_left();
 		}
-		//int c = lc_offset-(lc_offset%32);
-		//int cc = lc_offset;
-		//for(int i = 0; i < cc-c-old;i++){
-		//	cursor_left();
-		//}
-		
 	}
-
-	//Old stuff
-	/*
-	int line_len = get_len();
-	//Move within line
-	if(line_len>=32){
-		for(int i = 0; i < 32; i++){
-			cursor_left();
-		}
-		return;
-	}
-	//Move between lines
-	
-	//Scoot to start of line
-	while(c1>0 && text[c1-1]!='\n'){
-		cursor_left();
-	}
-	
-	//enter new line
-	cursor_left();
-	int upper_line = get_len();//retrieve length
-	if(c1==0)return;//but if we're at the start return now
-	while(c1>0 && text[c1-1]!='\n'){
-		cursor_left();//move left to start of new line
-	}
-	int i = upper_line-upper_line%32+line_len;
-	for(;i>0;i--){
-		if(text[c2+1]=='\n')
-			return;
-		cursor_right();
-	}*/
-	
 }
 
 void cursor_down(void)
+{
+	//if current line is long enough
+	if(lines[lc1]-lc_offset>32){
+		for(int i = 0; i < 32; i++){
+			cursor_right();
+		}
+	}else{
+		int old=lc_offset;
+		while(lc_offset>0){
+			cursor_right();
+			if(c2==MAX_BUFFER_SIZE-1){
+				return;
+			}
+		}
+		if(lines[lc1]<=old%32){
+			for(int i = 0; i < lc1; i++){
+				cursor_right();
+			}
+		}
+		//Now on first char of next line
+		//lock_dist is buffer line offset
+		//////wtf//////
+		//int lock_dist = lines[lc1]-lines[lc1]%32;
+		//The true offset distance
+		int true_offset = /*lock_dist+*/old%32;
+		for(int i = 0; i < true_offset; i++){
+			cursor_right();
+		}
+		
+	}
+}
+
+void cursor_down_1(void)
 {
 	int i = 0;
 	//Move to end of line
