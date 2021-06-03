@@ -364,6 +364,7 @@ void scroll_up(void)
 	//Found either SOF or newline, doesn't matter
 	//We go ahead any way
 	if(cm>32){
+		int t = scr_offset;
 		for(int i1=0;i1<32; i1++){
 			t--;
 			if(t==c2)
@@ -375,20 +376,23 @@ void scroll_up(void)
 		scr_offset=t;
 		return;
 	}
-	int offset = cm;
+	//int offset = cm;
 	i--;
 	if(i==c2)i=c1-1;
 	i--;
 	if(i==c2)i=c1-1;
 	int cm2=0;
+	//seek for next new line
 	while(i>=0 && text[i-1]!='\n'){
 		i--;
 		if(i==c2)i=c1-1;
 		cm2++;
 	}
-	int t = scr_offset;
+	int offset=cm2%32;
+	int t = i;
 	for(int i2 = 0; i2 < cm2-offset; i2++){
-		
+		t++;
+		if(t==c1)t=c2+1;
 	}
 
 
