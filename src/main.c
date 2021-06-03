@@ -318,6 +318,7 @@ void cursor_down(void)
 }
 
 //moves the text cursor one character down
+////borked
 void cursor_down_old(void)
 {
 	int i = 0;
@@ -352,6 +353,12 @@ void del(void)
 //scrolls up a single row
 void scroll_up(void)
 {
+	
+}
+
+//scrolls up a single row
+void scroll_up_old(void)
+{
 	int i = scr_offset-1;
 	int cp = 0;
 
@@ -375,7 +382,21 @@ void scroll_up(void)
 }
 
 //scrolls down a single row
-void scroll_down(void)
+void scroll_down(void)//ASSUMES THE CURSOR IS OFF THE BOTTOM OF THE SCREEN
+{
+	int i = scr_offset;
+	for(;i-scr_offset<32;++i){
+		if(text[i+1]=='\n'){
+			i++;
+			break;
+		}
+	}
+	scr_offset=i;
+}
+
+//scrolls down a single row
+////borked
+void scroll_down_old(void)
 {
 	int i = scr_offset;
 	int cp=0;
