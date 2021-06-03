@@ -318,20 +318,28 @@ void cursor_up(void)
 	}else{
 		//cache the current offset -- use this later
 		int old = lc_offset;
-		while(lc_offset>=0){
+		while(lc_offset>0){
 			cursor_left();
 		}
+		if(!c1)return;
+		cursor_left();
 		//on last char of next line
 		//now need to move until old
 		
 		//return if the end is what you want
 		if(lc_offset%32<=old)
 			return;
-		int c = lc_offset-(lc_offset%32);
-		int cc = lc_offset;
-		for(int i = 0; i < cc-c-old;i++){
+		int c = lc_offset-lc_offset%32;
+		c+=old;//Offset to move to from start of line
+		int to_move = lc_offset-c;
+		for(int i = 0; i < to_move; i++){
 			cursor_left();
 		}
+		//int c = lc_offset-(lc_offset%32);
+		//int cc = lc_offset;
+		//for(int i = 0; i < cc-c-old;i++){
+		//	cursor_left();
+		//}
 		
 	}
 
