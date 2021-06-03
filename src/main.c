@@ -311,8 +311,8 @@ void cursor_right(void)
 void cursor_up(void)
 {
 	//if the current line is long enough
-	if(lc_offset>32){
-		for(int i = 0; i < 32; i++){
+	if(lc_offset>NUM_COLS){
+		for(int i = 0; i < NUM_COLS; i++){
 			cursor_left();
 		}
 	}else{
@@ -327,9 +327,9 @@ void cursor_up(void)
 		//now need to move until old
 
 		//return if the end is what you want
-		if(lc_offset%32<=old)
+		if(lc_offset%NUM_COLS<=old)
 			return;
-		int c = lc_offset-lc_offset%32;
+		int c = lc_offset-lc_offset%NUM_COLS;
 		c+=old;//Offset to move to from start of line
 		int to_move = lc_offset-c;
 		for(int i = 0; i < to_move; i++){
@@ -338,11 +338,12 @@ void cursor_up(void)
 	}
 }
 
+//Moves the text cursor one row down 
 void cursor_down(void)
 {
 	//if current line is long enough
-	if(lines[lc1]-lc_offset>32){
-		for(int i = 0; i < 32; i++){
+	if(lines[lc1]-lc_offset>NUM_COLS){
+		for(int i = 0; i < NUM_COLS; i++){
 			cursor_right();
 		}
 	}else{
@@ -353,7 +354,7 @@ void cursor_down(void)
 				return;
 			}
 		}
-		if(lines[lc1]<=old%32){
+		if(lines[lc1]<=old%NUM_COLS){
 			for(int i = 0; i < lc1; i++){
 				cursor_right();
 			}
@@ -363,60 +364,11 @@ void cursor_down(void)
 		//////wtf//////
 		//int lock_dist = lines[lc1]-lines[lc1]%32;
 		//The true offset distance
-		int true_offset = /*lock_dist+*/old%32;
+		int true_offset = /*lock_dist+*/old%NUM_COLS;
 		for(int i = 0; i < true_offset; i++){
 			cursor_right();
 		}
 		
-	}
-}
-
-void cursor_down_1(void)
-{
-	int i = 0;
-	//Move to end of line
-	while(c2<MAX_BUFFER_SIZE-1 && text[c2+1]!='\n'){
-		cursor_right();
-		i++;
-	}
-	//get line length
-	int line_len=get_len();
-	//if can move within line
-	if(i>=32){
-		for(int i1 = 0; i1 < i; i1++){
-			cursor_left();
-		}
-		for(int i1=0;i1<32; i1++){
-			cursor_right();
-		}
-		return;
-	}
-	//else
-	int offset = line_len%32;
-	cursor_right();
-	for(int i1 = 0; i1 < offset-i; i1++){
-		if(text[c2+1]=='\n')return;
-		cursor_right();
-	}
-
-}
-
-//moves the text cursor one character down
-////borked
-void cursor_down_old(void)
-{
-	int i = 0;
-	while(c1>0 && text[c1-1]!='\n'){
-        	i++;cursor_left();
-    	}
-    	while(c2<MAX_BUFFER_SIZE-1 && text[c2+1]!='\n'){
-        	cursor_right();
-    	}
-	cursor_right();
-    	for(;i>0;i--){
-        	if(text[c2+1]=='\n')
-			return;
-        	cursor_right();
 	}
 }
 
@@ -425,11 +377,12 @@ void bs(void)
 {
 	if(c1){
 		if(/*text[c1-1]=='\n' || */lc_offset==0){
+			/*
 			gfx_SetDrawScreen();
 			gfx_SetTextXY(10,10);
 			gfx_PrintString("YES!!!");
 			gfx_SetDrawBuffer();
-			ngetchx();
+			ngetchx();*/
 			lc1--;//Delete line
 			lc_offset=lines[lc1];
 			lines[lc1]+=lines[lc1+1];
@@ -441,16 +394,24 @@ void bs(void)
 	}
 }
 
-//delete
+//delete TODO untested
 void del(void)
 {
-	if(c2<MAX_BUFFER_SIZE-1)
+	if(c2<MAX_BUFFER_SIZE-1){
+		if(lc_offset==lines[lc1]){
+			lc2++;
+			lines[lc1]+=lines[lc2+1];
+		}else{
+			lines[lc1--];
+		}
 		c2++;
+	}
 }
 
 //scrolls up a single row
-void scroll_up(void)
-{
+//void scroll_up(void)
+//{
+	/*
 	int i = scr_offset-1;
 	int cm=0;
 	//seek for new line
@@ -494,7 +455,7 @@ void scroll_up(void)
 	}
 
 
-
+	*/
 
 
 	//wtf was I thinking?
@@ -514,31 +475,12 @@ void scroll_up(void)
 	scr_offset=t;
 	*/
 	
-}
-
-//scrolls up a single row
-void scroll_up_old(void)
+//}
+//
+void scroll_up(void)
 {
-	int i = scr_offset-1;
-	int cp = 0;
-
-	while(1){
-		i--;
-		if(i==c2)i=c1-1;
-		cp++;
-		if(i==0){
-			scr_offset=0;
-			return;
-		}
-		//if(cp==31){
-		//	scr_offset=i;
-		//	return;
-		//}
-		if(text[i]=='\n'){
-			scr_offset=i+1;
-			return;
-		}
-	}
+	int i = scr_offset;
+	
 }
 
 //scrolls down a single row

@@ -20,6 +20,8 @@
 
 //Maximum size of the editor buffer
 #define MAX_BUFFER_SIZE 16384
+//the number of columns to wrap to
+#define NUM_COLS 32
 //The color used for the text
 #define FG_COLOR 255
 //The color used for the editor background
@@ -39,8 +41,11 @@ static char text[MAX_BUFFER_SIZE];
 static char lines[MAX_BUFFER_SIZE];
 //left line cursor -- is on the line with the cursor
 static int24_t lc1;
+//right line cursor -- points to one past the right side
 static int24_t lc2;
+//Offset of the cursor from the start of a line
 static int24_t lc_offset;
+//Offset of the screen from the start of a line. Always a multiple of NUM_COLS
 static int24_t ls_offset;
 //The left side of the cursor
 static int24_t c1;
