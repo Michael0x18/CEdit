@@ -38,7 +38,7 @@ static char filename[10];
 //The text currently in the editor buffer
 static char text[MAX_BUFFER_SIZE];
 //The line lengths buffer
-static char lines[MAX_BUFFER_SIZE];
+static int24_t lines[MAX_BUFFER_SIZE];
 //left line cursor -- is on the line with the cursor
 static int24_t lc1;
 //right line cursor -- points to one past the right side

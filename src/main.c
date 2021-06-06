@@ -338,7 +338,8 @@ void cursor_up(void)
 	}
 }
 
-//Moves the text cursor one row down 
+//Moves the text cursor one row down
+//borked 
 void cursor_down(void)
 {
 	//if current line is long enough
@@ -355,7 +356,7 @@ void cursor_down(void)
 			}
 		}
 		if(lines[lc1]<=old%NUM_COLS){
-			for(int i = 0; i < lc1; i++){
+			for(int i = 0; i < lines[lc1]; i++){
 				cursor_right();
 			}
 		}
@@ -402,7 +403,7 @@ void del(void)
 			lc2++;
 			lines[lc1]+=lines[lc2+1];
 		}else{
-			lines[lc1--];
+			lines[lc1]--;
 		}
 		c2++;
 	}
@@ -479,12 +480,20 @@ void del(void)
 //
 void scroll_up(void)
 {
-	int i = scr_offset;
+	//WTH I don't know if this is gonna work, but I'm hella tired rn.
+	//scr_offset=c1-(lines[lc1]%32==0?32:lines[lc1]%32);
+	scr_offset=c1-lc_offset%32;
+	
+}
+void scroll_down_line();
+void scroll_down(void){
+	//This is gonna suck. There are 22 columns, so that means 22 segments above the mouse cursor.
+	scroll_down_line();
 	
 }
 
 //scrolls down a single row
-void scroll_down(void)//ASSUMES THE CURSOR IS OFF THE BOTTOM OF THE SCREEN
+void scroll_down_line(void)//ASSUMES THE CURSOR IS OFF THE BOTTOM OF THE SCREEN
 {
 	int i = scr_offset;
 	for(;i-scr_offset<32;++i){
