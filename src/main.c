@@ -342,33 +342,56 @@ void cursor_up(void)
 //borked 
 void cursor_down(void)
 {
+	//if(lines[lc1]==0){
+	//	cursor_right();
+	//	return;
+	//}
 	//if current line is long enough
 	if(lines[lc1]-lc_offset>NUM_COLS){
 		for(int i = 0; i < NUM_COLS; i++){
 			cursor_right();
 		}
 	}else{
-		int old=lc_offset;
-		while(lc_offset>0){
+		int old=lc_offset;int oldb = lines[lc1];
+		//while(lc_offset>0){
+		//	cursor_right();
+		//	if(c2==MAX_BUFFER_SIZE-1){
+		//		return;
+		///	}
+		//}
+		for(int i = 0; i < oldb-old; i++){
 			cursor_right();
-			if(c2==MAX_BUFFER_SIZE-1){
-				return;
+		}cursor_right();
+		if(lines[lc1]<old%NUM_COLS){
+			for(int i = 0; i < lines[lc1]; i++){
+				cursor_right();
+			}
+		}else{
+			for(int i = 0; i < old%NUM_COLS; i++){
+				cursor_right();
 			}
 		}
+	//	if(lines[lc1]==0){
+	//		return;
+	//	}
+	//	
+		/*
 		if(lines[lc1]<=old%NUM_COLS){
 			for(int i = 0; i < lines[lc1]; i++){
 				cursor_right();
 			}
+			return;
 		}
 		//Now on first char of next line
 		//lock_dist is buffer line offset
 		//////wtf//////
 		//int lock_dist = lines[lc1]-lines[lc1]%32;
 		//The true offset distance
-		int true_offset = /*lock_dist+*/old%NUM_COLS;
+		int true_offset = *//*lock_dist+*//*old%NUM_COLS;
 		for(int i = 0; i < true_offset; i++){
 			cursor_right();
-		}
+			if(lines[lc1]==0)return;
+		}*/
 		
 	}
 }
