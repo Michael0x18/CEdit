@@ -100,6 +100,8 @@ void redraw_editor(void)
 	gfx_PrintInt(lines[lc1],4);
 	gfx_SetTextXY(60,232);
 	gfx_PrintInt(lc_offset,4);
+	gfx_SetTextXY(200,0);
+	gfx_PrintString(VERSION_STRING);
 	gfx_SwapDraw();
 	//Scroll if cursor is not on screen
 	if(!drawn) {

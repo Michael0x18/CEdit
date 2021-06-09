@@ -3,6 +3,9 @@
 // Contains prototypes of functions in main.c  //
 // as well as constants and macros             //
 /////////////////////////////////////////////////
+
+#define VERSION_STRING "CEdit V0.00 ALPHA"
+
 #ifndef main_h
 #define main_h
 #include <stdbool.h>
