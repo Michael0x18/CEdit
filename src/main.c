@@ -115,6 +115,7 @@ void redraw_editor(void)
 
 }
 
+//Inserts a newline into the line buffer
 void insert_newline(){
 	lc1++;
 	lines[lc1]=0;
@@ -200,43 +201,6 @@ void save_file(void)
 	ti_CloseAll();
 }
 
-//Attempts to fetch a string from the ANS variable.
-//If such a string exists, e.g. if this is called
-//as an editor program from Cesium, it sets filename.
-void attempt_load_cesium(void)
-{
-	ti_RclVar(TI_STRING_TYPE, ti_Ans, (void*)(&Ans_Data));
-	if ((Ans_Data->data)==NULL || Ans_Data == NULL){
-		return;
-	}else{
-		memset(filename,0,10);
-
-		int size = Ans_Data->len;
-		if(size>8)size=8;
-
-		for(int i = 0; i < size; i++){
-			if(Ans_Data->data[i]==0 || Ans_Data->data[i]==' ')break;
-			filename[i]=Ans_Data->data[i];
-		}
-		hasfilename=1;
-#ifndef NDEBUG
-		printf("Got filename %s\n",filename);
-		printf("Length is %d",strlen(filename));
-		ngetchx();
-#endif
-	}
-}
-
-//Attempts to load file names in the following order:
-//1) Cesium
-//2) BOSshell
-//3) Xenon
-//4) VYSion
-void load_file_name(void)
-{
-	attempt_load_cesium();
-}
-
 //Reads into the buffer the contents of the file
 //denoted by filename, if it exists.
 void open_file(void)
@@ -253,6 +217,7 @@ void open_file(void)
 	}
 }
 
+//Move to the previous line
 void line_up(void)
 {
 	if(lc1>0){
@@ -263,6 +228,7 @@ void line_up(void)
 	}
 }
 
+//Move to the next line
 void line_down(void)
 {
 	if(lc2<MAX_BUFFER_SIZE){
@@ -344,23 +310,12 @@ void cursor_up(void)
 //borked 
 void cursor_down(void)
 {
-	//if(lines[lc1]==0){
-	//	cursor_right();
-	//	return;
-	//}
-	//if current line is long enough
 	if(lines[lc1]-lc_offset>NUM_COLS){
 		for(int i = 0; i < NUM_COLS; i++){
 			cursor_right();
 		}
 	}else{
 		int old=lc_offset;int oldb = lines[lc1];
-		//while(lc_offset>0){
-		//	cursor_right();
-		//	if(c2==MAX_BUFFER_SIZE-1){
-		//		return;
-		///	}
-		//}
 		for(int i = 0; i < oldb-old; i++){
 			cursor_right();
 		}cursor_right();
@@ -373,28 +328,6 @@ void cursor_down(void)
 				cursor_right();
 			}
 		}
-	//	if(lines[lc1]==0){
-	//		return;
-	//	}
-	//	
-		/*
-		if(lines[lc1]<=old%NUM_COLS){
-			for(int i = 0; i < lines[lc1]; i++){
-				cursor_right();
-			}
-			return;
-		}
-		//Now on first char of next line
-		//lock_dist is buffer line offset
-		//////wtf//////
-		//int lock_dist = lines[lc1]-lines[lc1]%32;
-		//The true offset distance
-		int true_offset = *//*lock_dist+*//*old%NUM_COLS;
-		for(int i = 0; i < true_offset; i++){
-			cursor_right();
-			if(lines[lc1]==0)return;
-		}*/
-		
 	}
 }
 
@@ -434,75 +367,6 @@ void del(void)
 	}
 }
 
-//scrolls up a single row
-//void scroll_up(void)
-//{
-	/*
-	int i = scr_offset-1;
-	int cm=0;
-	//seek for new line
-	while(i>=0 && text[i-1]!='\n'){
-		i--;
-		if(i==c2)i=c1-1;
-		cm++;
-	}
-	//Found either SOF or newline, doesn't matter
-	//We go ahead any way
-	if(cm>32){
-		int t = scr_offset;
-		for(int i1=0;i1<32; i1++){
-			t--;
-			if(t==c2)
-				t=c1-1;	
-			if(t==0){
-				scr_offset=0;return;
-			}
-		}
-		scr_offset=t;
-		return;
-	}
-	//int offset = cm;
-	i--;
-	if(i==c2)i=c1-1;
-	i--;
-	if(i==c2)i=c1-1;
-	int cm2=0;
-	//seek for next new line
-	while(i>=0 && text[i-1]!='\n'){
-		i--;
-		if(i==c2)i=c1-1;
-		cm2++;
-	}
-	int offset=cm2%32;
-	int t = i;
-	for(int i2 = 0; i2 < cm2-offset; i2++){
-		t++;
-		if(t==c1)t=c2+1;
-	}
-
-
-	*/
-
-
-	//wtf was I thinking?
-	/*int cm2 = cm%32;
-	if(!cm2){
-		cm2=32;
-	}
-	int t = scr_offset;
-	for(int i1=0;i1<32; i1++){
-		t--;
-		if(t==c2)
-			t=c1-1;	
-		if(t==0){
-			scr_offset=0;return;
-		}
-	}
-	scr_offset=t;
-	*/
-	
-//}
-//
 void scroll_up(void)
 {
 	//WTH I don't know if this is gonna work, but I'm hella tired rn.
@@ -510,7 +374,7 @@ void scroll_up(void)
 	scr_offset=c1-lc_offset%32;
 	
 }
-void scroll_down_line();
+
 void scroll_down(void){
 	//This is gonna suck. There are 22 columns, so that means 22 segments above the mouse cursor.
 	scroll_down_line();
@@ -528,31 +392,6 @@ void scroll_down_line(void)//ASSUMES THE CURSOR IS OFF THE BOTTOM OF THE SCREEN
 		}
 	}
 	scr_offset=i;
-}
-
-//scrolls down a single row
-////borked
-void scroll_down_old(void)
-{
-	int i = scr_offset;
-	int cp=0;
-
-	while(1){
-		i++;
-		if(i==c1)i=c2+1;
-		cp++;
-		if(i==MAX_BUFFER_SIZE-1){
-			scr_offset=MAX_BUFFER_SIZE-1;
-			return;
-		}
-		//if(cp==32){
-		//	scr_offset=i;
-		//}
-		if(text[i]=='\n'){
-			scr_offset=i+1;
-			return;
-		}
-	}
 }
 
 //main function
