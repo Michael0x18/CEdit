@@ -142,8 +142,10 @@ void redraw_editor(void)
 
 //Inserts a newline into the line buffer
 void insert_newline(){
+	int tmp=lines[lc1]-lc_offset;
+	lines[lc1]=lc_offset;
 	lc1++;
-	lines[lc1]=0;
+	lines[lc1]=tmp;
 	lc_offset=0;
 }
 
@@ -400,9 +402,58 @@ void scroll_up(void)
 	
 }
 
+int divide_round_up(int a, int b){
+	return a%b==0?a/b:a/b+1;
+}
+
 void scroll_down(void){
-	//This is gonna suck. There are 22 columns, so that means 22 segments above the mouse cursor.
 	scroll_down_line();
+	/*int line_offset=0;
+	int offset = lc_offset-lc_offset%NUM_COLS;
+	int segments_left = 21;//Move 21 segments up*/
+	
+}
+
+void scroll_down_borked(void){
+	gfx_SetDrawScreen();
+	gfx_SetTextXY(30,30);
+	gfx_PrintString("Scroll Down called");
+	//This is gonna suck. There are 22 rows, and there are 22 segments above the mouse cursor.
+	//janky crutch
+	//scroll_down_line();
+	//int offset = c1;
+	int line_offset = 0;
+	int offset=lc_offset-lc_offset%NUM_COLS;
+	int segment=5;
+	for(int i = 0;segment>0&& i < lc_offset/NUM_COLS; i++){
+		segment--;
+		offset-=NUM_COLS;
+		//offset--;
+	}
+	gfx_SetTextXY(30,40);
+	gfx_PrintInt(segment,3);
+	ngetchx();
+	//line_offset++;
+	while(segment>0){
+		line_offset++;
+		if(lines[lc1-line_offset]%NUM_COLS!=0 || lines[lc1-line_offset]==0){
+			segment--;
+			offset-=lines[lc1-line_offset]%NUM_COLS;
+			offset--;
+		}
+		for(int i = 0; segment>0&&i<lines[lc1-line_offset]/NUM_COLS; i++){
+			segment--;
+			offset-=NUM_COLS;
+			//offset--;
+		}
+		//line_offset++;
+	}
+	gfx_ZeroScreen();
+	gfx_SetTextXY(30,30);
+	gfx_PrintInt(segment,3);
+	ngetchx();
+	gfx_SetDrawBuffer();
+	scr_offset=offset;
 	
 }
 

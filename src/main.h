@@ -5,7 +5,7 @@
 /////////////////////////////////////////////////
 
 //Version
-#define VERSION_STRING "CEdit V0.00 ALPHA"
+#define VERSION_STRING "CEdit V0.01 ALPHA"
 
 #ifndef main_h
 #define main_h
