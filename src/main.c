@@ -67,9 +67,16 @@ void redraw_editor(void)
 	bool drawn = 0;
 	//Main drawing
 	while(i < MAX_BUFFER_SIZE && (cp<MAX_BUFFER_SIZE-c2+c1) && row<22) {
-
+		if(i==0){
+			gfx_SetTextXY(0,10);
+			gfx_PrintChar(':');
+		}
 		if(i==c1) {
-			gfx_VertLine_NoClip(10*col,10*row+10,10);
+			if(col>=NUM_COLS){
+				gfx_VertLine_NoClip(319,10*row+10,10);
+			}else
+				gfx_VertLine_NoClip((10+10*col),10*row+10,10);
+
 			i=c2+1;
 			//cr=row;
 			drawn=1;
@@ -80,17 +87,35 @@ void redraw_editor(void)
 			row++;
 			col=0;
 			i++; cp++;
+			gfx_SetTextXY(0,10*row+10);
+			gfx_PrintChar(':');
 			continue;
 		}
 
-		gfx_SetTextXY(10*col,10*row+10);
+		gfx_SetTextXY(10*col+10,10*row+10);
 		gfx_PrintChar(text[i]);
 
 		i++; cp++;
 		col++;
-		if(col>=32) {
+		if(col>=NUM_COLS) {
+#ifdef SMART_WRAPPING
+			//if((i==MAX_BUFFER_SIZE-1&&col==NUM_COLS)||(col==NUM_COLS&&text[(i+1==c1)?c2+1:i+1]=='\n')){
+			//No wrap?
+			//if at edge of screen
+			if(col==NUM_COLS){
+				//if next char is a newline
+				//if(text[(i+1==c1)?c2+1:i+1]=='\n'){
+				if(text[i==c1?c2+1:i]=='\n'){
+					//skip it
+					continue;
+				}
+			}
+#endif
+			//Otherwise just move down
+			//if(text[i]!='\n'){
 			col=0;
 			row++;
+			
 		}
 
 	}
@@ -295,7 +320,7 @@ void cursor_up(void)
 		//now need to move until old
 
 		//return if the end is what you want
-		if(lc_offset%NUM_COLS<=old)
+		if(lc_offset%NUM_COLS<old)
 			return;
 		int c = lc_offset-lc_offset%NUM_COLS;
 		c+=old;//Offset to move to from start of line
@@ -371,7 +396,7 @@ void scroll_up(void)
 {
 	//WTH I don't know if this is gonna work, but I'm hella tired rn.
 	//scr_offset=c1-(lines[lc1]%32==0?32:lines[lc1]%32);
-	scr_offset=c1-lc_offset%32;
+	scr_offset=c1-lc_offset%NUM_COLS;
 	
 }
 
@@ -385,13 +410,61 @@ void scroll_down(void){
 void scroll_down_line(void)//ASSUMES THE CURSOR IS OFF THE BOTTOM OF THE SCREEN
 {
 	int i = scr_offset;
-	for(;i-scr_offset<32;++i){
+	for(;i-scr_offset<NUM_COLS;++i){
 		if(text[i+1]=='\n'){
 			i++;
 			break;
 		}
 	}
 	scr_offset=i;
+}
+
+void cursor_to_start(void)
+{
+	while(c1){
+		cursor_left();
+	}
+}
+
+void cursor_to_end(void)
+{
+	while(c2<MAX_BUFFER_SIZE-1){
+		cursor_right();
+	}
+}
+
+void cursor_to_left_word(void)
+{
+
+}
+
+void cursor_to_right_word(void)
+{
+
+}
+
+void cursor_multi_up(void)
+{
+
+}
+
+void cursor_multi_down(void)
+{
+
+}
+
+void cursor_to_l_start(void)
+{
+	while(lc_offset){
+		cursor_left();
+	}
+}
+
+void cursor_to_l_end(void)
+{
+	while(lc_offset<lines[lc1]){
+		cursor_right();
+	}
 }
 
 //main function
@@ -412,11 +485,13 @@ void main(int argc, char** argv)
 	gfx_SetColor(FG_COLOR);
 	gfx_SetDrawBuffer();
 	c1=0;
-	lc2=16383;
+	lc2=MAX_BUFFER_SIZE-1;
 	//cr=0;
 	scr_offset=0;
-	c2=16383;
-	memset(text,0,16384);
+	c2=MAX_BUFFER_SIZE-1;
+	memset(text,0,MAX_BUFFER_SIZE);
+	text[MAX_BUFFER_SIZE]='\n';
+	lines[MAX_BUFFER_SIZE]=-1;
 	if(hasfilename){
 		open_file();
 	}
@@ -439,60 +514,50 @@ void main(int argc, char** argv)
 			insert_char(k);
 			redraw_editor();
 		} else {
-			//TODO make it a switch statement
 			switch(k){
-			case KEY_LEFT:
+			case KEY_LEFT://left
 				cursor_left();
 				break;
-			case KEY_RIGHT:
+			case KEY_RIGHT://right
 				cursor_right();
 				break;
-			case KEY_DOWN:
+			case KEY_DOWN://down
 				cursor_down();
 				break;
-			case KEY_UP:
+			case KEY_UP://up
 				cursor_up();
 				break;
-			case KEY_BS:
+			case KEY_BS://backspace
 				bs();
 				break;
-			case KEY_DEL:
+			case KEY_DEL://delete
 				del();
 				break;
-			case KEY_SAVE:
+			case KEY_SAVE://save
 				save_file();
+				break;
+			case KEY_WLEFT://2nd-left
+				break;
+			case KEY_WRIGHT://2nd-right
+				break;
+			case KEY_WUP://2nd-up
+				break;
+			case KEY_WDOWN://2nd-down
+				break;
+			case KEY_LLEFT://meta-left
+				cursor_to_l_start();
+				break;
+			case KEY_LRIGHT://meta-right
+				cursor_to_l_end();
+				break;
+			case KEY_LUP://meta-up
+				cursor_to_start();
+				break;
+			case KEY_LDOWN://meta-down
+				cursor_to_end();
 				break;
 			}
 			redraw_editor();
-			/*
-			if(k==KEY_LEFT) {
-				cursor_left();
-				redraw_editor();
-			}
-			if(k==KEY_RIGHT) {
-				cursor_right();
-				redraw_editor();
-			}
-			if(k==KEY_DOWN) {
-				cursor_down();
-				redraw_editor();
-			}
-			if(k==KEY_UP) {
-				cursor_up();
-				redraw_editor();
-			}
-			if(k==KEY_BS) {
-				bs();
-				redraw_editor();
-			}
-			if(k==KEY_DEL) {
-				del();
-				redraw_editor();
-			}
-			if(k==KEY_SAVE) {
-				save_file();
-				redraw_editor();
-			}*/
 		}
 	}
 

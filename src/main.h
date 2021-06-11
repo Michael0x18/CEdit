@@ -28,7 +28,7 @@
 //Maximum size of the editor buffer
 #define MAX_BUFFER_SIZE 16384
 //the number of columns to wrap to
-#define NUM_COLS 32
+#define NUM_COLS 31
 //The color used for the text
 #define FG_COLOR 255
 //The color used for the editor background
@@ -37,6 +37,11 @@
 #define TRANSPARENT_COLOR 1
 //The color for the status bar backgrounds
 #define STATUSBAR_COLOR 120
+//The number of lines scrolled by multi_up and multi_down
+#define MULTI_LINES 5
+
+//Smart wrap is currently borked.
+//#define SMART_WRAPPING
 
 //GLobals
 
@@ -45,9 +50,9 @@ bool hasfilename = 0;
 //The filename that is currently open for editing
 static char filename[10];
 //The text currently in the editor buffer
-static char text[MAX_BUFFER_SIZE];
+static char text[MAX_BUFFER_SIZE+1];
 //The line lengths buffer
-static int24_t lines[MAX_BUFFER_SIZE];
+static int24_t lines[MAX_BUFFER_SIZE+1];
 //left line cursor -- is on the line with the cursor
 static int24_t lc1;
 //right line cursor -- points to one past the right side
@@ -127,6 +132,30 @@ void scroll_down(void);
 
 //scrolls down a single row
 void scroll_down_line();
+
+//Moves cursor to start of buffer
+void cursor_to_start(void);
+
+//Moves cursor to end of buffer
+void cursor_to_end(void);
+
+//Moves cursor left by one word
+void cursor_left_word(void);
+
+//Moves cursor right by one word
+void cursor_right_word(void);
+
+//Moves cursor up by MULTI_LINES lines
+void cursor_multi_up(void);
+
+//Moves cursor down by MULTI_LINES lines
+void cursor_multi_down(void);
+
+//Moves cursor to start of line
+void cursor_to_l_start(void);
+
+//Moves cursor to end of line
+void cursor_to_l_end(void);
 
 //main function
 void main(int argc, char** argv);
