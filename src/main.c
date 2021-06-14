@@ -551,12 +551,16 @@ void cursor_to_right_word(void)
 
 void cursor_multi_up(void)
 {
-
+	for(int i = 0; i < MULTI_LINES; i++){
+		cursor_up();
+	}
 }
 
 void cursor_multi_down(void)
 {
-
+	for(int i = 0; i < MULTI_LINES; i++){
+		cursor_down();
+	}
 }
 
 void cursor_to_l_start(void)
@@ -644,12 +648,16 @@ void main(int argc, char** argv)
 				save_file();
 				break;
 			case KEY_WLEFT://2nd-left
+				cursor_to_left_word();
 				break;
 			case KEY_WRIGHT://2nd-right
+				cursor_to_right_word();
 				break;
 			case KEY_WUP://2nd-up
+				cursor_multi_up();
 				break;
 			case KEY_WDOWN://2nd-down
+				cursor_multi_down();
 				break;
 			case KEY_LLEFT://meta-left
 				cursor_to_l_start();
