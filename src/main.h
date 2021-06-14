@@ -22,6 +22,9 @@
 #include <string.h>
 #include <graphx.h>
 #include <keypadc.h>
+#include <fontlibc.h>
+
+#include "fonts/fonts.h"
 
 //Definitions
 
