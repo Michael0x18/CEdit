@@ -541,7 +541,7 @@ void cursor_to_end(void)
 
 void cursor_to_left_word(void)
 {
-
+	//while(text[c1])
 }
 
 void cursor_to_right_word(void)
@@ -588,6 +588,7 @@ void main(int argc, char** argv)
 		}
 	}
 	gfx_Begin();
+	gfx_SetMonospaceFont(5);
 	gfx_SetTransparentColor(TRANSPARENT_COLOR);
 	gfx_SetTextTransparentColor(TRANSPARENT_COLOR);
 	gfx_SetTextFGColor(FG_COLOR);
