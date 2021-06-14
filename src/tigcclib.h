@@ -19,7 +19,7 @@
 #include <string.h>
 #include <graphx.h>
 #include <keypadc.h>
-
+int animatecursor(void);
 enum ControlKeys{
 	KEY_NO_EXIST	=	0,
 	KEY_RESERVED	=	-1,
@@ -119,7 +119,12 @@ short kmetashift[]={KEY_NO_EXIST, KEY_LSDOWN, KEY_LSLEFT, KEY_LSRIGHT, KEY_LSUP,
 short ngetchx(void){
 	//static bool latches[4];
 	uint8_t k=0;
+	//int24_t frame = 0;
 	while(!(k=ngetchx_backend())){
+		//if(frame++>=10){
+		//	animatecursor();
+		//	frame=0;
+		//}
         //Sorry, user has to hold keys
         /*
 		if(!latches[0]&&kb_IsDown(kb_Key2nd))

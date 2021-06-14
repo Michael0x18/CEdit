@@ -26,11 +26,51 @@
 #include <graphx.h>
 #include <keypadc.h>
 /*USER HEADER FILES*/
-#include "main.h"
 #include "tigcclib.h"
+#include "main.h"
 
+int animatecursor(void)
+{
+	if(!editor_on){
+		return 1;
+	}
+	if(c_on){
+		c_on=0;
+		gfx_VertLine_NoClip(cursor_x,cursor_y,10);
+	}else{
+		c_on=1;
+		gfx_SetColor(0);
+		gfx_VertLine_NoClip(cursor_x,cursor_y,10);
+		gfx_SetColor(FG_COLOR);
+	}
+	return 0;
+}
 
-short get_len(){
+//Draw scroll bar
+void draw_scroll(void)
+{
+	//scrollbar data
+	int24_t size_of_bar =22*220/( lc1+MAX_BUFFER_SIZE-lc2);
+	//size_of_bar*=220;
+	//size_of_bar/=22;
+	if(size_of_bar>=220){
+		size_of_bar=220;
+	}
+	int24_t ypos=10+220*scr_line/(lc1+MAX_BUFFER_SIZE-lc2);
+	if(ypos+size_of_bar>230){
+		ypos=230-size_of_bar;
+	}
+	//int24_t length = 220/size_of_bar;
+	gfx_SetColor(220);//TODO symbolic name
+	gfx_Rectangle_NoClip(310,ypos,10,size_of_bar);
+	gfx_SetColor(42);
+	gfx_FillRectangle_NoClip(311,ypos+1,8,size_of_bar-2);
+	gfx_SetColor(FG_COLOR);
+}
+
+//Deprecated
+short get_len()
+{
 	int24_t i = 0;
 	while(c1>0 && text[c1-1] != '\n'){
 		i++;cursor_left();
@@ -52,6 +92,7 @@ bool is_control(short k)
 //is not visible
 void redraw_editor(void)
 {
+	editor_on=1;
 	//Clear screen
 	gfx_ZeroScreen();
 	//Draw upper and lower status bars
@@ -74,8 +115,15 @@ void redraw_editor(void)
 		if(i==c1) {
 			if(col>=NUM_COLS){
 				gfx_VertLine_NoClip(319,10*row+10,10);
-			}else
+				cursor_x=319;
+				cursor_y=10*row+10;
+				c_on=1;
+			}else{
 				gfx_VertLine_NoClip((10+10*col),10*row+10,10);
+				c_on=1;
+				cursor_x=(10+10*col);
+				cursor_y=10+10*row;
+			}
 
 			i=c2+1;
 			//cr=row;
@@ -127,6 +175,7 @@ void redraw_editor(void)
 	gfx_PrintInt(lc_offset,4);
 	gfx_SetTextXY(200,0);
 	gfx_PrintString(VERSION_STRING);
+	draw_scroll();
 	gfx_SwapDraw();
 	//Scroll if cursor is not on screen
 	if(!drawn) {
@@ -142,8 +191,10 @@ void redraw_editor(void)
 
 //Inserts a newline into the line buffer
 void insert_newline(){
+	//Perform line splitting
 	int tmp=lines[lc1]-lc_offset;
 	lines[lc1]=lc_offset;
+	//Create new entry in line buffer.
 	lc1++;
 	lines[lc1]=tmp;
 	lc_offset=0;
@@ -188,6 +239,7 @@ void save_file(void)
 	ti_CloseAll();
 
 	if(!hasfilename){
+		editor_on=0;//TODO move the cursor and animate instead of this
 		short k=0;
 		//prompt
 		draw_file_save_dialog();
@@ -210,6 +262,7 @@ void save_file(void)
 			draw_file_save_dialog();
 			gfx_SwapDraw();
 		}
+		editor_on=1;
 		if(!is_valid()){
 			return;//TODO print error message and error out
 		}
@@ -399,6 +452,7 @@ void scroll_up(void)
 	//WTH I don't know if this is gonna work, but I'm hella tired rn.
 	//scr_offset=c1-(lines[lc1]%32==0?32:lines[lc1]%32);
 	scr_offset=c1-lc_offset%NUM_COLS;
+	scr_line=lc1;
 	
 }
 
@@ -408,6 +462,7 @@ int divide_round_up(int a, int b){
 
 void scroll_down(void){
 	scroll_down_line();
+	scr_line++;
 	/*int line_offset=0;
 	int offset = lc_offset-lc_offset%NUM_COLS;
 	int segments_left = 21;//Move 21 segments up*/
@@ -547,6 +602,7 @@ void main(int argc, char** argv)
 		open_file();
 	}
 	//scr_end=0;
+	editor_on=1;
 	redraw_editor();
 	//gfx_SwapDraw();
 	//redraw_editor();

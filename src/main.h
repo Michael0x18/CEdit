@@ -5,10 +5,10 @@
 /////////////////////////////////////////////////
 
 //Version
-#define VERSION_STRING "CEdit V0.01 ALPHA"
 
 #ifndef main_h
 #define main_h
+#define VERSION_STRING "CEdit V0.01 ALPHA"
 //Headers
 #include <stdbool.h>
 #include <stddef.h>
@@ -28,7 +28,8 @@
 //Maximum size of the editor buffer
 #define MAX_BUFFER_SIZE 16384
 //the number of columns to wrap to
-#define NUM_COLS 31
+//Here it is 30, because 32 is the max, one on the left is reserved for the newline indicator ":", and one on the right is reserved for the scrollbar.
+#define NUM_COLS 30
 //The color used for the text
 #define FG_COLOR 255
 //The color used for the editor background
@@ -67,9 +68,16 @@ static int24_t c1;
 static int24_t c2;
 //The position of the start of the screen
 static int24_t scr_offset;
-//Contents of the ANS variable -- used for
-
-//
+//Last drawn X position of the cursor, used for animation
+static int24_t cursor_x;
+//Last drawn Y position of the cursor, used for animation
+static int24_t cursor_y;
+//True if the cursor is drawn
+static bool c_on;
+//True if the editor is up
+static bool editor_on;
+//The line which scr_offset is positioned at.
+static int24_t scr_line;
 
 //Returns true if the short passed as an argument
 //is a control character, false otherwise.
@@ -156,6 +164,9 @@ void cursor_to_l_start(void);
 
 //Moves cursor to end of line
 void cursor_to_l_end(void);
+
+//Draws a scroll bar
+void draw_scroll(void);
 
 //main function
 void main(int argc, char** argv);
