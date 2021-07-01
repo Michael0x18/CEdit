@@ -29,6 +29,15 @@
 #include "tigcclib.h"
 #include "main.h"
 
+//font width
+#define FW 8
+//Line spacing
+#define LS 12
+
+#define NUML 18
+
+static bool is_font_loaded;
+
 int animatecursor(void)
 {
 	if(!editor_on){
@@ -50,15 +59,15 @@ int animatecursor(void)
 void draw_scroll(void)
 {
 	//scrollbar data
-	int24_t size_of_bar =22*220/( lc1+MAX_BUFFER_SIZE-lc2);
+	int24_t size_of_bar =NUML*216/( lc1+MAX_BUFFER_SIZE-lc2);
 	//size_of_bar*=220;
-	//size_of_bar/=22;
-	if(size_of_bar>=220){
-		size_of_bar=220;
+	//size_of_bar/=NUML;
+	if(size_of_bar>=216){
+		size_of_bar=216;
 	}
-	int24_t ypos=10+220*scr_line/(lc1+MAX_BUFFER_SIZE-lc2);
-	if(ypos+size_of_bar>230){
-		ypos=230-size_of_bar;
+	int24_t ypos=12+216*scr_line/(lc1+MAX_BUFFER_SIZE-lc2);
+	if(ypos+size_of_bar>228){
+		ypos=228-size_of_bar;
 	}
 	//int24_t length = 220/size_of_bar;
 	gfx_SetColor(220);//TODO symbolic name
@@ -96,33 +105,31 @@ void redraw_editor(void)
 	//Clear screen
 	gfx_ZeroScreen();
 	//Draw upper and lower status bars
-	gfx_SetColor(STATUSBAR_COLOR);
-	gfx_FillRectangle_NoClip(0,0,320,10);
-	gfx_FillRectangle_NoClip(0,230,320,10);
-	//Prepare for main drawing
-	gfx_SetColor(FG_COLOR);
+	
 	int24_t i = scr_offset;
 	int8_t row = 0;
 	int8_t col = 0;
 	int24_t cp = 0;
 	bool drawn = 0;
 	//Main drawing
-	while(i < MAX_BUFFER_SIZE && (cp<MAX_BUFFER_SIZE-c2+c1) && row<22) {
+	while(i < MAX_BUFFER_SIZE && (cp<MAX_BUFFER_SIZE-c2+c1) && row<NUML) {
 		if(i==0){
-			gfx_SetTextXY(0,10);
-			gfx_PrintChar(':');
+			//gfx_SetTextXY(0,10);
+			//gfx_PrintChar(':');
+			fontlib_SetCursorPosition(0,LS);
+			fontlib_DrawGlyph(':');
 		}
 		if(i==c1) {
 			if(col>=NUM_COLS){
-				gfx_VertLine_NoClip(319,10*row+10,10);
-				cursor_x=319;
-				cursor_y=10*row+10;
-				c_on=1;
+				gfx_VertLine_NoClip(319,LS*row+FW,LS);
+				//cursor_x=319;
+				//cursor_y=10*row+10;
+				//c_on=1;
 			}else{
-				gfx_VertLine_NoClip((10+10*col),10*row+10,10);
-				c_on=1;
-				cursor_x=(10+10*col);
-				cursor_y=10+10*row;
+				gfx_VertLine_NoClip((FW+FW*col),LS*row+LS,LS);
+				//c_on=1;
+				//cursor_x=(10+10*col);
+				//cursor_y=10+10*row;
 			}
 
 			i=c2+1;
@@ -131,17 +138,21 @@ void redraw_editor(void)
 			if(i>=MAX_BUFFER_SIZE)break;
 		}
 
-		if(text[i]=='\n') {
+		if(text[i]=='\n' /*|| (i-1!=c2 && text[i-1]=='\n')||(i-1==c2&&text[c1]=='\n')*/) {
 			row++;
 			col=0;
 			i++; cp++;
-			gfx_SetTextXY(0,10*row+10);
-			gfx_PrintChar(':');
+			//gfx_SetTextXY(0,10*row+10);
+			fontlib_SetCursorPosition(0,LS*row+LS);
+			//gfx_PrintChar(':');
+			fontlib_DrawGlyph(':');
+			//if(text[i]=='\n')
 			continue;
 		}
 
-		gfx_SetTextXY(10*col+10,10*row+10);
-		gfx_PrintChar(text[i]);
+		//gfx_SetTextXY(10*col+10,10*row+10);
+		//gfx_PrintChar(text[i]);
+		fontlib_DrawGlyph(text[i]);
 
 		i++; cp++;
 		col++;
@@ -163,18 +174,34 @@ void redraw_editor(void)
 			//if(text[i]!='\n'){
 			col=0;
 			row++;
+			fontlib_SetCursorPosition(FW,LS*row+LS);
 			
 		}
 
 	}
-	gfx_SetTextXY(0,0);
-	gfx_PrintString(hasfilename?filename:"*Untitled*");
-	gfx_SetTextXY(0,232);
-	gfx_PrintInt(lines[lc1],4);
-	gfx_SetTextXY(60,232);
-	gfx_PrintInt(lc_offset,4);
-	gfx_SetTextXY(200,0);
-	gfx_PrintString(VERSION_STRING);
+	//gfx_SetTextXY(0,0);
+	gfx_SetColor(STATUSBAR_COLOR);
+	gfx_FillRectangle_NoClip(0,0,320,12);
+	gfx_FillRectangle_NoClip(0,228,320,12);
+	//Prepare for main drawing
+	gfx_SetColor(FG_COLOR);
+	fontlib_SetCursorPosition(0,0);
+	fontlib_DrawString(hasfilename?filename:"*Untitled*");
+	fontlib_SetCursorPosition(0,232);
+	fontlib_SetCursorPosition(180,0);
+	fontlib_DrawString(VERSION_STRING);
+	//gfx_SetColor(STATUSBAR_COLOR);
+	//gfx_FillRectangle_NoClip(0,0,320,10);
+	//gfx_FillRectangle_NoClip(0,230,320,10);
+	//Prepare for main drawing
+	//gfx_SetColor(FG_COLOR);
+	//fontlib_Print
+	//gfx_SetTextXY(0,232);
+	//gfx_PrintInt(lines[lc1],4);
+	//gfx_SetTextXY(60,232);
+	//gfx_PrintInt(lc_offset,4);
+	//gfx_SetTextXY(200,0);
+	//gfx_PrintString(VERSION_STRING);
 	draw_scroll();
 	gfx_SwapDraw();
 	//Scroll if cursor is not on screen
@@ -577,9 +604,27 @@ void cursor_to_l_end(void)
 	}
 }
 
+void init_font(){
+	fontlib_SetForegroundColor(255);
+	fontlib_SetTransparency(1);
+	fontlib_SetBackgroundColor(0);
+}
+
 //main function
 void main(int argc, char** argv)
 {
+	drmono = fontlib_GetFontByIndex("DrMono",3);
+	//drmono=fontlib_GetFontByStyle("DrMono", 20, 10, FONTLIB_NORMAL, FONTLIB_NORMAL, 0, 0);
+	if( !drmono){
+		//eh whatever
+		printf("Font not found\nRequires DrMono appvar");
+		ngetchx();
+		return;
+	}else{
+		is_font_loaded=1;
+		fontlib_SetFont(drmono,0);
+		init_font();
+	}
 	//load_file_name();
 	if(argc>=2){
 		strncpy(filename,argv[1],8);
@@ -588,7 +633,9 @@ void main(int argc, char** argv)
 		}
 	}
 	gfx_Begin();
-	gfx_SetMonospaceFont(5);
+	//fontlib_DrawString("Hello, World!");
+	//ngetchx();
+	//gfx_SetMonospaceFont(5);
 	gfx_SetTransparentColor(TRANSPARENT_COLOR);
 	gfx_SetTextTransparentColor(TRANSPARENT_COLOR);
 	gfx_SetTextFGColor(FG_COLOR);

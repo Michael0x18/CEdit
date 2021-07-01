@@ -24,15 +24,13 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
-#include "fonts/fonts.h"
-
 //Definitions
 
 //Maximum size of the editor buffer
 #define MAX_BUFFER_SIZE 16384
 //the number of columns to wrap to
 //Here it is 30, because 32 is the max, one on the left is reserved for the newline indicator ":", and one on the right is reserved for the scrollbar.
-#define NUM_COLS 30
+#define NUM_COLS 36
 //The color used for the text
 #define FG_COLOR 255
 //The color used for the editor background
@@ -46,6 +44,8 @@
 
 //Smart wrap is currently borked.
 //#define SMART_WRAPPING
+
+fontlib_font_t *drmono;
 
 //GLobals
 
