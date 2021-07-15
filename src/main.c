@@ -38,6 +38,7 @@
 
 static bool is_font_loaded;
 
+//Deprecated
 int animatecursor(void)
 {
 	if(!editor_on){
@@ -71,9 +72,9 @@ void draw_scroll(void)
 	}
 	//int24_t length = 220/size_of_bar;
 	gfx_SetColor(220);//TODO symbolic name
-	gfx_Rectangle_NoClip(310,ypos,10,size_of_bar);
+	gfx_Rectangle_NoClip(312,ypos,8,size_of_bar);
 	gfx_SetColor(42);
-	gfx_FillRectangle_NoClip(311,ypos+1,8,size_of_bar-2);
+	gfx_FillRectangle_NoClip(313,ypos+1,6,size_of_bar-2);
 	gfx_SetColor(FG_COLOR);
 }
 
@@ -111,7 +112,11 @@ void redraw_editor(void)
 	int8_t col = 0;
 	int24_t cp = 0;
 	bool drawn = 0;
-	//Main drawing
+	//Main drawingi
+	if(scr_line==0){
+		fontlib_SetCursorPosition(0,LS);
+		fontlib_DrawGlyph(':');
+	}
 	while(i < MAX_BUFFER_SIZE && (cp<MAX_BUFFER_SIZE-c2+c1) && row<NUML) {
 		if(i==0){
 			//gfx_SetTextXY(0,10);
@@ -479,7 +484,8 @@ void scroll_up(void)
 	//WTH I don't know if this is gonna work, but I'm hella tired rn.
 	//scr_offset=c1-(lines[lc1]%32==0?32:lines[lc1]%32);
 	scr_offset=c1-lc_offset%NUM_COLS;
-	scr_line=lc1;
+	//scr_line=lc1;
+	scr_line=lc_offset-lc_offset%NUM_COLS;
 	
 }
 
