@@ -81,6 +81,8 @@ static bool c_on;
 static bool editor_on;
 //The line which scr_offset is positioned at.
 static int24_t scr_line;
+//The line offset of the screen position
+static int24_t scr_line_offset;
 
 //Returns true if the short passed as an argument
 //is a control character, false otherwise.

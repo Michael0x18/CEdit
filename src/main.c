@@ -113,7 +113,7 @@ void redraw_editor(void)
 	int24_t cp = 0;
 	bool drawn = 0;
 	//Main drawingi
-	if(scr_line==0){
+	if(scr_line_offset==0){
 		fontlib_SetCursorPosition(0,LS);
 		fontlib_DrawGlyph(':');
 	}
@@ -484,8 +484,8 @@ void scroll_up(void)
 	//WTH I don't know if this is gonna work, but I'm hella tired rn.
 	//scr_offset=c1-(lines[lc1]%32==0?32:lines[lc1]%32);
 	scr_offset=c1-lc_offset%NUM_COLS;
-	//scr_line=lc1;
-	scr_line=lc_offset-lc_offset%NUM_COLS;
+	scr_line=lc1;
+	scr_line_offset=lc_offset-lc_offset%NUM_COLS;
 	
 }
 
@@ -500,6 +500,10 @@ void scroll_down(void){
 	int offset = lc_offset-lc_offset%NUM_COLS;
 	int segments_left = 21;//Move 21 segments up*/
 	
+}
+
+void scroll_down_neo(void){
+	//18 lines total, currently 38 chars
 }
 
 void scroll_down_borked(void){
@@ -619,6 +623,7 @@ void init_font(){
 //main function
 void main(int argc, char** argv)
 {
+	scr_line_offset=0;
 	drmono = fontlib_GetFontByIndex("DrMono",3);
 	//drmono=fontlib_GetFontByStyle("DrMono", 20, 10, FONTLIB_NORMAL, FONTLIB_NORMAL, 0, 0);
 	if( !drmono){
