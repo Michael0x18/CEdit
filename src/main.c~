@@ -71,7 +71,7 @@ void draw_scroll(void)
 		ypos=228-size_of_bar;
 	}
 	//int24_t length = 220/size_of_bar;
-	gfx_SetColor(220);//TODO symbolic name
+	gfx_SetColor(220);//TODO symbolic name -- for later
 	gfx_Rectangle_NoClip(312,ypos,8,size_of_bar);
 	gfx_SetColor(42);
 	gfx_FillRectangle_NoClip(313,ypos+1,6,size_of_bar-2);
@@ -123,10 +123,6 @@ void redraw_editor(void)
 	}
 	//Iterate buffer
 	while(i < MAX_BUFFER_SIZE && (cp<MAX_BUFFER_SIZE-c2+c1) && row<NUML) {
-		//if(i==0){
-		//	fontlib_SetCursorPosition(0,LS);
-		//	fontlib_DrawGlyph(':');
-		//}
 		if(i==c1) {
 			if(col>=NUM_COLS){
 				gfx_VertLine_NoClip(319,LS*row+FW,LS);
@@ -486,6 +482,7 @@ void del(void)
 	}
 }
 
+//Scrolls up. This function is complete
 void scroll_up(void)
 {
 	//WTH I don't know if this is gonna work, but I'm hella tired rn.

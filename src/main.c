@@ -71,7 +71,7 @@ void draw_scroll(void)
 		ypos=228-size_of_bar;
 	}
 	//int24_t length = 220/size_of_bar;
-	gfx_SetColor(220);//TODO symbolic name
+	gfx_SetColor(220);//TODO symbolic name -- for later
 	gfx_Rectangle_NoClip(312,ypos,8,size_of_bar);
 	gfx_SetColor(42);
 	gfx_FillRectangle_NoClip(313,ypos+1,6,size_of_bar-2);
@@ -207,10 +207,10 @@ void redraw_editor(void)
 	//gfx_SetTextXY(200,0);
 	//gfx_PrintString(VERSION_STRING);
 	draw_scroll();
-	fontlib_SetCursorPosition(0,210);
-	fontlib_DrawInt(scr_line_offset,4);
-	fontlib_SetCursorPosition(40,210);
-	fontlib_DrawInt(scr_offset,4);
+	//fontlib_SetCursorPosition(0,210);
+	//fontlib_DrawInt(scr_line_offset,4);
+	//fontlib_SetCursorPosition(40,210);
+	//fontlib_DrawInt(scr_offset,4);
 	gfx_SwapDraw();
 	//Scroll if cursor is not on screen
 	if(!drawn) {
@@ -482,6 +482,7 @@ void del(void)
 	}
 }
 
+//Scrolls up. This function is complete
 void scroll_up(void)
 {
 	//WTH I don't know if this is gonna work, but I'm hella tired rn.
