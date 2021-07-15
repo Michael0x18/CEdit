@@ -123,6 +123,10 @@ void redraw_editor(void)
 	}
 	//Iterate buffer
 	while(i < MAX_BUFFER_SIZE && (cp<MAX_BUFFER_SIZE-c2+c1) && row<NUML) {
+		//if(i==0){
+		//	fontlib_SetCursorPosition(0,LS);
+		//	fontlib_DrawGlyph(':');
+		//}
 		if(i==c1) {
 			if(col>=NUM_COLS){
 				gfx_VertLine_NoClip(319,LS*row+FW,LS);
