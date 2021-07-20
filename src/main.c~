@@ -207,10 +207,10 @@ void redraw_editor(void)
 	//gfx_SetTextXY(200,0);
 	//gfx_PrintString(VERSION_STRING);
 	draw_scroll();
-	fontlib_SetCursorPosition(0,210);
-	fontlib_DrawInt(scr_line_offset,4);
-	fontlib_SetCursorPosition(40,210);
-	fontlib_DrawInt(scr_offset,4);
+	//fontlib_SetCursorPosition(0,210);
+	//fontlib_DrawInt(scr_line_offset,4);
+	//fontlib_SetCursorPosition(40,210);
+	//fontlib_DrawInt(scr_offset,4);
 	gfx_SwapDraw();
 	//Scroll if cursor is not on screen
 	if(!drawn) {
@@ -268,7 +268,7 @@ bool is_valid(void)
 
 //Writes the contents of the buffer to a file.
 //Prompts the user for a filename if not already specified.
-void save_file(void)
+void save_file()
 {
 	ti_var_t var;
 	ti_CloseAll();
@@ -497,18 +497,36 @@ int divide_round_up(int a, int b){
 	return a%b==0?a/b:a/b+1;
 }
 
+void scroll_down_neo(void){
+	//18 lines total, currently 38 chars
+	int pre_offset = lc_offset;
+	for(int i = 0; i < 17; i++){
+		cursor_up();
+	}
+	scroll_up();
+	for(int i = 0; i < 17; i++){
+		cursor_down();
+	}
+	while(lc_offset<pre_offset){
+		cursor_right();
+	}
+	while(lc_offset>pre_offset){
+		cursor_left();
+	}
+}
+
 void scroll_down(void){
+	scroll_down_neo();
+/*
 	scroll_down_line();
-	scr_line++;
+	scr_line++;*/
 	/*int line_offset=0;
 	int offset = lc_offset-lc_offset%NUM_COLS;
 	int segments_left = 21;//Move 21 segments up*/
 	
 }
 
-void scroll_down_neo(void){
-	//18 lines total, currently 38 chars
-}
+
 
 void scroll_down_borked(void){
 	gfx_SetDrawScreen();

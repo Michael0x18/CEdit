@@ -8,7 +8,7 @@
 
 #ifndef main_h
 #define main_h
-#define VERSION_STRING "CEdit V0.02 ALPHA"
+#define VERSION_STRING "CEdit V0.03 BETA"
 //Headers
 #include <stdbool.h>
 #include <stddef.h>
