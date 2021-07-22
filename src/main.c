@@ -650,7 +650,9 @@ void main(int argc, char** argv)
 	//drmono=fontlib_GetFontByStyle("DrMono", 20, 10, FONTLIB_NORMAL, FONTLIB_NORMAL, 0, 0);
 	if( !drmono){
 		//eh whatever
-		printf("Font not found\nRequires DrMono appvar");
+		//printf("Font not found\nRequires DrMono appvar");
+		os_ClrHome();
+		os_PutStrFull("Font not found.           Requires DrMono appvar");
 		ngetchx();
 		return;
 	}else{
