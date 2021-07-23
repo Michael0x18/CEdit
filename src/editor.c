@@ -236,10 +236,10 @@ int draw_editor(void) {
 	while (i < max_buffer_size && (cp < max_buffer_size - c2 + c1) && row < numl) {
 		if (i == c1) {
 			if (col >= num_cols) {
-				gfx_VertLine_NoClip(319, ls * row + fw, ls);
+				gfx_VertLine_NoClip(319, ls * row + fw+1, ls);
 
 			} else {
-				gfx_VertLine_NoClip((fw + fw * col), ls * row + ls, ls);
+				gfx_VertLine_NoClip((fw + fw * col), ls * row + ls+1, ls);
 
 			}
 
