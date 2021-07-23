@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+environment/project/0.1560404207/CEDEV/delimiter=\:
+environment/project/0.1560404207/CEDEV/operation=append
+environment/project/0.1560404207/CEDEV/value=/home/michael/CEdev
+environment/project/0.1560404207/PATH/delimiter=\:
+environment/project/0.1560404207/PATH/operation=append
+environment/project/0.1560404207/PATH/value=/home/michael/CEdev/bin\:/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/usr/games\:/usr/local/games\:/snap/bin
+environment/project/0.1560404207/append=true
+environment/project/0.1560404207/appendContributed=false
