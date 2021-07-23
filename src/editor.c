@@ -161,7 +161,6 @@ void init_editor(void) {
 void handle_key(short k) {
 	if (!is_control(k)) {
 		insert_char(k);
-		draw_editor();
 	} else {
 		switch (k) {
 		case KEY_LEFT:		//left
@@ -187,6 +186,9 @@ void handle_key(short k) {
 			write_file();
 			break;
 		case KEY_SAVE:		//save
+			if (!named) {
+				show_save_dialog();
+			}
 			write_file();
 			break;
 		case KEY_WLEFT:		//2nd-left
@@ -217,7 +219,6 @@ void handle_key(short k) {
 			show_about_dialog();
 			break;
 		}
-		draw_editor();
 	}
 }
 
@@ -236,10 +237,10 @@ int draw_editor(void) {
 	while (i < max_buffer_size && (cp < max_buffer_size - c2 + c1) && row < numl) {
 		if (i == c1) {
 			if (col >= num_cols) {
-				gfx_VertLine_NoClip(319, ls * row + fw+1, ls);
+				gfx_VertLine_NoClip(319, ls * row + fw + 1, ls);
 
 			} else {
-				gfx_VertLine_NoClip((fw + fw * col), ls * row + ls+1, ls);
+				gfx_VertLine_NoClip((fw + fw * col), ls * row + ls + 1, ls);
 
 			}
 
@@ -276,14 +277,14 @@ int draw_editor(void) {
 	gfx_FillRectangle_NoClip(0, 228, 320, 12);
 	fontlib_SetCursorPosition(0, 0);
 	fontlib_DrawString(named ? filename : "*Untitled*");
-	gfx_SwapDraw();
 	return 0;
 }
 
 void editor_mainloop(void) {
-	draw_editor();
 	short k = 0;
 	while (true) {
+		draw_editor();
+		gfx_SwapDraw();
 		k = ngetchx();
 		if (k == KEY_CLEAR)
 			break;
@@ -404,12 +405,12 @@ void write_file(void) {
 	ti_CloseAll();
 	var = ti_Open(filename, "w");
 	int i = 0;
-	while(i<max_buffer_size){
-		if(i==c1)
-			i=c2+1;
-		if(i>=max_buffer_size)
+	while (i < max_buffer_size) {
+		if (i == c1)
+			i = c2 + 1;
+		if (i >= max_buffer_size)
 			break;
-		ti_PutC(text[i],var);
+		ti_PutC(text[i], var);
 		i++;
 	}
 }

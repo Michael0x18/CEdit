@@ -25,12 +25,12 @@ void draw_dialog(int x, int y, int w, int h) {
 	draw_editor();
 
 	gfx_SetColor(dropshadow_color);
-	gfx_FillCircle_NoClip(5+x + cr,5+ y + cr, cr);
-	gfx_FillCircle_NoClip(5+x + w - cr - 1,5+ y + cr, cr);
-	gfx_FillCircle_NoClip(5+x + cr,5+ y + h - cr - 1, cr);
-	gfx_FillCircle_NoClip(5+x + w - cr - 1,5+ y + h - cr - 1, cr);
-	gfx_FillRectangle_NoClip(5+x + cr,5+ y, w - cr - cr, h);
-	gfx_FillRectangle_NoClip(5+x,5+ y + cr, w, h - cr - cr);
+	gfx_FillCircle_NoClip(5 + x + cr, 5 + y + cr, cr);
+	gfx_FillCircle_NoClip(5 + x + w - cr - 1, 5 + y + cr, cr);
+	gfx_FillCircle_NoClip(5 + x + cr, 5 + y + h - cr - 1, cr);
+	gfx_FillCircle_NoClip(5 + x + w - cr - 1, 5 + y + h - cr - 1, cr);
+	gfx_FillRectangle_NoClip(5 + x + cr, 5 + y, w - cr - cr, h);
+	gfx_FillRectangle_NoClip(5 + x, 5 + y + cr, w, h - cr - cr);
 
 	gfx_SetColor(border_color);
 	gfx_Circle_NoClip(x + cr, y + cr, cr);
@@ -54,7 +54,50 @@ void show_open_dialog(void) {
 }
 
 void show_save_dialog(void) {
+	short k = 0;
+	int numchars = 0;
+	char buffer[10];
+	memset(buffer, 0, 10);
+	while (true) {
+		draw_dialog(20, 60, 280, 100);
+		gfx_SetColor(border_color);
+		gfx_HorizLine_NoClip(20, 80, 280);
+		//fontlib_SetCursorPosition(115,80);
+		fontlib_SetCursorPosition(115, 65);
+		fontlib_DrawString("Save File");
+		fontlib_SetCursorPosition(30, 90);
+		fontlib_DrawString("Enter File Name to (Over)write:");
+		gfx_SetColor(dropshadow_color);
+		gfx_Rectangle_NoClip(51, 111, 220, 16);
+		gfx_SetColor(border_color);
+		gfx_Rectangle_NoClip(50, 110, 220, 16);
+		fontlib_SetCursorPosition(52, 112);
+		fontlib_DrawString(buffer);
+		gfx_VertLine(52+fw*numchars,112,12);
+		gfx_SwapDraw();
+		k = ngetchx();
+		if (k == KEY_CLEAR) {
+			return;
+		}
+		if (k == '\n') {
+			if (!numchars) {
+				return;
+			}
+			named=true;
+			strncpy(filename, buffer, 8);
+			return;
+		}
+		if (!is_control(k)) {
+			if (numchars < 8) {
+				buffer[numchars] = k;
+				numchars++;
+			}
+		}
+		if (k == KEY_BS) {
+			buffer[--numchars] = 0;
+		}
 
+	}
 }
 
 void show_about_dialog(void) {
@@ -64,7 +107,7 @@ void show_about_dialog(void) {
 	//fontlib_SetCursorPosition(115,80);
 	fontlib_SetCursorPosition(115, 65);
 	fontlib_DrawString("About CEdit");
-	fontlib_SetCursorPosition(80,120);
+	fontlib_SetCursorPosition(80, 120);
 	fontlib_DrawString(CEDIT_VERSION_STRING);
 	gfx_SwapDraw();
 	ngetchx();

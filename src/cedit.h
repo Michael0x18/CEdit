@@ -22,7 +22,6 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
-#define CEDIT_VERSION_STRING "CEdit 0.05 BETA"
 
 /*
  * Main function
