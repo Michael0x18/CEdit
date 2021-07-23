@@ -21,6 +21,7 @@
 
 #define CEDIT_VERSION_STRING "CEdit 0.05 BETA"
 
+//TODO
 void show_menu_dialog(){
 	draw_dialog(20,20,280,200);
 	gfx_SwapDraw();
