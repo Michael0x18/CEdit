@@ -21,8 +21,14 @@
 
 #define CEDIT_VERSION_STRING "CEdit 0.05 BETA"
 
+void show_menu_dialog(){
+	draw_dialog(20,20,280,200);
+	gfx_SwapDraw();
+	ngetchx();
+}
+
 void draw_dialog(int x, int y, int w, int h) {
-	draw_editor();
+	//draw_editor();
 
 	gfx_SetColor(dropshadow_color);
 	gfx_FillCircle_NoClip(5 + x + cr, 5 + y + cr, cr);
@@ -50,6 +56,31 @@ void draw_dialog(int x, int y, int w, int h) {
 }
 
 void show_open_dialog(void) {
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO                          TODO TODO TODO
+	//TODO TODO TODO                          TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
 
 }
 
@@ -73,7 +104,7 @@ void show_save_dialog(void) {
 		gfx_Rectangle_NoClip(50, 110, 220, 16);
 		fontlib_SetCursorPosition(52, 112);
 		fontlib_DrawString(buffer);
-		gfx_VertLine(52+fw*numchars,112,12);
+		gfx_VertLine(52 + fw * numchars, 112, 12);
 		gfx_SwapDraw();
 		k = ngetchx();
 		if (k == KEY_CLEAR) {
@@ -83,7 +114,7 @@ void show_save_dialog(void) {
 			if (!numchars) {
 				return;
 			}
-			named=true;
+			named = true;
 			strncpy(filename, buffer, 8);
 			return;
 		}

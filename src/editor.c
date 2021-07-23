@@ -182,11 +182,15 @@ void handle_key(short k) {
 			del();
 			break;
 		case KEY_SAVE_AS:
+			draw_editor();
+			gfx_SwapDraw();
 			show_save_dialog();
 			write_file();
 			break;
 		case KEY_SAVE:		//save
 			if (!named) {
+				draw_editor();
+				gfx_SwapDraw();
 				show_save_dialog();
 			}
 			write_file();
@@ -216,7 +220,9 @@ void handle_key(short k) {
 			cursor_to_end();
 			break;
 		case KEY_BREAK:
-			show_about_dialog();
+			draw_editor();
+			gfx_SwapDraw();
+			show_menu_dialog();
 			break;
 		}
 	}

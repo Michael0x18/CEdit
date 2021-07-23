@@ -15,7 +15,14 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
-#define cr 20
+#define cr 10
+
+/*
+ * Draws the main menu
+ * The main menu will open various sub-dialogs for additional settings/options.
+ * They will open on top of each other.
+ */
+void show_menu_dialog(void);
 
 /*
  * Draws a dialog with an empty background
