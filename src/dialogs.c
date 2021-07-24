@@ -25,7 +25,7 @@
 void show_menu_dialog(){
 	draw_dialog(20,20,280,200);
 	gfx_SetColor(border_color);
-	gfx_HorizLine(20,40,280);
+	gfx_HorizLine_NoClip(20,40,280);
 	fontlib_SetCursorPosition(104,25);
 	fontlib_DrawString("CEdit Settings");
 	gfx_SwapDraw();

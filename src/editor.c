@@ -235,7 +235,7 @@ void handle_key(short k) {
 		case KEY_LDOWN:		//meta-down
 			cursor_to_end();
 			break;
-		case KEY_BREAK:
+		case KEY_F5:
 			draw_editor();
 			gfx_SwapDraw();
 			show_menu_dialog();
@@ -295,10 +295,36 @@ int draw_editor(void) {
 			fontlib_SetCursorPosition(fw, ls * row + ls);
 		}
 	}
-
+	//Draw statusbars
 	gfx_SetColor(statusbar_color);
-	gfx_FillRectangle_NoClip(0, 0, 320, 12);
-	gfx_FillRectangle_NoClip(0, 228, 320, 12);
+	gfx_FillRectangle_NoClip(0, 0, 320, 12);//Top
+	gfx_FillRectangle_NoClip(1, 228, 62, 12);//Floating segments
+	gfx_FillRectangle_NoClip(65, 228, 62, 12);
+	gfx_FillRectangle_NoClip(129, 228, 62, 12);
+	gfx_FillRectangle_NoClip(193, 228, 62, 12);
+	gfx_FillRectangle_NoClip(257, 228, 62, 12);
+	//Draw text on segs
+	fontlib_SetCursorPosition(20,228);
+	fontlib_DrawString("Cut");
+	fontlib_SetCursorPosition(80,228);
+	fontlib_DrawString("Copy");
+	fontlib_SetCursorPosition(140,228);
+	fontlib_DrawString("Paste");
+	fontlib_SetCursorPosition(200,228);
+	fontlib_DrawString("Search");
+	fontlib_SetCursorPosition(272,228);
+	fontlib_DrawString("Menu");
+	//Draw drop shadows
+	gfx_SetColor(dropshadow_color);
+	gfx_VertLine_NoClip(63,229,11);
+	gfx_VertLine_NoClip(127,229,11);
+	gfx_VertLine_NoClip(191,229,11);
+	gfx_VertLine_NoClip(255,229,11);
+	gfx_VertLine_NoClip(319,229,11);
+	//Top
+	gfx_HorizLine_NoClip(0,12,320);
+
+	//Draw top text
 	fontlib_SetCursorPosition(0, 0);
 	if(!saved)
 		fontlib_DrawGlyph('*');
