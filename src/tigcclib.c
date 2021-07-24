@@ -69,6 +69,8 @@ short ngetchx_xy(int cx, int cy) {
 	int frame = 0;
 	bool on = true;
 	gfx_SetDrawScreen();
+	gfx_SetColor(text_color);
+	gfx_VertLine_NoClip(cx,cy,12);
 	while (!(k = ngetchx_backend())) {
 		frame++;
 		if(frame>400){

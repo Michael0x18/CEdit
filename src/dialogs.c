@@ -90,6 +90,7 @@ void show_save_dialog(void) {
 	int numchars = 0;
 	char buffer[10];
 	memset(buffer, 0, 10);
+	int cx = 52;
 	while (true) {
 		draw_dialog(20, 60, 280, 100);
 		gfx_SetColor(border_color);
@@ -106,8 +107,9 @@ void show_save_dialog(void) {
 		fontlib_SetCursorPosition(52, 112);
 		fontlib_DrawString(buffer);
 		gfx_VertLine(52 + fw * numchars, 112, 12);
+		cx = 52+fw*numchars;
 		gfx_SwapDraw();
-		k = ngetchx();
+		k = ngetchx_xy(cx,112);
 		if (k == KEY_CLEAR) {
 			return;
 		}
