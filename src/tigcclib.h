@@ -15,6 +15,8 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
+#include "cfg.h"
+
 /*
  * Non standard keys, used for encoding/remapping the CE keyboard
  * to other variants.
@@ -181,6 +183,11 @@ uint8_t ngetchx_backend(void);
  * or a control code.
  */
 short ngetchx(void);
+
+/*
+ * ngetchx and animate cursor
+ */
+short ngetchx_xy(int,int);
 
 #include "tigcclib.c"
 

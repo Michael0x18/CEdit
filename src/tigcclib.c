@@ -64,4 +64,43 @@ short ngetchx(void) {
 	}
 }
 
+short ngetchx_xy(int cx, int cy) {
+	uint8_t k = 0;
+	int frame = 0;
+	bool on = true;
+	gfx_SetDrawScreen();
+	while (!(k = ngetchx_backend())) {
+		frame++;
+		if(frame>400){
+			frame=0;
+			if(on){
+				gfx_SetColor(background_color);
+				gfx_VertLine_NoClip(cx,cy,12);
+				on=false;
+			}else{
+				gfx_SetColor(text_color);
+				gfx_VertLine_NoClip(cx,cy,12);
+				on=true;
+			}
+		}
+	}
+	gfx_SetDrawBuffer();
+	if (kb_IsDown(kb_Key2nd) && kb_IsDown(kb_KeyGraphVar)) {
+		return ksecshift[k];
+	} else if (kb_IsDown(kb_KeyMode) && kb_IsDown(kb_KeyAlpha)) {
+		return kmetashift[k];
+	} else if (kb_IsDown(kb_KeyMode)) { //mode=meta
+		return kmeta[k];
+	} else if (kb_IsDown(kb_Key2nd)) {
+		return ksec[k];
+	} else if (kb_IsDown(kb_KeyGraphVar)) {
+		return kshift[k];
+	} else if (kb_IsDown(kb_KeyAlpha)) {
+		return kalpha[k];
+	} else {
+		return kmain[k];
+	}
+}
+
+
 #endif

@@ -20,6 +20,16 @@
 #include "gfx.h"
 #include "dialogs.h"
 
+/*
+ * Cursor x position
+ */
+static int c_x = 0;
+
+/*
+ * Cursor y position
+ */
+static int c_y = 0;
+
 bool is_control(short k) {
 	return (k <= 0) || (k >= 256);
 }
@@ -244,9 +254,11 @@ int draw_editor(void) {
 		if (i == c1) {
 			if (col >= num_cols) {
 				gfx_VertLine_NoClip(319, ls * row + fw + 1, ls);
+				c_x=319,c_y=ls * row + fw + 1;
 
 			} else {
 				gfx_VertLine_NoClip((fw + fw * col), ls * row + ls + 1, ls);
+				c_x = (fw+fw*col), c_y = ls * row + ls + 1;
 
 			}
 
@@ -291,7 +303,7 @@ void editor_mainloop(void) {
 	while (true) {
 		draw_editor();
 		gfx_SwapDraw();
-		k = ngetchx();
+		k = ngetchx_xy(c_x,c_y);
 		if (k == KEY_CLEAR)
 			break;
 		handle_key(k);
