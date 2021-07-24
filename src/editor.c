@@ -30,6 +30,11 @@ static int c_x = 0;
  */
 static int c_y = 0;
 
+/*
+ * True if the open document was saved
+ */
+static bool saved = false;
+
 bool is_control(short k) {
 	return (k <= 0) || (k >= 256);
 }
@@ -45,6 +50,7 @@ void insert_newline() {
 }
 
 void insert_char(char c) {
+	saved=false;
 	text[c1] = c;
 	c1++;
 	if (text[c1 - 1] == '\n') {
@@ -250,7 +256,7 @@ int draw_editor(void) {
 	fontlib_SetCursorPosition(0, ls);
 	fontlib_DrawGlyph(scr_line_offset ? '+' : ':');
 	//Iterate buffer
-	while (i < max_buffer_size && (cp < max_buffer_size - c2 + c1) && row < numl) {
+	while (i < max_buffer_size && (cp < max_buffer_size - c2 + c1) && row < numl+1) {
 		if (i == c1) {
 			if (col >= num_cols) {
 				gfx_VertLine_NoClip(319, ls * row + fw + 1, ls);
@@ -294,7 +300,19 @@ int draw_editor(void) {
 	gfx_FillRectangle_NoClip(0, 0, 320, 12);
 	gfx_FillRectangle_NoClip(0, 228, 320, 12);
 	fontlib_SetCursorPosition(0, 0);
-	fontlib_DrawString(named ? filename : "*Untitled*");
+	if(!saved)
+		fontlib_DrawGlyph('*');
+	fontlib_DrawString(named ? filename : "Untitled Document");
+	if(!saved)
+		fontlib_DrawGlyph('*');
+	if(!drawn) {
+		if(c1<scr_offset) {
+			scroll_up();
+		}else{
+			scroll_down();
+		}
+		draw_editor();
+	}
 	return 0;
 }
 
@@ -431,6 +449,7 @@ void write_file(void) {
 		ti_PutC(text[i], var);
 		i++;
 	}
+	saved=true;
 }
 
 #endif
