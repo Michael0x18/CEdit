@@ -12,6 +12,7 @@ Current features:
  - Shell integration: Currently compatible with VYSION and CESIUM through standard argument format.
 
 Upcoming features:
+ - Shell icon
  - File browser
  - Allow multiple text nodes (Unlimited file size; keep 16Kb in memory at one time and swap at end of block)
  - Selection
