@@ -1,6 +1,8 @@
 #ifndef editor_c
 #define editor_c
 
+#include "../src_old/editor.h"
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -15,10 +17,9 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
-#include "tigcclib.h"
-#include "editor.h"
-#include "gfx.h"
-#include "dialogs.h"
+#include "../src_old/dialogs.h"
+#include "../src_old/gfx.h"
+#include "../src_old/tigcclib.h"
 
 /*
  * Cursor x position

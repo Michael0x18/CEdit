@@ -1,12 +1,12 @@
 /*
- * CEdit is a text editor for the TI-84 plus CE graphing calculator
- * It is currently under development.
- * CEdit is Free and Open Source Software, and may be used under the
- * terms of the GNU Lesser General Public License
+ * cedit.h
+ *
+ *  Created on: Jul 25, 2021
+ *      Author: michael
  */
 
-#ifndef cedit_h
-#define cedit_h
+#ifndef SRC_CEDIT_H_
+#define SRC_CEDIT_H_
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -22,12 +22,11 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
+#define CEDIT_VERSION_STRING "CEDIT 0.06 BETA"
 
 /*
  * Main function
  */
-void main(int, char**);
+int main(int,char**);
 
-#include "main.c"
-
-#endif
+#endif /* SRC_CEDIT_H_ */

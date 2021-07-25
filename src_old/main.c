@@ -15,11 +15,11 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
-#include "cedit.h"
-#include "gfx.h"
-#include "dialogs.h"
-#include "editor.h"
-#include "tigcclib.h"
+#include "../src/cedit.h"
+#include "../src/dialogs.h"
+#include "../src_old/editor.h"
+#include "../src_old/gfx.h"
+#include "../src_old/tigcclib.h"
 
 void main(int argc, char **argv) {
 	//Argument parsing

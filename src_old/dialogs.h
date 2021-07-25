@@ -44,6 +44,6 @@ void show_save_dialog(void);
  */
 void show_about_dialog(void);
 
-#include "dialogs.c"
+#include "../src/dialogs.c"
 
 #endif

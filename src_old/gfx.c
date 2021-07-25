@@ -1,6 +1,8 @@
 #ifndef gfx_c
 #define gfx_c
 
+#include "../src_old/gfx.h"
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -15,8 +17,7 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
-#include "gfx.h"
-#include "tigcclib.h"
+#include "../src/tigcclib.h"
 
 bool load_gfx_config(void) {
 	font = fontlib_GetFontByIndex(fontname,fonttype);

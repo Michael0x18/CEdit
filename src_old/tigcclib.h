@@ -15,7 +15,7 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
-#include "cfg.h"
+#include "../src_old/cfg.h"
 
 /*
  * Non standard keys, used for encoding/remapping the CE keyboard
@@ -189,6 +189,6 @@ short ngetchx(void);
  */
 short ngetchx_xy(int,int);
 
-#include "tigcclib.c"
+#include "../src/tigcclib.c"
 
 #endif

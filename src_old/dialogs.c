@@ -1,6 +1,8 @@
 #ifndef dialogs_c
 #define dialogs_c
 
+#include "../src/dialogs.h"
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -15,9 +17,8 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
-#include "dialogs.h"
-#include "gfx.h"
-#include "editor.h"
+#include "../src/editor.h"
+#include "../src_old/gfx.h"
 
 #define CEDIT_VERSION_STRING "CEdit 0.05 BETA"
 

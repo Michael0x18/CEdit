@@ -1,6 +1,8 @@
 #ifndef tigcclib_c
 #define tigcclib_c
 
+#include "../src/tigcclib.h"
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -15,7 +17,6 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
-#include "tigcclib.h"
 
 uint8_t ngetchx_backend(void) {
 	static uint8_t last_key;

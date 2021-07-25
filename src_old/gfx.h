@@ -1,12 +1,5 @@
-/*
- * gfx.h
- *
- *  Created on: Jul 25, 2021
- *      Author: michael
- */
-
-#ifndef SRC_GFX_H_
-#define SRC_GFX_H_
+#ifndef gfx_h
+#define gfx_h
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -22,14 +15,14 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
-#include "state.h"
+#include "../src/cfg.h"
 
 /*
  * Loads the graphics configuration from
  * the config file.
  * Also configures font data.
  */
-bool load_gfx_config(struct estate*);
+bool load_gfx_config(void);
 
 
 /*
@@ -42,4 +35,6 @@ bool init_gfx(void);
  */
 void end_gfx(void);
 
-#endif /* SRC_GFX_H_ */
+#include "../src/gfx.c"
+
+#endif
