@@ -121,7 +121,7 @@ short kalpha[] = { KEY_NO_EXIST, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_UP,
  * Bindings for holding the shift (Xt0n) key
  */
 short kshift[] = { KEY_NO_EXIST, KEY_SDOWN, KEY_SLEFT, KEY_SRIGHT, KEY_SUP,
-		KEY_NO_EXIST, KEY_NO_EXIST, KEY_NO_EXIST, KEY_NO_EXIST, KEY_UNBOUND,
+		KEY_NO_EXIST, KEY_NO_EXIST, KEY_NO_EXIST, KEY_NO_EXIST, '\n',
 		'\'', 'W', 'R', 'M', 'H', KEY_UNBOUND, KEY_NO_EXIST, '<', '>', 'V', 'Q',
 		'L', 'G', KEY_UNBOUND, KEY_NO_EXIST, ';', 'Z', 'U', 'P', 'K', 'F', 'C',
 		KEY_SAVE, ' ', 'Y', 'T', 'O', 'J', 'E', 'B', KEY_NO_EXIST, KEY_RESERVED,
