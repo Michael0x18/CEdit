@@ -137,11 +137,13 @@ void cursor_to_end_select(struct estate*);
  * Moves the text cursor one word left.
  */
 void cursor_to_left_word(struct estate*);
+void cursor_to_left_word_select(struct estate*);
 
 /*
  * Moves the text cursor one word right.
  */
 void cursor_to_right_word(struct estate*);
+void cursor_to_right_word_select(struct estate*);
 
 /*
  * Moves the text cursor multi_lines lines up.
@@ -165,6 +167,7 @@ void cursor_to_l_start_select(struct estate*);
  * Moves cursor to end of line
  */
 void cursor_to_l_end(struct estate*);
+void cursor_to_l_end_select(struct estate*);
 
 /*
  * Loads text from filename into the editor.

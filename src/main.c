@@ -38,6 +38,7 @@ bool initialize(struct estate *state) {
 	state->font = fontlib_GetFontByIndex("DrMono", state->fonttype);
 	state->clipboard_size = 0;
 	state->clipboard_data = NULL;
+	state->corner_radius=10;
 	if (!state->font) {
 		os_ClrHome();
 		os_PutStrFull("E1: Font pack not found.");
@@ -48,7 +49,7 @@ bool initialize(struct estate *state) {
 	fontlib_SetForegroundColor(state->text_color);
 	fontlib_SetTransparency(true);
 	fontlib_SetBackgroundColor(state->text_highlight_color);
-	load_text(state);
+
 	return 0;
 }
 
@@ -67,11 +68,12 @@ int main(int argc, char **argv) {
 		editor_state.named = true;
 	} else if (argc > 2) {
 		os_ClrHome();
-		os_PutStrFull("Usage: CEdit FILE");
+		os_PutStrFull("Usage: CEdit [FILE]");
 		while (!os_GetCSC())
 			continue;
 		return 1;
 	}
+	load_text(&editor_state);
 	gfx_Begin();
 	editor_mainloop(&editor_state);
 	gfx_End();

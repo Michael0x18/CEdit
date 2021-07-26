@@ -141,7 +141,7 @@ void cursor_right_select(struct estate *state) {
 void cursor_up(struct estate *state) {
 	//if the current line is long enough
 	if (state->selection_active) {
-		cursor_left();
+		cursor_left(state);
 	}
 	if (state->lc_offset >= NUM_COLS) {
 		for (int i = 0; i < NUM_COLS; i++) {
@@ -203,7 +203,7 @@ void cursor_up_select(struct estate *state) {
 
 void cursor_down(struct estate *state) {
 	if (state->selection_active) {
-		cursor_down();
+		cursor_down(state);
 	}
 	if (state->lines[state->lc1] - state->lc_offset > NUM_COLS) {
 		for (int i = 0; i < NUM_COLS; i++) {
@@ -301,6 +301,18 @@ void handle_key(struct estate *state, short k) {
 			}
 			write_file(state);
 			break;
+		case KEY_WSLEFT:
+			cursor_to_left_word_select(state);
+			break;
+		case KEY_WSRIGHT:
+			cursor_to_right_word_select(state);
+			break;
+		case KEY_WSDOWN:
+			cursor_multi_down_select(state);
+			break;
+		case KEY_WSUP:
+			cursor_multi_up_select(state);
+			break;
 		case KEY_WLEFT:		//2nd-left
 			cursor_to_left_word(state);
 			break;
@@ -312,6 +324,18 @@ void handle_key(struct estate *state, short k) {
 			break;
 		case KEY_WDOWN:		//2nd-down
 			cursor_multi_down(state);
+			break;
+		case KEY_LSLEFT:
+			cursor_to_l_start_select(state);
+			break;
+		case KEY_LSRIGHT:
+			cursor_to_l_end_select(state);
+			break;
+		case KEY_LSUP:
+			cursor_to_start_select(state);
+			break;
+		case KEY_LSDOWN:
+			cursor_to_end_select(state);
 			break;
 		case KEY_LLEFT:		//meta-left
 			cursor_to_l_start(state);
@@ -332,6 +356,45 @@ void handle_key(struct estate *state, short k) {
 			break;
 		}
 	}
+}
+
+void cursor_to_start_select(struct estate *state) {
+	while (state->c1) {
+		cursor_left_select(state);
+	}
+}
+void cursor_to_end_select(struct estate *state) {
+	while (state->c2 < MAX_BUFFER_SIZE - 1) {
+		cursor_right_select(state);
+	}
+}
+void cursor_multi_up_select(struct estate *state) {
+	for (int i = 0; i < state->multi_lines; i++) {
+		cursor_up_select(state);
+	}
+}
+void cursor_multi_down_select(struct estate *state) {
+	for (int i = 0; i < state->multi_lines; i++) {
+		cursor_down_select(state);
+	}
+}
+void cursor_to_l_start_select(struct estate *state) {
+	while (state->lc_offset) {
+		cursor_left_select(state);
+	}
+}
+void cursor_to_l_end_select(struct estate *state) {
+	while (state->lc_offset < state->lines[state->lc1]) {
+		cursor_right_select(state);
+	}
+}
+
+void cursor_to_left_word_select(struct estate *state) {
+
+}
+
+void cursor_to_right_word_select(struct estate *state) {
+
 }
 
 int draw_editor(struct estate *state) {
@@ -516,20 +579,40 @@ void scroll_up(struct estate *state) {
 
 void scroll_down(struct estate *state) {
 //18 lines total, currently 38 chars
-	int pre_offset = state->lc_offset;
-	for (int i = 0; i < 17; i++) {
-		cursor_up(state);
+	if (!state->selection_active) {
+		int pre_offset = state->lc_offset;
+		for (int i = 0; i < 17; i++) {
+			cursor_up(state);
+		}
+		scroll_up(state);
+		for (int i = 0; i < 17; i++) {
+			cursor_down(state);
+		}
+		while (state->lc_offset < pre_offset) {
+			cursor_right(state);
+		}
+		while (state->lc_offset > pre_offset) {
+			cursor_left(state);
+		}
+	} else {
+		int pre_offset = state->lc_offset;
+		for (int i = 0; i < 17; i++) {
+			cursor_up_select(state);
+		}
+		scroll_up(state);
+		for (int i = 0; i < 17; i++) {
+			cursor_down_select(state);
+		}
+		while (state->lc_offset < pre_offset) {
+			cursor_right_select(state);
+		}
+		while (state->lc_offset > pre_offset) {
+			cursor_left_select(state);
+		}
+		exit(0);
 	}
-	scroll_up(state);
-	for (int i = 0; i < 17; i++) {
-		cursor_down(state);
-	}
-	while (state->lc_offset < pre_offset) {
-		cursor_right(state);
-	}
-	while (state->lc_offset > pre_offset) {
-		cursor_left(state);
-	}
+
+
 }
 
 void cursor_to_start(struct estate *state) {
