@@ -349,6 +349,15 @@ void handle_key(struct estate *state, short k) {
 		case KEY_LDOWN:		//meta-down
 			cursor_to_end(state);
 			break;
+		case KEY_F1:
+			cb_cut(state);
+			break;
+		case KEY_F2:
+			cb_copy(state);
+			break;
+		case KEY_F3:
+			cb_paste(state);
+			break;
 		case KEY_F5:
 			draw_editor(state);
 			gfx_SwapDraw();

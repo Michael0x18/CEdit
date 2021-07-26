@@ -24,6 +24,7 @@
 
 #include "state.h"
 #include "gfx.h"
+#include "clipboard.h"
 
 void cursor_up_select(struct estate*);
 void cursor_down_select(struct estate*);
