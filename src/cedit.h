@@ -27,6 +27,11 @@
 /*
  * Main function
  */
-int main(int,char**);
+void main(int,char**);
+
+/*
+ * Initializes the editor
+ */
+void initialize(struct estate*);
 
 #endif /* SRC_CEDIT_H_ */

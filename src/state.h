@@ -8,6 +8,20 @@
 #ifndef SRC_STATE_H_
 #define SRC_STATE_H_
 
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <tice.h>
+#include <fileioc.h>
+#include <inttypes.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <graphx.h>
+#include <keypadc.h>
+#include <fontlibc.h>
+
 /*
  * The max chars in the buffer
  */
@@ -75,6 +89,8 @@ struct estate {
 	char fontname[10];
 	int8_t fonttype;
 	fontlib_font_t *font;
+	//the radius for rounded corners on dialogs.
+	int8_t corner_radius;
 };
 
 #endif /* SRC_STATE_H_ */
