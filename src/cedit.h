@@ -22,6 +22,8 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
+#include "state.h"
+
 #define CEDIT_VERSION_STRING "CEDIT 0.06 BETA"
 
 /*

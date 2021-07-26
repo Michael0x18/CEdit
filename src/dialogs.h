@@ -36,7 +36,7 @@ void show_menu_dialog(struct estate*);
  * Draws a dialog with an empty background
  * params x,y,width,height
  */
-void draw_dialog(int,int,int,int);
+void draw_dialog(struct estate*, int, int, int, int);
 
 /*
  * Draws the open file dialog
@@ -50,6 +50,6 @@ void show_save_dialog(struct estate*);
 /*
  * Draws the about dialog
  */
-void show_about_dialog(void);
+void show_about_dialog(struct estate*);
 
 #endif /* SRC_DIALOGS_H_ */

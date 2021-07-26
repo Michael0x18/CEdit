@@ -1,0 +1,141 @@
+/*
+ * dialogs.c
+ *
+ *  Created on: Jul 25, 2021
+ *      Author: michael
+ */
+
+#include "dialogs.h"
+#include "state.h"
+#include "editor.h"
+#include "gfx.h"
+#include "cedit.h"
+
+void show_menu_dialog(struct estate *state) {
+	draw_dialog(20, 20, 280, 200);
+	gfx_SetColor(border_color);
+	gfx_HorizLine_NoClip(20, 40, 280);
+	fontlib_SetCursorPosition(104, 25);
+	fontlib_DrawString("CEdit Settings");
+	gfx_SwapDraw();
+	ngetchx();
+}
+
+void draw_dialog(struct estate *state,int x, int y, int w, int h) {
+	//draw_editor();
+
+	gfx_SetColor(dropshadow_color);
+	gfx_FillCircle_NoClip(5 + x + cr, 5 + y + cr, cr);
+	gfx_FillCircle_NoClip(5 + x + w - cr - 1, 5 + y + cr, cr);
+	gfx_FillCircle_NoClip(5 + x + cr, 5 + y + h - cr - 1, cr);
+	gfx_FillCircle_NoClip(5 + x + w - cr - 1, 5 + y + h - cr - 1, cr);
+	gfx_FillRectangle_NoClip(5 + x + cr, 5 + y, w - cr - cr, h);
+	gfx_FillRectangle_NoClip(5 + x, 5 + y + cr, w, h - cr - cr);
+
+	gfx_SetColor(border_color);
+	gfx_Circle_NoClip(x + cr, y + cr, cr);
+	gfx_Circle_NoClip(x + w - cr - 1, y + cr, cr);
+	gfx_Circle_NoClip(x + cr, y + h - cr - 1, cr);
+	gfx_Circle_NoClip(x + w - cr - 1, y + h - cr - 1, cr);
+	gfx_Rectangle_NoClip(x + cr, y, w - cr - cr, h);
+	gfx_Rectangle_NoClip(x, y + cr, w, h - cr - cr);
+
+	gfx_SetColor(background_color);
+	gfx_FillCircle_NoClip(x + cr, y + cr, cr - 1);
+	gfx_FillCircle_NoClip(x + w - cr - 1, y + cr, cr - 1);
+	gfx_FillCircle_NoClip(x + cr, y + h - cr - 1, cr - 1);
+	gfx_FillCircle_NoClip(x + w - cr - 1, y + h - cr - 1, cr - 1);
+	gfx_FillRectangle_NoClip(x + cr + 1, y + 1, w - cr - cr + 2, h - 2);
+	gfx_FillRectangle_NoClip(x + 1, y + cr - 1, w - 2, h - cr - cr + 2);
+}
+
+void show_open_dialog(struct estate *state) {
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO TODO TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO                          TODO TODO TODO
+	//TODO TODO TODO                          TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+	//TODO TODO TODO      TODO TODO TODO      TODO TODO TODO
+
+}
+
+void show_save_dialog(struct estate *state) {
+	short k = 0;
+	int numchars = 0;
+	char buffer[10];
+	memset(buffer, 0, 10);
+	int cx = 52;
+	while (true) {
+		draw_dialog(20, 60, 280, 100);
+		gfx_SetColor(border_color);
+		gfx_HorizLine_NoClip(20, 80, 280);
+		//fontlib_SetCursorPosition(115,80);
+		fontlib_SetCursorPosition(115, 65);
+		fontlib_DrawString("Save File");
+		fontlib_SetCursorPosition(30, 90);
+		fontlib_DrawString("Enter File Name to (Over)write:");
+		gfx_SetColor(dropshadow_color);
+		gfx_Rectangle_NoClip(51, 111, 220, 16);
+		gfx_SetColor(border_color);
+		gfx_Rectangle_NoClip(50, 110, 220, 16);
+		fontlib_SetCursorPosition(52, 112);
+		fontlib_DrawString(buffer);
+		gfx_VertLine(52 + fw * numchars, 112, 12);
+		cx = 52 + fw * numchars;
+		gfx_SwapDraw();
+		k = ngetchx_xy(cx, 112);
+		if (k == KEY_CLEAR) {
+			return;
+		}
+		if (k == '\n') {
+			if (!numchars) {
+				return;
+			}
+			named = true;
+			strncpy(state->filename, buffer, 8);
+			return;
+		}
+		if (!is_control(k)) {
+			if (numchars < 8) {
+				buffer[numchars] = k;
+				numchars++;
+			}
+		}
+		if (k == KEY_BS) {
+			buffer[--numchars] = 0;
+		}
+
+	}
+}
+
+void show_about_dialog(struct estate *state) {
+	draw_dialog(60, 60, 200, 120);
+	gfx_SetColor(border_color);
+	gfx_HorizLine_NoClip(60, 80, 200);
+	//fontlib_SetCursorPosition(115,80);
+	fontlib_SetCursorPosition(115, 65);
+	fontlib_DrawString("About CEdit");
+	fontlib_SetCursorPosition(80, 120);
+	fontlib_DrawString(CEDIT_VERSION_STRING);
+	gfx_SwapDraw();
+	ngetchx();
+}
