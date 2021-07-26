@@ -213,19 +213,19 @@ int draw_editor(struct estate *state) {
 	int24_t cp = 0;
 	bool drawn = false;
 	//Start drawing
-	fontlib_SetCursorPosition(0, ls);
+	fontlib_SetCursorPosition(0, LINE_SPACING);
 	fontlib_DrawGlyph(state->scr_line_offset ? '+' : ':');
 	//Iterate buffer
 	while (i < MAX_BUFFER_SIZE && (cp < MAX_BUFFER_SIZE - state->c2 + state->c1)
 			&& row < NUM_LINES + 1) {
 		if (i == state->c1) {
 			if (col >= NUM_COLS) {
-				gfx_VertLine_NoClip(319, ls * row + fw + 1, ls);
-				state->cx = 319, state->cy = ls * row + fw + 1;
+				gfx_VertLine_NoClip(319, LINE_SPACING * row + FONT_WIDTH + 1, LINE_SPACING);
+				state->cx = 319, state->cy = LINE_SPACING * row + FONT_WIDTH + 1;
 
 			} else {
-				gfx_VertLine_NoClip((fw + fw * col), ls * row + ls + 1, ls);
-				state->cx = (fw + fw * col), state->cy = ls * row + ls + 1;
+				gfx_VertLine_NoClip((FONT_WIDTH + FONT_WIDTH * col), LINE_SPACING * row + LINE_SPACING + 1, LINE_SPACING);
+				state->cx = (FONT_WIDTH + FONT_WIDTH * col), state->cy = LINE_SPACING * row + LINE_SPACING + 1;
 
 			}
 
@@ -240,7 +240,7 @@ int draw_editor(struct estate *state) {
 			col = 0;
 			i++;
 			cp++;
-			fontlib_SetCursorPosition(0, ls * row + ls);
+			fontlib_SetCursorPosition(0, LINE_SPACING * row + LINE_SPACING);
 			fontlib_DrawGlyph(':');
 			continue;
 		}
@@ -253,7 +253,7 @@ int draw_editor(struct estate *state) {
 		if (col >= NUM_COLS) {
 			col = 0;
 			row++;
-			fontlib_SetCursorPosition(fw, ls * row + ls);
+			fontlib_SetCursorPosition(FONT_WIDTH, LINE_SPACING * row + LINE_SPACING);
 		}
 	}
 	//Draw statusbars

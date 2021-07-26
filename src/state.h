@@ -30,12 +30,12 @@
 /*
  * The default font width
  */
-#define fw 8
+#define FONT_WIDTH 8
 
 /*
  * The default line spacing
  */
-#define ls 12
+#define LINE_SPACING 12
 
 /*
  * The number of lines that fit on the screen,

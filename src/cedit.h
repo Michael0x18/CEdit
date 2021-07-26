@@ -33,7 +33,7 @@
 /*
  * Main function
  */
-void main(int,char**);
+int main(int,char**);
 
 /*
  * Initializes the editor

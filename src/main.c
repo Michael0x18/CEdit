@@ -50,14 +50,14 @@ bool initialize(struct estate *state) {
 	return 0;
 }
 
-void main(int argc, char **argv) {
+int main(int argc, char **argv) {
 	static struct estate editor_state;
 
 	if (initialize(&editor_state)) {
 		os_ClrHome();
 		os_PutStrFull("E0: gfx-err");
 		ngetchx();
-		return;
+		return 1;
 	}
 	//Argument parsing
 	if (argc == 2) {
@@ -68,9 +68,10 @@ void main(int argc, char **argv) {
 		os_PutStrFull("Usage: CEdit FILE");
 		while (!os_GetCSC())
 			continue;
-		return;
+		return 1;
 	}
 	gfx_Begin();
 	editor_mainloop(&editor_state);
 	gfx_End();
+	return 0;
 }

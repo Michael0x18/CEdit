@@ -113,8 +113,8 @@ void show_save_dialog(struct estate *state) {
 		gfx_Rectangle_NoClip(50, 110, 220, 16);
 		fontlib_SetCursorPosition(52, 112);
 		fontlib_DrawString(buffer);
-		gfx_VertLine(52 + fw * numchars, 112, 12);
-		cx = 52 + fw * numchars;
+		gfx_VertLine(52 + FONT_WIDTH * numchars, 112, 12);
+		cx = 52 + FONT_WIDTH * numchars;
 		gfx_SwapDraw();
 		k = ngetchx_xy(state, cx, 112);
 		if (k == KEY_CLEAR) {
