@@ -511,6 +511,7 @@ int draw_editor(struct estate *state) {
 		} else {
 			scroll_down(state);
 		}
+		gfx_SwapDraw();
 		draw_editor(state);
 	}
 	return 0;
@@ -609,7 +610,6 @@ void scroll_down(struct estate *state) {
 		while (state->lc_offset > pre_offset) {
 			cursor_left_select(state);
 		}
-		exit(0);
 	}
 
 
