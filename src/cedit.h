@@ -32,6 +32,6 @@ void main(int,char**);
 /*
  * Initializes the editor
  */
-void initialize(struct estate*);
+bool initialize(struct estate*);
 
 #endif /* SRC_CEDIT_H_ */

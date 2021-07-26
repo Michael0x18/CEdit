@@ -63,7 +63,7 @@ void insert_char(char c) {
 }
 
 void line_down(void) {
-	if (lc2 < max_buffer_size) {
+	if (lc2 < MAX_BUFFER_SIZE) {
 		lc2++;
 		lc1++;
 		lines[lc1] = lines[lc2];
@@ -95,7 +95,7 @@ void cursor_left(void) {
 }
 
 void cursor_right(void) {
-	if (c2 < max_buffer_size - 1) {
+	if (c2 < MAX_BUFFER_SIZE - 1) {
 		if (/*text[c2+1]=='\n' || */lc_offset == lines[lc1]) {
 			line_down();
 			//lc_offset=0;
@@ -110,8 +110,8 @@ void cursor_right(void) {
 
 void cursor_up(void) {
 	//if the current line is long enough
-	if (lc_offset >= num_cols) {
-		for (int i = 0; i < num_cols; i++) {
+	if (lc_offset >= NUM_COLS) {
+		for (int i = 0; i < NUM_COLS; i++) {
 			cursor_left();
 		}
 	} else {
@@ -127,9 +127,9 @@ void cursor_up(void) {
 		//now need to move until old
 
 		//return if the end is what you want
-		if (lc_offset % num_cols < old)
+		if (lc_offset % NUM_COLS < old)
 			return;
-		int c = lc_offset - lc_offset % num_cols;
+		int c = lc_offset - lc_offset % NUM_COLS;
 		c += old;		//Offset to move to from start of line
 		int to_move = lc_offset - c;
 		for (int i = 0; i < to_move; i++) {
@@ -139,8 +139,8 @@ void cursor_up(void) {
 }
 
 void cursor_down(void) {
-	if (lines[lc1] - lc_offset > num_cols) {
-		for (int i = 0; i < num_cols; i++) {
+	if (lines[lc1] - lc_offset > NUM_COLS) {
+		for (int i = 0; i < NUM_COLS; i++) {
 			cursor_right();
 		}
 	} else {
@@ -150,12 +150,12 @@ void cursor_down(void) {
 			cursor_right();
 		}
 		cursor_right();
-		if (lines[lc1] < old % num_cols) {
+		if (lines[lc1] < old % NUM_COLS) {
 			for (int i = 0; i < lines[lc1]; i++) {
 				cursor_right();
 			}
 		} else {
-			for (int i = 0; i < old % num_cols; i++) {
+			for (int i = 0; i < old % NUM_COLS; i++) {
 				cursor_right();
 			}
 		}
@@ -164,11 +164,11 @@ void cursor_down(void) {
 
 void init_editor(void) {
 	lc1 = 0;
-	lc2 = max_buffer_size - 1;
+	lc2 = MAX_BUFFER_SIZE - 1;
 	lc_offset = 0;
 	ls_offset = 0;
 	c1 = 0;
-	c2 = max_buffer_size - 1;
+	c2 = MAX_BUFFER_SIZE - 1;
 	scr_offset = 0;
 	scr_line = 0;
 	scr_line_offset = 0;
@@ -257,9 +257,9 @@ int draw_editor(void) {
 	fontlib_SetCursorPosition(0, ls);
 	fontlib_DrawGlyph(scr_line_offset ? '+' : ':');
 	//Iterate buffer
-	while (i < max_buffer_size && (cp < max_buffer_size - c2 + c1) && row < numl+1) {
+	while (i < MAX_BUFFER_SIZE && (cp < MAX_BUFFER_SIZE - c2 + c1) && row < numl+1) {
 		if (i == c1) {
-			if (col >= num_cols) {
+			if (col >= NUM_COLS) {
 				gfx_VertLine_NoClip(319, ls * row + fw + 1, ls);
 				c_x=319,c_y=ls * row + fw + 1;
 
@@ -271,7 +271,7 @@ int draw_editor(void) {
 
 			i = c2 + 1;
 			drawn = 1;
-			if (i >= max_buffer_size)
+			if (i >= MAX_BUFFER_SIZE)
 				break;
 		}
 
@@ -290,7 +290,7 @@ int draw_editor(void) {
 		i++;
 		cp++;
 		col++;
-		if (col >= num_cols) {
+		if (col >= NUM_COLS) {
 			col = 0;
 			row++;
 			fontlib_SetCursorPosition(fw, ls * row + ls);
@@ -370,7 +370,7 @@ void bs(void) {
 }
 
 void del(void) {
-	if (c2 < max_buffer_size - 1) {
+	if (c2 < MAX_BUFFER_SIZE - 1) {
 		if (lc_offset == lines[lc1]) {
 			lc2++;
 			lines[lc1] += lines[lc2 + 1];
@@ -383,9 +383,9 @@ void del(void) {
 
 void scroll_up(void) {
 //WTH I don't know if this is gonna work, but I'm hella tired rn.
-	scr_offset = c1 - lc_offset % num_cols;
+	scr_offset = c1 - lc_offset % NUM_COLS;
 	scr_line = lc1;
-	scr_line_offset = lc_offset - lc_offset % num_cols;
+	scr_line_offset = lc_offset - lc_offset % NUM_COLS;
 
 }
 
@@ -414,7 +414,7 @@ void cursor_to_start(void) {
 }
 
 void cursor_to_end(void) {
-	while (c2 < max_buffer_size - 1) {
+	while (c2 < MAX_BUFFER_SIZE - 1) {
 		cursor_right();
 	}
 }
@@ -468,10 +468,10 @@ void write_file(void) {
 	ti_CloseAll();
 	var = ti_Open(filename, "w");
 	int i = 0;
-	while (i < max_buffer_size) {
+	while (i < MAX_BUFFER_SIZE) {
 		if (i == c1)
 			i = c2 + 1;
-		if (i >= max_buffer_size)
+		if (i >= MAX_BUFFER_SIZE)
 			break;
 		ti_PutC(text[i], var);
 		i++;

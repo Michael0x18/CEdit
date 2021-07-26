@@ -25,13 +25,13 @@
  * Maximum size of the editor buffer, in bytes.
  * The default (and maximum) is 16 Kb.
  */
-static int24_t max_buffer_size = 16384;
+static int24_t MAX_BUFFER_SIZE = 16384;
 
 /*
  * The number of columns in the editor.
  * The default is 38
  */
-static int24_t num_cols = 38;
+static int24_t NUM_COLS = 38;
 
 /*
  * The number of lines scrolled by multi_up and multi_down

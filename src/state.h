@@ -80,6 +80,8 @@ struct estate {
 	//Self explanatory.
 	uint8_t text_color;
 	uint8_t text_highlight_color;
+	uint8_t text_selection_color;
+	uint8_t text_selection_highlight_color;
 	uint8_t background_color;
 	uint8_t transparent_color;
 	uint8_t statusbar_color;
@@ -91,6 +93,12 @@ struct estate {
 	fontlib_font_t *font;
 	//the radius for rounded corners on dialogs.
 	int8_t corner_radius;
+	//Cursor x position
+	int cx;
+	//Cursor y position
+	int cy;
+	//True if doc has been saved
+	bool saved;
 };
 
 #endif /* SRC_STATE_H_ */
