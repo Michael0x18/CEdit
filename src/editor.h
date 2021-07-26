@@ -58,7 +58,7 @@ void insert_newline(struct estate*);
 /*
  * Inserts a character into the buffer.
  */
-void insert_char(struct estate*);
+void insert_char(struct estate*, char);
 
 /*
  * Move the text cursor one character left.

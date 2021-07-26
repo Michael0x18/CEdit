@@ -17,7 +17,7 @@
 
 #define fw 8
 #define ls 12
-#define numl 17
+#define NUM_LINES 17
 
 #include "../src/gfx.h"
 

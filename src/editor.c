@@ -134,9 +134,9 @@ void cursor_down(struct estate *state) {
 	}
 }
 
-void handle_key(struct estate *state, char k) {
+void handle_key(struct estate *state, short k) {
 	if (!is_control(k)) {
-		insert_char(k);
+		insert_char(state, k);
 	} else {
 		switch (k) {
 		case KEY_LEFT:		//left
@@ -217,7 +217,7 @@ int draw_editor(struct estate *state) {
 	fontlib_DrawGlyph(state->scr_line_offset ? '+' : ':');
 	//Iterate buffer
 	while (i < MAX_BUFFER_SIZE && (cp < MAX_BUFFER_SIZE - state->c2 + state->c1)
-			&& row < numl + 1) {
+			&& row < NUM_LINES + 1) {
 		if (i == state->c1) {
 			if (col >= NUM_COLS) {
 				gfx_VertLine_NoClip(319, ls * row + fw + 1, ls);
@@ -290,7 +290,7 @@ int draw_editor(struct estate *state) {
 	if (!state->saved)
 		fontlib_DrawGlyph('*');
 	fontlib_DrawString(state->named ? state->filename : "Untitled Document");
-	if (!saved)
+	if (!state->saved)
 		fontlib_DrawGlyph('*');
 	if (!drawn) {
 		if (state->c1 < state->scr_offset) {
@@ -303,12 +303,12 @@ int draw_editor(struct estate *state) {
 	return 0;
 }
 
-void editor_mainloop(void) {
+void editor_mainloop(struct estate *state) {
 	short k = 0;
 	while (true) {
 		draw_editor(state);
 		gfx_SwapDraw();
-		k = ngetchx_xy(c_x, c_y);
+		k = ngetchx_xy(state->cx, state->cy);
 		if (k == KEY_CLEAR)
 			break;
 		handle_key(state, k);
@@ -392,7 +392,7 @@ void cursor_multi_up(struct estate *state) {
 }
 
 void cursor_multi_down(struct estate *state) {
-	for (int i = 0; i < multi_lines; i++) {
+	for (int i = 0; i < state->multi_lines; i++) {
 		cursor_down(state);
 	}
 }

@@ -24,6 +24,9 @@
 
 #include "cedit.h"
 #include "editor.h"
+#include "state.h"
+#include "gfx.h"
+#include "tigcclib.h"
 
 /*
  * Draws the main menu

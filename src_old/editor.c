@@ -24,12 +24,12 @@
 /*
  * Cursor x position
  */
-static int c_x = 0;
+static int state->cx = 0;
 
 /*
  * Cursor y position
  */
-static int c_y = 0;
+static int state->cy = 0;
 
 /*
  * True if the open document was saved
@@ -257,15 +257,15 @@ int draw_editor(void) {
 	fontlib_SetCursorPosition(0, ls);
 	fontlib_DrawGlyph(scr_line_offset ? '+' : ':');
 	//Iterate buffer
-	while (i < MAX_BUFFER_SIZE && (cp < MAX_BUFFER_SIZE - c2 + c1) && row < numl+1) {
+	while (i < MAX_BUFFER_SIZE && (cp < MAX_BUFFER_SIZE - c2 + c1) && row < NUM_LINES+1) {
 		if (i == c1) {
 			if (col >= NUM_COLS) {
 				gfx_VertLine_NoClip(319, ls * row + fw + 1, ls);
-				c_x=319,c_y=ls * row + fw + 1;
+				state->cx=319,state->cy=ls * row + fw + 1;
 
 			} else {
 				gfx_VertLine_NoClip((fw + fw * col), ls * row + ls + 1, ls);
-				c_x = (fw+fw*col), c_y = ls * row + ls + 1;
+				state->cx = (fw+fw*col), state->cy = ls * row + ls + 1;
 
 			}
 
@@ -348,7 +348,7 @@ void editor_mainloop(void) {
 	while (true) {
 		draw_editor();
 		gfx_SwapDraw();
-		k = ngetchx_xy(c_x,c_y);
+		k = ngetchx_xy(state->cx,state->cy);
 		if (k == KEY_CLEAR)
 			break;
 		handle_key(k);
