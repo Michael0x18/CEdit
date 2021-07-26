@@ -12,7 +12,7 @@ bool initialize(struct estate *state) {
 	char buf1[10]="Untitled";
 	char buf2[10]="DrMono";
 	state->multi_lines = 5;
-	strncpy(buf1, state->filename, 8);
+	strncpy(buf1, state->filename, 10);
 	state->named = false;
 	state->lc1 = 0;
 	state->lc2 = MAX_BUFFER_SIZE - 1;
@@ -32,10 +32,10 @@ bool initialize(struct estate *state) {
 	state->statusbar_color = 13;
 	state->border_color = 0;
 	state->dropshadow_color = 11;
-	strncpy(buf2, state->fontname,6);
+	strncpy(buf2, state->fontname,10);
 	state->saved=true;
 	state->fonttype = 3;
-	state->font = fontlib_GetFontByIndex(state->fontname, state->fonttype);
+	state->font = fontlib_GetFontByIndex("DrMono", state->fonttype);
 	if (!state->font) {
 		os_ClrHome();
 		os_PutStrFull("E1: Font pack not found.");
