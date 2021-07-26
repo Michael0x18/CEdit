@@ -170,7 +170,7 @@ short ngetchx_xy(struct estate *state,int cx, int cy) {
 	gfx_SetDrawBuffer();
 	if (kb_IsDown(kb_Key2nd) && kb_IsDown(kb_KeyGraphVar)) {
 		return ksecshift[k];
-	} else if (kb_IsDown(kb_KeyMode) && kb_IsDown(kb_KeyAlpha)) {
+	} else if (kb_IsDown(kb_KeyMode) && kb_IsDown(kb_KeyGraphVar)) {
 		return kmetashift[k];
 	} else if (kb_IsDown(kb_KeyMode)) { //mode=meta
 		return kmeta[k];
