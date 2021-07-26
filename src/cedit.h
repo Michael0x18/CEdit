@@ -23,6 +23,10 @@
 #include <fontlibc.h>
 
 #include "state.h"
+#include "tigcclib.h"
+#include "editor.h"
+#include "dialogs.h"
+#include "gfx.h"
 
 #define CEDIT_VERSION_STRING "CEDIT 0.06 BETA"
 

@@ -26,6 +26,11 @@
 #include "gfx.h"
 
 /*
+ * Event loop
+ */
+void editor_mainloop(struct estate*);
+
+/*
  * Initializes all the global variables.
  */
 void init_editor(struct estate*);

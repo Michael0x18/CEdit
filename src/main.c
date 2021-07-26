@@ -5,16 +5,14 @@
  *      Author: michael
  */
 
-#include "state.h"
 #include "cedit.h"
-#include "tigcclib.h"
-#include "editor.h"
-#include "dialogs.h"
-#include "gfx.h"
+
 
 bool initialize(struct estate *state) {
+	char buf1[10]="Untitled";
+	char buf2[10]="DrMono";
 	state->multi_lines = 5;
-	strncpy("Untitled", state->filename, 8);
+	strncpy(buf1, state->filename, 8);
 	state->named = false;
 	state->lc1 = 0;
 	state->lc2 = MAX_BUFFER_SIZE - 1;
@@ -34,7 +32,7 @@ bool initialize(struct estate *state) {
 	state->statusbar_color = 13;
 	state->border_color = 0;
 	state->dropshadow_color = 11;
-	strncpy("DrMono", state->fontname);
+	strncpy(buf2, state->fontname,6);
 	state->saved=true;
 	state->fonttype = 3;
 	state->font = fontlib_GetFontByIndex(state->fontname, state->fonttype);
@@ -55,7 +53,7 @@ bool initialize(struct estate *state) {
 void main(int argc, char **argv) {
 	static struct estate editor_state;
 
-	if (initialize(editor_state)) {
+	if (initialize(&editor_state)) {
 		os_ClrHome();
 		os_PutStrFull("E0: gfx-err");
 		ngetchx();
@@ -63,8 +61,8 @@ void main(int argc, char **argv) {
 	}
 	//Argument parsing
 	if (argc == 2) {
-		strncpy(filename, argv[1], 8);
-		named = true;
+		strncpy(editor_state.filename, argv[1], 8);
+		editor_state.named = true;
 	} else if (argc > 2) {
 		os_ClrHome();
 		os_PutStrFull("Usage: CEdit FILE");
@@ -73,6 +71,6 @@ void main(int argc, char **argv) {
 		return;
 	}
 	gfx_Begin();
-	editor_mainloop();
+	editor_mainloop(&editor_state);
 	gfx_End();
 }

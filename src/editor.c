@@ -308,7 +308,7 @@ void editor_mainloop(struct estate *state) {
 	while (true) {
 		draw_editor(state);
 		gfx_SwapDraw();
-		k = ngetchx_xy(state->cx, state->cy);
+		k = ngetchx_xy(state, state->cx, state->cy);
 		if (k == KEY_CLEAR)
 			break;
 		handle_key(state, k);

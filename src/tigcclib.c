@@ -54,23 +54,23 @@ short ngetchx(void) {
 	}
 }
 
-short ngetchx_xy(int cx, int cy) {
+short ngetchx_xy(struct estate *state,int cx, int cy) {
 	uint8_t k = 0;
 	int frame = 0;
 	bool on = true;
 	gfx_SetDrawScreen();
-	gfx_SetColor(text_color);
+	gfx_SetColor(state->text_color);
 	gfx_VertLine_NoClip(cx,cy,12);
 	while (!(k = ngetchx_backend())) {
 		frame++;
 		if(frame>400){
 			frame=0;
 			if(on){
-				gfx_SetColor(background_color);
+				gfx_SetColor(state->background_color);
 				gfx_VertLine_NoClip(cx,cy,12);
 				on=false;
 			}else{
-				gfx_SetColor(text_color);
+				gfx_SetColor(state->text_color);
 				gfx_VertLine_NoClip(cx,cy,12);
 				on=true;
 			}

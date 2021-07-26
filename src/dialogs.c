@@ -17,32 +17,50 @@ void show_menu_dialog(struct estate *state) {
 	ngetchx();
 }
 
-void draw_dialog(struct estate *state,int x, int y, int w, int h) {
+void draw_dialog(struct estate *state, int x, int y, int w, int h) {
 	//draw_editor();
 
 	gfx_SetColor(state->dropshadow_color);
-	gfx_FillCircle_NoClip(5 + x + state->corner_radius, 5 + y + state->corner_radius, state->corner_radius);
-	gfx_FillCircle_NoClip(5 + x + w - state->corner_radius - 1, 5 + y + state->corner_radius, state->corner_radius);
-	gfx_FillCircle_NoClip(5 + x + state->corner_radius, 5 + y + h - state->corner_radius - 1, state->corner_radius);
-	gfx_FillCircle_NoClip(5 + x + w - state->corner_radius - 1, 5 + y + h - state->corner_radius - 1, state->corner_radius);
-	gfx_FillRectangle_NoClip(5 + x + state->corner_radius, 5 + y, w - state->corner_radius - state->corner_radius, h);
-	gfx_FillRectangle_NoClip(5 + x, 5 + y + state->corner_radius, w, h - state->corner_radius - state->corner_radius);
+	gfx_FillCircle_NoClip(5 + x + state->corner_radius,
+			5 + y + state->corner_radius, state->corner_radius);
+	gfx_FillCircle_NoClip(5 + x + w - state->corner_radius - 1,
+			5 + y + state->corner_radius, state->corner_radius);
+	gfx_FillCircle_NoClip(5 + x + state->corner_radius,
+			5 + y + h - state->corner_radius - 1, state->corner_radius);
+	gfx_FillCircle_NoClip(5 + x + w - state->corner_radius - 1,
+			5 + y + h - state->corner_radius - 1, state->corner_radius);
+	gfx_FillRectangle_NoClip(5 + x + state->corner_radius, 5 + y,
+			w - state->corner_radius - state->corner_radius, h);
+	gfx_FillRectangle_NoClip(5 + x, 5 + y + state->corner_radius, w,
+			h - state->corner_radius - state->corner_radius);
 
 	gfx_SetColor(state->border_color);
-	gfx_Circle_NoClip(x + state->corner_radius, y + state->corner_radius, state->corner_radius);
-	gfx_Circle_NoClip(x + w - state->corner_radius - 1, y + state->corner_radius, state->corner_radius);
-	gfx_Circle_NoClip(x + state->corner_radius, y + h - state->corner_radius - 1, state->corner_radius);
-	gfx_Circle_NoClip(x + w - state->corner_radius - 1, y + h - state->corner_radius - 1, state->corner_radius);
-	gfx_Rectangle_NoClip(x + state->corner_radius, y, w - state->corner_radius - state->corner_radius, h);
-	gfx_Rectangle_NoClip(x, y + state->corner_radius, w, h - state->corner_radius - state->corner_radius);
+	gfx_Circle_NoClip(x + state->corner_radius, y + state->corner_radius,
+			state->corner_radius);
+	gfx_Circle_NoClip(x + w - state->corner_radius - 1,
+			y + state->corner_radius, state->corner_radius);
+	gfx_Circle_NoClip(x + state->corner_radius,
+			y + h - state->corner_radius - 1, state->corner_radius);
+	gfx_Circle_NoClip(x + w - state->corner_radius - 1,
+			y + h - state->corner_radius - 1, state->corner_radius);
+	gfx_Rectangle_NoClip(x + state->corner_radius, y,
+			w - state->corner_radius - state->corner_radius, h);
+	gfx_Rectangle_NoClip(x, y + state->corner_radius, w,
+			h - state->corner_radius - state->corner_radius);
 
 	gfx_SetColor(state->background_color);
-	gfx_FillCircle_NoClip(x + state->corner_radius, y + state->corner_radius, state->corner_radius - 1);
-	gfx_FillCircle_NoClip(x + w - state->corner_radius - 1, y + state->corner_radius, state->corner_radius - 1);
-	gfx_FillCircle_NoClip(x + state->corner_radius, y + h - state->corner_radius - 1, state->corner_radius - 1);
-	gfx_FillCircle_NoClip(x + w - state->corner_radius - 1, y + h - state->corner_radius - 1, state->corner_radius - 1);
-	gfx_FillRectangle_NoClip(x + state->corner_radius + 1, y + 1, w - state->corner_radius - state->corner_radius + 2, h - 2);
-	gfx_FillRectangle_NoClip(x + 1, y + state->corner_radius - 1, w - 2, h - state->corner_radius - state->corner_radius + 2);
+	gfx_FillCircle_NoClip(x + state->corner_radius, y + state->corner_radius,
+			state->corner_radius - 1);
+	gfx_FillCircle_NoClip(x + w - state->corner_radius - 1,
+			y + state->corner_radius, state->corner_radius - 1);
+	gfx_FillCircle_NoClip(x + state->corner_radius,
+			y + h - state->corner_radius - 1, state->corner_radius - 1);
+	gfx_FillCircle_NoClip(x + w - state->corner_radius - 1,
+			y + h - state->corner_radius - 1, state->corner_radius - 1);
+	gfx_FillRectangle_NoClip(x + state->corner_radius + 1, y + 1,
+			w - state->corner_radius - state->corner_radius + 2, h - 2);
+	gfx_FillRectangle_NoClip(x + 1, y + state->corner_radius - 1, w - 2,
+			h - state->corner_radius - state->corner_radius + 2);
 }
 
 void show_open_dialog(struct estate *state) {
@@ -81,7 +99,7 @@ void show_save_dialog(struct estate *state) {
 	memset(buffer, 0, 10);
 	int cx = 52;
 	while (true) {
-		draw_dialog(state,20, 60, 280, 100);
+		draw_dialog(state, 20, 60, 280, 100);
 		gfx_SetColor(state->border_color);
 		gfx_HorizLine_NoClip(20, 80, 280);
 		//fontlib_SetCursorPosition(115,80);
@@ -98,7 +116,7 @@ void show_save_dialog(struct estate *state) {
 		gfx_VertLine(52 + fw * numchars, 112, 12);
 		cx = 52 + fw * numchars;
 		gfx_SwapDraw();
-		k = ngetchx_xy(cx, 112);
+		k = ngetchx_xy(state, cx, 112);
 		if (k == KEY_CLEAR) {
 			return;
 		}
