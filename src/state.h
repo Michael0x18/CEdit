@@ -99,6 +99,14 @@ struct estate {
 	int cy;
 	//True if doc has been saved
 	bool saved;
+	//Size, in num chars, of the clipboard
+	int24_t clipboard_size;
+	//Data in the clipboard
+	char *clipboard_data;
+	//The first point of selection. The other point is the cursor
+	int24_t selection_anchor;
+	//True if the selection is active, otherwise false.
+	bool selection_active;
 };
 
 #endif /* SRC_STATE_H_ */

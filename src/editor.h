@@ -25,6 +25,10 @@
 #include "state.h"
 #include "gfx.h"
 
+void cursor_up_select(struct estate*);
+void cursor_down_select(struct estate*);
+void cursor_left_select(struct estate*);
+void cursor_right_select(struct estate*);
 /*
  * Event loop
  */
@@ -120,10 +124,14 @@ void scroll_down(struct estate*);
  */
 void cursor_to_start(struct estate*);
 
+void cursor_to_start_select(struct estate*);
+
 /*
  * Moves the text cursor to the end of the buffer.
  */
 void cursor_to_end(struct estate*);
+
+void cursor_to_end_select(struct estate*);
 
 /*
  * Moves the text cursor one word left.
@@ -139,16 +147,19 @@ void cursor_to_right_word(struct estate*);
  * Moves the text cursor multi_lines lines up.
  */
 void cursor_multi_up(struct estate*);
+void cursor_multi_up_select(struct estate*);
 
 /*
  * Moves the text cursor multi_lines lines down.
  */
 void cursor_multi_down(struct estate*);
+void cursor_multi_down_select(struct estate*);
 
 /*
  * Moves the text cursor to start of line
  */
 void cursor_to_l_start(struct estate*);
+void cursor_to_l_start_select(struct estate*);
 
 /*
  * Moves cursor to end of line

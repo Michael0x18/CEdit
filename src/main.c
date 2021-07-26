@@ -23,8 +23,8 @@ bool initialize(struct estate *state) {
 	state->scr_offset = 0;
 	state->scr_line_offset = 0;
 	state->text_color = 0;
-	state->text_highlight_color = 1;
-	state->text_selection_color = 1;
+	state->text_highlight_color = 255;
+	state->text_selection_color = 120;
 	state->text_selection_highlight_color = 30;
 	state->background_color = 255;
 	state->transparent_color = 1;
@@ -36,6 +36,8 @@ bool initialize(struct estate *state) {
 	state->saved=true;
 	state->fonttype = 3;
 	state->font = fontlib_GetFontByIndex("DrMono", state->fonttype);
+	state->clipboard_size = 0;
+	state->clipboard_data = NULL;
 	if (!state->font) {
 		os_ClrHome();
 		os_PutStrFull("E1: Font pack not found.");
@@ -44,7 +46,7 @@ bool initialize(struct estate *state) {
 	}
 	fontlib_SetFont(state->font, 0);
 	fontlib_SetForegroundColor(state->text_color);
-	fontlib_SetTransparency(state->transparent_color);
+	fontlib_SetTransparency(true);
 	fontlib_SetBackgroundColor(state->text_highlight_color);
 	load_text(state);
 	return 0;
