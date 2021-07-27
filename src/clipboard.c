@@ -14,7 +14,7 @@ void cb_copy(struct estate *state) {
 	//fontlib_DrawInt(state->selection_anchor, 5);
 	//ngetchx();
 	if (state->c2 < state->selection_anchor) {
-		start = state->c2;
+		start = state->c2+1;
 		len = state->selection_anchor - state->c2;
 		//left selection
 	} else if (state->c1 > state->selection_anchor) {

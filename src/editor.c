@@ -543,10 +543,10 @@ void editor_mainloop(struct estate *state) {
 void bs(struct estate *state) {
 	if (state->selection_active) {
 		state->selection_active = false;
-		while (state->selection_anchor < state->c1 - 1) {//if selection is to left
+		while (state->selection_anchor < state->c1) {//if selection is to left
 			bs(state);
 		}
-		while (state->selection_anchor > state->c2 + 1) {//if selection is to left
+		while (state->selection_anchor > state->c2) {//if selection is to left
 			del(state);
 		}
 	} else if (state->c1) {
