@@ -407,9 +407,6 @@ void cursor_to_right_word_select(struct estate *state) {
 }
 
 int draw_editor(struct estate *state) {
-	fontlib_SetForegroundColor(state->text_color);
-	fontlib_SetBackgroundColor(state->text_highlight_color);
-	fontlib_SetTransparency(true);
 	gfx_FillScreen(state->background_color);
 	//Initialize temporary variables
 	int24_t i = state->scr_offset;
@@ -517,6 +514,9 @@ int draw_editor(struct estate *state) {
 	fontlib_DrawString(state->named ? state->filename : "Untitled Document");
 	if (!state->saved)
 		fontlib_DrawGlyph('*');
+	fontlib_SetForegroundColor(state->text_color);
+	fontlib_SetBackgroundColor(state->text_highlight_color);
+	fontlib_SetTransparency(true);
 	if (!drawn) {
 		if (state->c1 < state->scr_offset) {
 			scroll_up(state);
