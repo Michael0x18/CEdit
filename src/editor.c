@@ -80,10 +80,10 @@ void cursor_left(struct estate *state) {
 void cursor_left_select(struct estate *state) {
 	if (!state->selection_active) {
 		state->selection_active = true;
-		state->selection_anchor = state->c2 + 1;
+		state->selection_anchor = state->c2;
 	}
-	if (state->c1 - 1 == state->selection_anchor) {
-		state->selection_anchor = state->c2 + 1;
+	if (state->c1 == state->selection_anchor) {
+		state->selection_anchor = state->c2;
 	}
 	if (state->c1 > 0) {
 		if (state->lc_offset == 0) {
@@ -121,10 +121,10 @@ void cursor_right(struct estate *state) {
 void cursor_right_select(struct estate *state) {
 	if (!state->selection_active) {
 		state->selection_active = true;
-		state->selection_anchor = state->c1 - 1;
+		state->selection_anchor = state->c1;
 	}
-	if (state->c2 + 1 == state->selection_anchor) {
-		state->selection_anchor = state->c1 - 1;
+	if (state->c2 == state->selection_anchor) {
+		state->selection_anchor = state->c1;
 	}
 	if (state->c2 < MAX_BUFFER_SIZE - 1) {
 		if (state->lc_offset == state->lines[state->lc1]) {
@@ -453,8 +453,8 @@ int draw_editor(struct estate *state) {
 			continue;
 		}
 		if (state->selection_active
-				&& ((state->selection_anchor < i && i < state->c1)
-						|| (state->selection_anchor > i && i > state->c2))) {
+				&& ((state->selection_anchor <= i && i < state->c1)
+						|| (state->selection_anchor >= i && i > state->c2))) {
 			fontlib_SetForegroundColor(state->text_selection_color);
 			fontlib_SetBackgroundColor(state->text_selection_highlight_color);
 			fontlib_SetTransparency(false);
@@ -523,6 +523,8 @@ int draw_editor(struct estate *state) {
 		gfx_SwapDraw();
 		draw_editor(state);
 	}
+
+	fontlib_DrawInt(state->selection_anchor, 5);
 	return 0;
 }
 
