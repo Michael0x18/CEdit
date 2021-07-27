@@ -31,7 +31,7 @@ bool initialize(struct estate *state) {
 	state->statusbar_text_color = 255;
 	state->statusbar_color = 11;
 	state->border_color = 0;
-	state->dropshadow_color = 11;
+	state->dropshadow_color = 10;
 	strncpy(buf2, state->fontname,10);
 	state->saved=true;
 	state->fonttype = 3;

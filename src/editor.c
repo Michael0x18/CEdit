@@ -407,6 +407,9 @@ void cursor_to_right_word_select(struct estate *state) {
 }
 
 int draw_editor(struct estate *state) {
+	fontlib_SetForegroundColor(state->text_color);
+	fontlib_SetBackgroundColor(state->text_highlight_color);
+	fontlib_SetTransparency(true);
 	gfx_FillScreen(state->background_color);
 	//Initialize temporary variables
 	int24_t i = state->scr_offset;
@@ -622,7 +625,6 @@ void scroll_down(struct estate *state) {
 			cursor_left_select(state);
 		}
 	}
-
 
 }
 
