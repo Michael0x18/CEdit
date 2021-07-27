@@ -37,7 +37,6 @@ bool initialize(struct estate *state) {
 	state->fonttype = 3;
 	state->font = fontlib_GetFontByIndex("DrMono", state->fonttype);
 	state->clipboard_size = 0;
-	state->clipboard_data = NULL;
 	state->corner_radius=10;
 	if (!state->font) {
 		os_ClrHome();
@@ -72,6 +71,8 @@ int main(int argc, char **argv) {
 		while (!os_GetCSC())
 			continue;
 		return 1;
+	}else{
+		//Put a little help blurb
 	}
 	load_text(&editor_state);
 	gfx_Begin();

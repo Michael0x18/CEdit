@@ -58,7 +58,7 @@ struct estate {
 	//Text buffer
 	char text[16385];
 	//Line len buffer
-	int24_t lines[16385];
+	int24_t lines[10000];
 	//A pointer within the line array. Same line as cursor.
 	int24_t lc1;
 	//lc1, but line after the cursor
@@ -102,7 +102,7 @@ struct estate {
 	//Size, in num chars, of the clipboard
 	int24_t clipboard_size;
 	//Data in the clipboard
-	char *clipboard_data;
+	char clipboard_data[10000];
 	//The first point of selection. The other point is the cursor
 	int24_t selection_anchor;
 	//True if the selection is active, otherwise false.
