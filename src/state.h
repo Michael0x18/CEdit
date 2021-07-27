@@ -88,6 +88,7 @@ struct estate {
 	uint8_t statusbar_text_color;
 	uint8_t border_color;
 	uint8_t dropshadow_color;
+	uint8_t focus_color;
 	char fontname[10];
 	int8_t fonttype;
 	fontlib_font_t *font;

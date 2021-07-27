@@ -28,7 +28,7 @@
 #include "dialogs.h"
 #include "gfx.h"
 
-#define CEDIT_VERSION_STRING "CEDIT 0.06 BETA"
+#define CEDIT_VERSION_STRING "CEDIT 0.07 BETA"
 
 /*
  * Main function

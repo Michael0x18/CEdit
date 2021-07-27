@@ -12,13 +12,13 @@ Current features:
  - Powerful: Combinations of modifier keys allow you to type almost all characters.
  - Shell integration: Currently compatible with VYSION and CESIUM through standard argument format.
  - Cut/Copy/Paste
- - Selection
 
 Upcoming features:
 
  - Shell icon
  - File browser
  - Allow multiple text nodes (Unlimited file size; keep 16Kb in memory at one time and swap at end of block)
+ - Selection
  - Customizable colors
  - Customizable fonts
  - Adjust size, spacing, color, etc of dialog boxes

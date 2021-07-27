@@ -7,14 +7,116 @@
 
 #include "dialogs.h"
 
+void show_editor_settings_dialog(struct estate *state) {
+	short k = 0;
+	while (k != KEY_CLEAR) {
+		draw_dialog(state, 40, 40, 240, 160);
+		gfx_SetColor(state->border_color);
+		gfx_HorizLine_NoClip(40, 60, 240);
+		fontlib_SetCursorPosition(100, 45);
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_DrawString("Editor Settings");
+		gfx_SwapDraw();
+		k = ngetchx();
+	}
+}
+
 void show_menu_dialog(struct estate *state) {
-	draw_dialog(state, 20, 20, 280, 200);
-	gfx_SetColor(state->border_color);
-	gfx_HorizLine_NoClip(20, 40, 280);
-	fontlib_SetCursorPosition(104, 25);
-	fontlib_DrawString("CEdit Settings");
-	gfx_SwapDraw();
-	ngetchx();
+	short k = 0;
+	int index = 0;
+	while (k != KEY_CLEAR) {
+		draw_dialog(state, 20, 20, 280, 200);
+		gfx_SetColor(state->border_color);
+		gfx_HorizLine_NoClip(20, 40, 280);
+		fontlib_SetCursorPosition(104, 25);
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_DrawString("CEdit Settings");
+		fontlib_SetCursorPosition(30, 45);
+		if (index == 0) {
+			fontlib_SetForegroundColor(state->focus_color);
+			//fontlib_DrawString(">");
+		}
+		fontlib_DrawString("Editor Settings");
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_SetCursorPosition(30, 60);
+		if (index == 1) {
+			fontlib_SetForegroundColor(state->focus_color);
+			//fontlib_DrawString(">");
+		}
+		fontlib_DrawString("Appearance Settings");
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_SetCursorPosition(30, 75);
+		if (index == 2) {
+			fontlib_SetForegroundColor(state->focus_color);
+			//fontlib_DrawString(">");
+		}
+		fontlib_DrawString("Persistence Settings");
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_SetCursorPosition(30, 90);
+		if (index == 3) {
+			fontlib_SetForegroundColor(state->focus_color);
+			//fontlib_DrawString(">");
+		}
+		fontlib_DrawString("About Cedit");
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_SetCursorPosition(30, 105);
+		if (index == 4) {
+			fontlib_SetForegroundColor(state->focus_color);
+			//fontlib_DrawString(">");
+		}
+		fontlib_DrawString("Keybind information");
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_SetCursorPosition(30, 120);
+		if (index == 5) {
+			fontlib_SetForegroundColor(state->focus_color);
+			//fontlib_DrawString(">");
+		}
+		fontlib_DrawString("Bug report");
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_SetCursorPosition(30, 135);
+		if (index == 6) {
+			fontlib_SetForegroundColor(state->focus_color);
+			//fontlib_DrawString(">");
+		}
+		fontlib_DrawString("Back");
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_SetCursorPosition(30, 150);
+		if (index == 7) {
+			fontlib_SetForegroundColor(state->focus_color);
+			//fontlib_DrawString(">");
+		}
+		fontlib_DrawString("Quit CEdit");
+
+		if (k == KEY_UP) {
+			if (index) {
+				index--;
+			}
+		}
+		if (k == KEY_DOWN) {
+			if (index < 7) {
+				index++;
+			}
+		}
+		if (k == '\n' || k == KEY_RIGHT) {
+			switch (index) {
+			case 0:
+				show_editor_settings_dialog(state);
+				break;
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+				return;
+			case 7:
+				gfx_End();
+				exit(0);
+			}
+		}
+		gfx_SwapDraw();
+		k = ngetchx();
+	}
 }
 
 void draw_dialog(struct estate *state, int x, int y, int w, int h) {
