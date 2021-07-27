@@ -29,7 +29,7 @@ bool initialize(struct estate *state) {
 	state->background_color = 255;
 	state->transparent_color = 1;
 	state->statusbar_text_color = 255;
-	state->statusbar_color = 13;
+	state->statusbar_color = 11;
 	state->border_color = 0;
 	state->dropshadow_color = 11;
 	strncpy(buf2, state->fontname,10);

@@ -39,3 +39,4 @@ void cb_paste(struct estate *state) {
 	}
 }
 
+// size_t os_MemChk(void **free) --> more ram needed?

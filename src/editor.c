@@ -475,7 +475,7 @@ int draw_editor(struct estate *state) {
 			LINE_SPACING * row + LINE_SPACING);
 		}
 	}
-	fontlib_SetForegroundColor(state->text_color);
+	fontlib_SetForegroundColor(state->statusbar_text_color);
 	fontlib_SetBackgroundColor(state->text_highlight_color);
 	fontlib_SetTransparency(true);
 	//Draw statusbars
@@ -524,7 +524,7 @@ int draw_editor(struct estate *state) {
 		draw_editor(state);
 	}
 
-	fontlib_DrawInt(state->selection_anchor, 5);
+	//fontlib_DrawInt(state->selection_anchor, 5);
 	return 0;
 }
 
