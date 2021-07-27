@@ -49,7 +49,7 @@ void show_open_dialog(struct estate*);
 /*
  * Draws the save file dialog
  */
-void show_save_dialog(struct estate*);
+bool show_save_dialog(struct estate*);
 /*
  * Draws the about dialog
  */

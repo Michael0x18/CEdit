@@ -290,14 +290,15 @@ void handle_key(struct estate *state, short k) {
 		case KEY_SAVE_AS:
 			draw_editor(state);
 			gfx_SwapDraw();
-			show_save_dialog(state);
-			write_file(state);
+			if (!show_save_dialog(state))
+				write_file(state);
 			break;
 		case KEY_SAVE:		//save
 			if (!state->named) {
 				draw_editor(state);
 				gfx_SwapDraw();
-				show_save_dialog(state);
+				if (show_save_dialog(state))
+					break;
 			}
 			write_file(state);
 			break;
