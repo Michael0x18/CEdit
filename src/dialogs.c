@@ -97,7 +97,7 @@ void show_menu_dialog(struct estate *state) {
 			case 1:
 			case 2:
 			case 3:
-				//show_about_dialog(state);
+				show_about_dialog(state);
 				break;
 			case 4:
 			case 5:
