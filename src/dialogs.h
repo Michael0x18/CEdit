@@ -29,11 +29,26 @@
 #include "tigcclib.h"
 
 /*
+ * Displays the editor settings:
+ * tabstop, preserve clipboard on exit,
+ * multi_lines
+ */
+void show_editor_settings_dialog(struct estate*);
+
+void show_appearance_settings_dialog(struct estate*);
+
+/*
  * Draws the main menu
  * The main menu will open various sub-dialogs for additional settings/options.
  * They will open on top of each other.
  */
 void show_menu_dialog(struct estate*);
+
+/*
+ * The backend drawing for the menu. Used to restore state after being
+ * damaged by submenus, and for smaller drawing routines.
+ */
+void menu_backend_draw(struct estate *, int);
 
 /*
  * Draws a dialog with an empty background

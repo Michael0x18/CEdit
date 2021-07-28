@@ -21,6 +21,78 @@ void show_editor_settings_dialog(struct estate *state) {
 	}
 }
 
+void show_appearance_settings_dialog(struct estate *state) {
+	short k = 0;
+	int index = 0;
+	while (k != KEY_CLEAR) {
+		draw_dialog(state, 20, 20, 280, 200);
+		gfx_SetColor(state->border_color);
+		gfx_HorizLine_NoClip(20, 40, 280);
+		fontlib_SetCursorPosition(84, 25);
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_DrawString("Appearance Settings");
+		fontlib_SetCursorPosition(99,45);
+		fontlib_SetForegroundColor(index==0?state->focus_color:state->text_color);
+		fontlib_DrawString("Text color");
+
+		fontlib_SetCursorPosition(30,57);
+		fontlib_SetForegroundColor(index==1?state->focus_color:state->text_color);
+		fontlib_DrawString("Text highlight color");
+
+		fontlib_SetCursorPosition(30,69);
+		fontlib_SetForegroundColor(index==2?state->focus_color:state->text_color);
+		fontlib_DrawString("Text selection color");
+
+		fontlib_SetCursorPosition(30,81);
+		fontlib_SetForegroundColor(index==3?state->focus_color:state->text_color);
+		fontlib_DrawString("Text selection highlight color");
+
+		fontlib_SetCursorPosition(30,93);
+		fontlib_SetForegroundColor(index==4?state->focus_color:state->text_color);
+		fontlib_DrawString("Background color");
+
+		fontlib_SetCursorPosition(30,105);
+		fontlib_SetForegroundColor(index==5?state->focus_color:state->text_color);
+		fontlib_DrawString("Transparent color");
+
+		fontlib_SetCursorPosition(30,117);
+		fontlib_SetForegroundColor(index==6?state->focus_color:state->text_color);
+		fontlib_DrawString("Status bar color");
+
+		fontlib_SetCursorPosition(30,129);
+		fontlib_SetForegroundColor(index==7?state->focus_color:state->text_color);
+		fontlib_DrawString("Status bar text color");
+
+		fontlib_SetCursorPosition(30,141);
+		fontlib_SetForegroundColor(index==8?state->focus_color:state->text_color);
+		fontlib_DrawString("Border color");
+
+		fontlib_SetCursorPosition(30,153);
+		fontlib_SetForegroundColor(index==9?state->focus_color:state->text_color);
+		fontlib_DrawString("Drop shadow color");
+
+		fontlib_SetCursorPosition(30,165);
+		fontlib_SetForegroundColor(index==10?state->focus_color:state->text_color);
+		fontlib_DrawString("Focus color");
+
+		gfx_BlitBuffer();
+		k = ngetchx();
+		if(k==KEY_RIGHT || k=='\n'){
+			//launch stuff
+		}
+		if(k==KEY_UP){
+			if(index){
+				index--;
+			}
+		}
+		if(k==KEY_DOWN){
+			if(index<10){
+				index++;
+			}
+		}
+	}
+}
+
 void menu_backend_draw(struct estate *state, int index) {
 	draw_dialog(state, 20, 20, 280, 200);
 	gfx_SetColor(state->border_color);
@@ -95,6 +167,8 @@ void show_menu_dialog(struct estate *state) {
 				show_editor_settings_dialog(state);
 				break;
 			case 1:
+				show_appearance_settings_dialog(state);
+				break;
 			case 2:
 			case 3:
 				show_about_dialog(state);
