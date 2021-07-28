@@ -31,62 +31,97 @@ void show_appearance_settings_dialog(struct estate *state) {
 		fontlib_SetCursorPosition(84, 25);
 		fontlib_SetForegroundColor(state->text_color);
 		fontlib_DrawString("Appearance Settings");
-		fontlib_SetCursorPosition(99,45);
-		fontlib_SetForegroundColor(index==0?state->focus_color:state->text_color);
+		fontlib_SetCursorPosition(45, 45);
+		fontlib_SetForegroundColor(
+				index == 0 ? state->focus_color : state->text_color);
 		fontlib_DrawString("Text color");
 
-		fontlib_SetCursorPosition(30,57);
-		fontlib_SetForegroundColor(index==1?state->focus_color:state->text_color);
+		fontlib_SetCursorPosition(45, 57);
+		fontlib_SetForegroundColor(
+				index == 1 ? state->focus_color : state->text_color);
 		fontlib_DrawString("Text highlight color");
 
-		fontlib_SetCursorPosition(30,69);
-		fontlib_SetForegroundColor(index==2?state->focus_color:state->text_color);
+		fontlib_SetCursorPosition(45, 69);
+		fontlib_SetForegroundColor(
+				index == 2 ? state->focus_color : state->text_color);
 		fontlib_DrawString("Text selection color");
 
-		fontlib_SetCursorPosition(30,81);
-		fontlib_SetForegroundColor(index==3?state->focus_color:state->text_color);
+		fontlib_SetCursorPosition(45, 81);
+		fontlib_SetForegroundColor(
+				index == 3 ? state->focus_color : state->text_color);
 		fontlib_DrawString("Text selection highlight color");
 
-		fontlib_SetCursorPosition(30,93);
-		fontlib_SetForegroundColor(index==4?state->focus_color:state->text_color);
+		fontlib_SetCursorPosition(45, 93);
+		fontlib_SetForegroundColor(
+				index == 4 ? state->focus_color : state->text_color);
 		fontlib_DrawString("Background color");
 
-		fontlib_SetCursorPosition(30,105);
-		fontlib_SetForegroundColor(index==5?state->focus_color:state->text_color);
+		fontlib_SetCursorPosition(45, 105);
+		fontlib_SetForegroundColor(
+				index == 5 ? state->focus_color : state->text_color);
 		fontlib_DrawString("Transparent color");
 
-		fontlib_SetCursorPosition(30,117);
-		fontlib_SetForegroundColor(index==6?state->focus_color:state->text_color);
+		fontlib_SetCursorPosition(45, 117);
+		fontlib_SetForegroundColor(
+				index == 6 ? state->focus_color : state->text_color);
 		fontlib_DrawString("Status bar color");
 
-		fontlib_SetCursorPosition(30,129);
-		fontlib_SetForegroundColor(index==7?state->focus_color:state->text_color);
+		fontlib_SetCursorPosition(45, 129);
+		fontlib_SetForegroundColor(
+				index == 7 ? state->focus_color : state->text_color);
 		fontlib_DrawString("Status bar text color");
 
-		fontlib_SetCursorPosition(30,141);
-		fontlib_SetForegroundColor(index==8?state->focus_color:state->text_color);
+		fontlib_SetCursorPosition(45, 141);
+		fontlib_SetForegroundColor(
+				index == 8 ? state->focus_color : state->text_color);
 		fontlib_DrawString("Border color");
 
-		fontlib_SetCursorPosition(30,153);
-		fontlib_SetForegroundColor(index==9?state->focus_color:state->text_color);
+		fontlib_SetCursorPosition(45, 153);
+		fontlib_SetForegroundColor(
+				index == 9 ? state->focus_color : state->text_color);
 		fontlib_DrawString("Drop shadow color");
 
-		fontlib_SetCursorPosition(30,165);
-		fontlib_SetForegroundColor(index==10?state->focus_color:state->text_color);
+		fontlib_SetCursorPosition(45, 165);
+		fontlib_SetForegroundColor(
+				index == 10 ? state->focus_color : state->text_color);
 		fontlib_DrawString("Focus color");
 
+		gfx_SetColor(state->text_color);
+		gfx_FillRectangle_NoClip(31, 46, 10, 10);
+		gfx_SetColor(state->text_highlight_color);
+		gfx_FillRectangle_NoClip(31, 58, 10, 10);
+		gfx_SetColor(state->text_selection_color);
+		gfx_FillRectangle_NoClip(31, 70, 10, 10);
+		gfx_SetColor(state->text_selection_highlight_color);
+		gfx_FillRectangle_NoClip(31, 82, 10, 10);
+		//sike!
+		//gfx_SetColor(state->background_color);
+		//gfx_FillRectangle_NoClip(31, 94, 10, 10);
+		//Sike!
+		//gfx_SetColor(state->transparent_color);
+		//gfx_FillRectangle_NoClip(31, 106, 10, 10);
+		gfx_SetColor(state->statusbar_color);
+		gfx_FillRectangle_NoClip(31, 118, 10, 10);
+		gfx_SetColor(state->statusbar_text_color);
+		gfx_FillRectangle_NoClip(31, 130, 10, 10);
+		gfx_SetColor(state->border_color);
+		gfx_FillRectangle_NoClip(31, 142, 10, 10);
+		gfx_SetColor(state->dropshadow_color);
+		gfx_FillRectangle_NoClip(31, 154, 10, 10);
+		gfx_SetColor(state->focus_color);
+		gfx_FillRectangle_NoClip(31, 166, 10, 10);
 		gfx_BlitBuffer();
 		k = ngetchx();
-		if(k==KEY_RIGHT || k=='\n'){
+		if (k == KEY_RIGHT || k == '\n') {
 			//launch stuff
 		}
-		if(k==KEY_UP){
-			if(index){
+		if (k == KEY_UP) {
+			if (index) {
 				index--;
 			}
 		}
-		if(k==KEY_DOWN){
-			if(index<10){
+		if (k == KEY_DOWN) {
+			if (index < 10) {
 				index++;
 			}
 		}
