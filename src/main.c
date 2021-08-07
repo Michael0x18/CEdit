@@ -39,6 +39,8 @@ bool initialize(struct estate *state) {
 	state->font = fontlib_GetFontByIndex("DrMono", state->fonttype);
 	state->clipboard_size = 0;
 	state->corner_radius=10;
+	state->eof = 0;
+
 	if (!state->font) {
 		os_ClrHome();
 		os_PutStrFull("E1: Font pack not found.");
@@ -53,6 +55,31 @@ bool initialize(struct estate *state) {
 	return 0;
 }
 
+#ifdef BOS_BUILD
+#include <bos.h>
+int main(int argc, char **argv) {
+	char *args = (char*)argc;
+	static struct estate editor_state;
+
+	if (initialize(&editor_state)) {
+		os_ClrHome();
+		os_PutStrFull("E0: gfx-err");
+		ngetchx();
+		return 1;
+	}
+	editor_state.filename = sys_Malloc(256);
+	//Argument parsing
+	if (*args) {
+		memcpy(editor_state.filename, args, 256);
+		editor_state.named = true;
+	}
+	load_text(&editor_state);
+	gfx_Begin();
+	editor_mainloop(&editor_state);
+	gfx_End();
+	return 0;
+}
+#else
 int main(int argc, char **argv) {
 	static struct estate editor_state;
 
@@ -81,3 +108,4 @@ int main(int argc, char **argv) {
 	gfx_End();
 	return 0;
 }
+#endif

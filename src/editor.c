@@ -36,6 +36,7 @@ void insert_char(struct estate *state, char c) {
 		state->lines[state->lc1]++;
 		state->lc_offset++;
 	}
+	state->eof++;
 }
 
 void line_down(struct estate *state) {
@@ -563,6 +564,7 @@ void bs(struct estate *state) {
 			state->lines[state->lc1]--;
 		}
 		state->c1--;
+		state->eof--;
 	}
 }
 
@@ -583,6 +585,7 @@ void del(struct estate *state) {
 			state->lines[state->lc1]--;
 		}
 		state->c2++;
+		state->eof--;
 	}
 }
 
@@ -673,6 +676,16 @@ void cursor_to_l_end(struct estate *state) {
 }
 
 void load_text(struct estate *state) {
+#ifdef BOS_BUILD
+	void *fd = fs_OpenFile(state->filename);
+	if (fd != -1){
+		char *ptr = fs_GetFDPtr(fd);
+		char *end = &ptr[fs_GetFDLen(fd)];
+		while (ptr < end){
+			insert_char(state, *ptr++);
+		}
+	}
+#else
 	ti_var_t var;
 	ti_CloseAll();
 	var = ti_Open(state->filename, "r");
@@ -683,14 +696,27 @@ void load_text(struct estate *state) {
 	while ((c = ti_GetC(var)) != EOF) {
 		insert_char(state, c);
 	}
+#endif
 }
 
 void write_file(struct estate *state) {
+#ifdef BOS_BUILD
+	if (state->eof > 0) {
+		void *fd = fs_OpenFile(state->filename);
+		if (fd == -1) {
+			fs_WriteNewFile(state->filename, 0, &state->text, state->eof);
+		} else {
+			fs_SetSize(state->eof, fd);
+			fs_WriteFile(&state->text, state->eof, fd);
+		}
+	} else {
+		fs_CreateFile(state->filename, 0, 0);
+	}
+#else
 	ti_var_t var;
-	ti_CloseAll();
-	var = ti_Open(state->filename, "w");
 	int i = 0;
-	while (i < MAX_BUFFER_SIZE) {
+	var = ti_Open(state->filename, "w");
+/* 	while (i < MAX_BUFFER_SIZE) {
 		if (i == state->c1)
 			i = state->c2 + 1;
 		if (i >= MAX_BUFFER_SIZE)
@@ -698,6 +724,13 @@ void write_file(struct estate *state) {
 		ti_PutC(state->text[i], var);
 		i++;
 	}
+ */
+	if (state->eof > 0){
+		ti_Resize(state->eof, var);
+		ti_Write(&state->text, state->eof, 1, var);
+	}
+	ti_Close(var);
+#endif
 	state->saved = true;
 }
 

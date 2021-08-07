@@ -52,13 +52,13 @@ struct estate {
 	//Number of lines multi movements move by
 	int24_t multi_lines;
 	//The file name
+#ifdef BOS_BUILD
+	char *filename;
+#else
 	char filename[10];
+#endif
 	//Whether the file name is user defined
 	bool named;
-	//Text buffer
-	char text[16385];
-	//Line len buffer
-	int24_t lines[10000];
 	//A pointer within the line array. Same line as cursor.
 	int24_t lc1;
 	//lc1, but line after the cursor
@@ -102,12 +102,20 @@ struct estate {
 	bool saved;
 	//Size, in num chars, of the clipboard
 	int24_t clipboard_size;
-	//Data in the clipboard
-	char clipboard_data[10000];
 	//The first point of selection. The other point is the cursor
 	int24_t selection_anchor;
 	//True if the selection is active, otherwise false.
 	bool selection_active;
+	//Current end of file text buffer
+	int24_t eof;
+
+	//These are best put at the end of the struct
+	//Text buffer
+	char text[16385];
+	//Line len buffer
+	int24_t lines[10000];
+	//Data in the clipboard
+	char clipboard_data[10000];
 };
 
 #endif /* SRC_STATE_H_ */
