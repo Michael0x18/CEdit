@@ -1,5 +1,9 @@
 /bin/
 /bosbin/
 /obj/
+<<<<<<< HEAD
+=======
+/bosbin/
+>>>>>>> a2733d9936e6407ef6208361bc49dcbd14415d64
 /bosobj/
 .DS_Store

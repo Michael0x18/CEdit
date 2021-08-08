@@ -3,12 +3,18 @@
  *
  *  Created on: Jul 25, 2021
  *      Author: michael
+ *      Edited for BOS by Beck
  */
 
 #include "cedit.h"
-
+#ifdef BOS_BUILD
+#include <bos.h>
+#endif
 
 bool initialize(struct estate *state) {
+#ifdef BOS_BUILD
+	fontlib_font_pack_t *font;
+#endif
 	char buf1[10]="Untitled";
 	char buf2[10]="DrMono";
 	state->multi_lines = 5;
@@ -35,19 +41,38 @@ bool initialize(struct estate *state) {
 	state->focus_color=142;
 	strncpy(buf2, state->fontname,10);
 	state->saved=true;
-	state->fonttype = 3;
-	state->font = fontlib_GetFontByIndex("DrMono", state->fonttype);
+
 	state->clipboard_size = 0;
 	state->corner_radius=10;
 	state->eof = 0;
 
+	state->font = 0;
+	state->fonttype = 3;
+#ifdef BOS_BUILD
+	if ((font = (fontlib_font_pack_t*)fs_GetFilePtr("/etc/fontlibc/DrMono")) != -1) {
+		if (font->fontCount >= state->fonttype){
+			state->font = font + font->font_list[state->fonttype];
+		}
+	}
 	if (!state->font) {
 		os_ClrHome();
 		os_PutStrFull("E1: Font pack not found.");
-		ngetchx();
 		return 1;
 	}
-	fontlib_SetFont(state->font, 0);
+#else
+	state->font = fontlib_GetFontByIndex("DrMono", state->fonttype);
+
+	if (!state->font) {
+		os_ClrHome();
+		os_PutStrFull("E1: Font pack not found.");
+		return 1;
+	}
+#endif
+	if (!fontlib_SetFont(state->font, 0)){
+		os_ClrHome();
+		os_PutStrFull("E2: Font pack Invalid.");
+		return 1;
+	}
 	fontlib_SetForegroundColor(state->text_color);
 	fontlib_SetTransparency(true);
 	fontlib_SetBackgroundColor(state->text_highlight_color);
@@ -56,7 +81,6 @@ bool initialize(struct estate *state) {
 }
 
 #ifdef BOS_BUILD
-#include <bos.h>
 int main(int argc, char **argv) {
 	char *args = (char*)argc;
 	static struct estate editor_state;
