@@ -15,8 +15,8 @@ bool initialize(struct estate *state) {
 #ifdef BOS_BUILD
 	fontlib_font_pack_t *font;
 #endif
-	char buf1[10]="Untitled";
-	char buf2[10]="DrMono";
+	char buf1[10] = "Untitled";
+	char buf2[10] = "DrMono";
 	state->multi_lines = 5;
 	strncpy(buf1, state->filename, 10);
 	state->named = false;
@@ -38,12 +38,12 @@ bool initialize(struct estate *state) {
 	state->statusbar_color = 11;
 	state->border_color = 0;
 	state->dropshadow_color = 10;
-	state->focus_color=142;
-	strncpy(buf2, state->fontname,10);
-	state->saved=true;
+	state->focus_color = 142;
+	strncpy(buf2, state->fontname, 10);
+	state->saved = true;
 
 	state->clipboard_size = 0;
-	state->corner_radius=10;
+	state->corner_radius = 10;
 	state->eof = 0;
 
 	state->font = 0;
@@ -54,21 +54,15 @@ bool initialize(struct estate *state) {
 			state->font = ((void*)font) + font->font_list[state->fonttype];
 		}
 	}
-	if (!state->font) {
-		os_ClrHome();
-		os_PutStrFull("E1: Font pack not found.");
-		return 1;
-	}
 #else
 	state->font = fontlib_GetFontByIndex("DrMono", state->fonttype);
-
+#endif
 	if (!state->font) {
 		os_ClrHome();
 		os_PutStrFull("E1: Font pack not found.");
 		return 1;
 	}
-#endif
-	if (!fontlib_SetFont(state->font, 0)){
+	if (!fontlib_SetFont(state->font, 0)) {
 		os_ClrHome();
 		os_PutStrFull("E2: Font pack Invalid.");
 		return 1;
@@ -123,7 +117,7 @@ int main(int argc, char **argv) {
 		while (!os_GetCSC())
 			continue;
 		return 1;
-	}else{
+	} else {
 		//Put a little help blurb
 	}
 	load_text(&editor_state);
