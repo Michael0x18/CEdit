@@ -317,10 +317,12 @@ bool show_save_dialog(struct estate *state) {
 	int numchars = 0;
 #ifdef BOS_BUILD
 	char buffer[256];
+	memset(buffer, 0, 256);
 #else
 	char buffer[9];
+	memset(buffer, 0, 9);
 #endif
-	memset(buffer, 0, 256);
+
 	int cx = 52;
 	while (true) {
 		draw_dialog(state, 20, 60, 280, 100);

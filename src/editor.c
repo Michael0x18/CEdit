@@ -401,7 +401,7 @@ void cursor_to_l_end_select(struct estate *state) {
 }
 
 void cursor_to_left_word_select(struct estate *state) {
-
+	//while(state->eof)
 }
 
 void cursor_to_right_word_select(struct estate *state) {
@@ -716,7 +716,7 @@ void write_file(struct estate *state) {
 	ti_var_t var;
 	int i = 0;
 	var = ti_Open(state->filename, "w");
-/* 	while (i < MAX_BUFFER_SIZE) {
+ 	while (i < MAX_BUFFER_SIZE) {
 		if (i == state->c1)
 			i = state->c2 + 1;
 		if (i >= MAX_BUFFER_SIZE)
@@ -724,11 +724,12 @@ void write_file(struct estate *state) {
 		ti_PutC(state->text[i], var);
 		i++;
 	}
- */
+ /*
 	if (state->eof > 0){
 		ti_Resize(state->eof, var);
 		ti_Write(&state->text, state->eof, 1, var);
 	}
+	*/
 	ti_Close(var);
 #endif
 	state->saved = true;
