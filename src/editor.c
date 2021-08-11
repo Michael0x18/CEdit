@@ -36,7 +36,6 @@ void insert_char(struct estate *state, char c) {
 		state->lines[state->lc1]++;
 		state->lc_offset++;
 	}
-	state->eof++;
 }
 
 void line_down(struct estate *state) {
@@ -564,7 +563,6 @@ void bs(struct estate *state) {
 			state->lines[state->lc1]--;
 		}
 		state->c1--;
-		state->eof--;
 	}
 }
 
@@ -585,7 +583,6 @@ void del(struct estate *state) {
 			state->lines[state->lc1]--;
 		}
 		state->c2++;
-		state->eof--;
 	}
 }
 
@@ -700,22 +697,23 @@ void load_text(struct estate *state) {
 }
 
 void write_file(struct estate *state) {
+	int fullsize = state->c1 + MAX_BUFFER_SIZE - (state->c2 + 1);
 #ifdef BOS_BUILD
-	if (state->eof > 0) {
-		void *fd = fs_OpenFile(state->filename);
-		if (fd == -1) {
-			fs_WriteNewFile(state->filename, 0, &state->text, state->eof);
-		} else {
-			fs_SetSize(state->eof, fd);
-			fs_WriteFile(&state->text, state->eof, fd);
-		}
+	void *fd = fs_OpenFile(state->filename);
+	if (fd == -1) {
+		fd = fs_CreateFile(state->filename, 0, fullsize);
 	} else {
-		fs_CreateFile(state->filename, 0, 0);
+		fs_SetSize(fullsize, fd);
+	}
+	if (fullsize > 0) {
+		fs_Write(&state->text, state->c1, 1, fd, 0);
+		fs_Write(&state->text[state->c2 + 1], MAX_BUFFER_SIZE - (state->c2 + 1), 1, fd, state->c1);
 	}
 #else
 	ti_var_t var;
 	int i = 0;
 	var = ti_Open(state->filename, "w");
+ 	ti_Resize(fullsize, var); //makes saving a lot faster due to only needing to resize the variable once
 	while (i < MAX_BUFFER_SIZE) {
 		if (i == state->c1)
 			i = state->c2 + 1;
