@@ -353,20 +353,20 @@ bool show_save_dialog(struct estate *state) {
 				return true;
 			}
 			state->named = true;
-			#ifdef BOS_BUILD
+#ifdef BOS_BUILD
 			strncpy(state->filename, buffer, 256);
 			#else
 			strncpy(state->filename, buffer, 8);
-			#endif
+#endif
 			return false;
 		}
 		if (!is_control(k)) {
-			#ifdef BOS_BUILD
+#ifdef BOS_BUILD
 			if (numchars < 255)
 			#else
 			if (numchars < 8)
-			#endif
-			{
+#endif
+					{
 				buffer[numchars] = k;
 				numchars++;
 			}
