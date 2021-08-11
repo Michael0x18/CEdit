@@ -44,7 +44,6 @@ bool initialize(struct estate *state) {
 
 	state->clipboard_size = 0;
 	state->corner_radius = 10;
-	state->eof = 0;
 
 	state->font = 0;
 	state->fonttype = 3;

@@ -106,8 +106,6 @@ struct estate {
 	int24_t selection_anchor;
 	//True if the selection is active, otherwise false.
 	bool selection_active;
-	//Current end of file text buffer
-	int24_t eof;
 
 	//These are best put at the end of the struct
 	//Text buffer

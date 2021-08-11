@@ -312,7 +312,6 @@ void show_open_dialog(struct estate *state) {
 
 //1 means canceled
 bool show_save_dialog(struct estate *state) {
-	int saved_eof = state->eof;
 	short k = 0;
 	int numchars = 0;
 #ifdef BOS_BUILD
@@ -344,11 +343,9 @@ bool show_save_dialog(struct estate *state) {
 		gfx_BlitBuffer();
 		k = ngetchx_xy(state, cx, 112);
 		if (k == KEY_CLEAR) {
-			state->eof = saved_eof;
 			return true;
 		}
 		if (k == '\n') {
-			state->eof = saved_eof;
 			if (!numchars) {
 				return true;
 			}

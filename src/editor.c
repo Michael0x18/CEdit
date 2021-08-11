@@ -701,13 +701,13 @@ void write_file(struct estate *state) {
 #ifdef BOS_BUILD
 	void *fd = fs_OpenFile(state->filename);
 	if (fd == -1) {
-		fs_CreateFile(state->filename, 0, fullsize);
+		fd = fs_CreateFile(state->filename, 0, fullsize);
 	} else {
 		fs_SetSize(fullsize, fd);
 	}
 	if (fullsize > 0) {
-		fs_Write(state->text, state->c1 - 1, 1, fd, 0);
-		fs_Write(&state->text[state->c2 + 1], MAX_BUFFER_SIZE - (state->c2 + 1), 1, fd, state->c1 - 1);
+		fs_Write(&state->text, state->c1, 1, fd, 0);
+		fs_Write(&state->text[state->c2 + 1], MAX_BUFFER_SIZE - (state->c2 + 1), 1, fd, state->c1);
 	}
 #else
 	ti_var_t var;
