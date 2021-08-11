@@ -697,8 +697,8 @@ void load_text(struct estate *state) {
 }
 
 void write_file(struct estate *state) {
-#ifdef BOS_BUILD
 	int fullsize = state->c1 + MAX_BUFFER_SIZE - (state->c2 + 1);
+#ifdef BOS_BUILD
 	void *fd = fs_OpenFile(state->filename);
 	if (fd == -1) {
 		fs_CreateFile(state->filename, 0, fullsize);
@@ -707,13 +707,14 @@ void write_file(struct estate *state) {
 	}
 	if (fullsize > 0) {
 		fs_Write(state->text, state->c1 - 1, 1, fd, 0);
-		fs_Write(state->text[state->c2], MAX_BUFFER_SIZE - (state->c2 + 1), 1, fd, state->c1 - 1);
+		fs_Write(&state->text[state->c2 + 1], MAX_BUFFER_SIZE - (state->c2 + 1), 1, fd, state->c1 - 1);
 	}
 #else
 	ti_var_t var;
 	int i = 0;
 	var = ti_Open(state->filename, "w");
- 	while (i < MAX_BUFFER_SIZE) {
+ 	ti_Resize(fullsize, var); //makes saving a lot faster due to only needing to resize the variable once
+	while (i < MAX_BUFFER_SIZE) {
 		if (i == state->c1)
 			i = state->c2 + 1;
 		if (i >= MAX_BUFFER_SIZE)
