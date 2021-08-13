@@ -47,6 +47,7 @@ bool initialize(struct estate *state) {
 
 	state->font = 0;
 	state->fonttype = 3;
+	state->text=malloc_noheap(65536);
 #ifdef BOS_BUILD
 	if ((font = (fontlib_font_pack_t*)fs_GetFilePtr("/etc/fontlibc/DrMono")) != -1) {
 		if (font->fontCount >= state->fonttype){

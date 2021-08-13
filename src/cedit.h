@@ -27,6 +27,7 @@
 #include "editor.h"
 #include "dialogs.h"
 #include "gfx.h"
+#include "libmalloc.h"
 
 #define CEDIT_VERSION_STRING "CEDIT 0.07 BETA"
 

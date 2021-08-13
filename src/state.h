@@ -109,7 +109,9 @@ struct estate {
 
 	//These are best put at the end of the struct
 	//Text buffer
-	char text[16385];
+	//char text[16385];
+	//Gonna make it 64Kb.
+	char* text;
 	//Line len buffer
 	int24_t lines[10000];
 	//Data in the clipboard
