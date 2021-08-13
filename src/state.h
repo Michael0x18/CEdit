@@ -25,7 +25,7 @@
 /*
  * The max chars in the buffer
  */
-#define MAX_BUFFER_SIZE 16384
+#define MAX_BUFFER_SIZE 65536
 
 /*
  * The default font width
