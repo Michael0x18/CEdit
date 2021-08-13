@@ -13,7 +13,6 @@
 #include <fontlibc.h>
 
 #include "libmalloc.h"
-#ifndef BOS_BUILD
 void* malloc_noheap(size_t size){
 	static int24_t currentsize;
 	static int24_t maxsize;
@@ -30,10 +29,3 @@ void* malloc_noheap(size_t size){
 	return ret;
 
 }
-#else
-
-void* malloc_noheap(size_t size){
-	//TODO: Beck?
-}
-
-#endif

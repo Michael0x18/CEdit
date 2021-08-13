@@ -47,7 +47,11 @@ bool initialize(struct estate *state) {
 
 	state->font = 0;
 	state->fonttype = 3;
+#ifndef BOS_BUILD
 	state->text=malloc_noheap(65536);
+#else
+	//BOS toolchain is okay with more than 64Kb, so just use static buffer
+#endif
 #ifdef BOS_BUILD
 	if ((font = (fontlib_font_pack_t*)fs_GetFilePtr("/etc/fontlibc/DrMono")) != -1) {
 		if (font->fontCount >= state->fonttype){
