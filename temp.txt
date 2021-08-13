@@ -1,0 +1,2 @@
+os_MemChk
+^^^^^^^^^use that for text buffer; allow editing up to 64kb
