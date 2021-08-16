@@ -203,6 +203,7 @@ void cursor_up_select(struct estate *state) {
 
 void cursor_down(struct estate *state) {
 	if (state->selection_active) {
+		state->selection_active=0;
 		cursor_down(state);
 	}
 	if (state->lines[state->lc1] - state->lc_offset > NUM_COLS) {
