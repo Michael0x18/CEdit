@@ -31,3 +31,5 @@ Upcoming features:
  - Help menu
  - Search and/or replace
  - Hex editor mode?
+
+For usage information, please see the CEdit manual: https://github.com/Michael0x18/CEdit/blob/master/cedit.pdf
