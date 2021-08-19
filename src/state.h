@@ -25,7 +25,11 @@
 /*
  * The max chars in the buffer
  */
+#ifdef BOS_BUILD
 #define MAX_BUFFER_SIZE 65536
+#else
+#define MAX_BUFFER_SIZE 16384//65536
+#endif
 
 /*
  * The default font width

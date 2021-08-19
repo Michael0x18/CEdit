@@ -715,14 +715,16 @@ void write_file(struct estate *state) {
 	int i = 0;
 	var = ti_Open(state->filename, "w");
  	ti_Resize(fullsize, var); //makes saving a lot faster due to only needing to resize the variable once
-	while (i < MAX_BUFFER_SIZE) {
+	ti_Write(state->text,state->c1,1,var);
+	ti_Write(state->text+state->c2,MAX_BUFFER_SIZE-(state->c2+1),1,var);
+	/*while (i < MAX_BUFFER_SIZE) {
 		if (i == state->c1)
 			i = state->c2 + 1;
 		if (i >= MAX_BUFFER_SIZE)
 			break;
 		ti_PutC(state->text[i], var);
 		i++;
-	}
+	}*/
 	/*
 	 if (state->eof > 0){
 	 ti_Resize(state->eof, var);

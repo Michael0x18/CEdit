@@ -48,7 +48,9 @@ bool initialize(struct estate *state) {
 	state->font = 0;
 	state->fonttype = 3;
 #ifndef BOS_BUILD
-	state->text=malloc_noheap(65536);
+	//state->text=malloc_noheap(MAX_BUFFER_SIZE);
+	state->text = malloc(MAX_BUFFER_SIZE);
+	//Temporary workaround to avoid buffer being yeeted by fileIO.
 #else
 	//BOS toolchain is okay with more than 64Kb, so just use static buffer
 #endif
