@@ -735,4 +735,3 @@ void write_file(struct estate *state) {
 #endif
 	state->saved = true;
 }
-
