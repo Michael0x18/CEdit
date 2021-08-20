@@ -115,11 +115,7 @@ struct estate {
 	//Text buffer
 	//char text[16385];
 	//Gonna make it 64Kb.
-#ifndef BOS_BUILD
-	char* text;
-#else
-	char text[65536];
-#endif
+	char text[MAX_BUFFER_SIZE];
 	//Line len buffer
 	int24_t lines[10000];
 	//Data in the clipboard
