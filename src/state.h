@@ -89,7 +89,11 @@ struct estate {
 	uint8_t border_color;
 	uint8_t dropshadow_color;
 	uint8_t focus_color;
+#ifdef BOS_BUILD
+	char *fontname;
+#else
 	char fontname[10];
+#endif
 	int8_t fonttype;
 	fontlib_font_t *font;
 	//the radius for rounded corners on dialogs.

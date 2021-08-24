@@ -9,16 +9,16 @@
 #include "cedit.h"
 #ifdef BOS_BUILD
 #include <bos.h>
+void gui_PrintLine_wrapper(const char *str);
 #endif
 
 bool initialize(struct estate *state) {
 #ifdef BOS_BUILD
 	fontlib_font_pack_t *font;
+#else
+	char fontname[10] = "DrMono";
 #endif
-	char buf1[10] = "Untitled";
-	char buf2[10] = "DrMono";
 	state->multi_lines = 5;
-	strncpy(buf1, state->filename, 10);
 	state->named = false;
 	state->lc1 = 0;
 	state->lc2 = MAX_BUFFER_SIZE - 1;
@@ -39,7 +39,11 @@ bool initialize(struct estate *state) {
 	state->border_color = 0;
 	state->dropshadow_color = 10;
 	state->focus_color = 142;
-	strncpy(buf2, state->fontname, 10);
+#ifdef BOS_BUILD
+	if (!state->fontname) state->fontname = "/etc/fontlibc/DrMono";
+#else
+	strncpy(state->fontname, fontname, 10);
+#endif
 	state->saved = true;
 
 	state->clipboard_size = 0;
@@ -48,7 +52,7 @@ bool initialize(struct estate *state) {
 	state->font = 0;
 	state->fonttype = 3;
 #ifdef BOS_BUILD
-	if ((font = (fontlib_font_pack_t*)fs_GetFilePtr("/etc/fontlibc/DrMono")) != -1) {
+	if ((font = (fontlib_font_pack_t*)fs_GetFilePtr(state->fontname)) != -1) {
 		if (font->fontCount >= state->fonttype){
 			state->font = ((void*)font) + font->font_list[state->fonttype];
 		}
@@ -74,20 +78,23 @@ bool initialize(struct estate *state) {
 }
 
 #ifdef BOS_BUILD
-int main(int argc, char **argv) {
-	char *args = (char*)argc;
+int main(int argc, char *argv[]) {
 	static struct estate editor_state;
 
 	if (initialize(&editor_state)) {
-		os_ClrHome();
-		os_PutStrFull("E0: gfx-err");
+		gui_PrintLine_wrapper("E0: gfx-err");
 		ngetchx();
 		return 1;
 	}
 	editor_state.filename = sys_Malloc(256);
 	//Argument parsing
-	if (*args) {
-		memcpy(editor_state.filename, args, 256);
+	if (argc > 1) {
+		if (argc > 2) {
+			editor_state.fontname = argv[2];
+		} else {
+			editor_state.fontname = 0;
+		}
+		memcpy(editor_state.filename, argv[1], 256);
 		editor_state.named = true;
 	}
 	load_text(&editor_state);
@@ -97,7 +104,7 @@ int main(int argc, char **argv) {
 	return 0;
 }
 #else
-int main(int argc, char **argv) {
+int main(int argc, char *argv[]) {
 	static struct estate editor_state;
 
 	if (initialize(&editor_state)) {
