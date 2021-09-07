@@ -120,6 +120,7 @@ struct estate {
 	int24_t lines[10000];
 	//Data in the clipboard
 	char clipboard_data[10000];
+	bool autoarchive;
 };
 
 #endif /* SRC_STATE_H_ */
