@@ -243,15 +243,15 @@ void show_persistence_dialog(struct estate *state)
 	short k = 0;
 	draw_dialog(state, 20, 20, 280, 200);
 	gfx_SetColor(state->border_color);
-	gfx_HorizLine_NoClip(40, 60, 240);
-	fontlib_SetCursorPosition(100, 45);
+	gfx_HorizLine_NoClip(20, 40, 280);
+	fontlib_SetCursorPosition(100, 25);
 	fontlib_SetForegroundColor(state->text_color);
 	fontlib_DrawString("Persistance Settings");
-	fontlib_SetCursorPosition(31, 62);
+	fontlib_SetCursorPosition(31, 42);
 	fontlib_DrawString("Changing settings graphically");
-	fontlib_SetCursorPosition(31, 74);
+	fontlib_SetCursorPosition(31, 54);
 	fontlib_DrawString("is not supported currently.");
-	fontlib_SetCursorPosition(31,86);
+	fontlib_SetCursorPosition(31,66);
 	fontlib_DrawString("Please edit CEDITRC");
 	gfx_BlitBuffer();
 	k = ngetchx();
@@ -275,6 +275,7 @@ void show_menu_dialog(struct estate *state)
 				break;
 			case 2:
 				show_persistence_dialog(state);
+				break;
 			case 3:
 				show_about_dialog(state);
 				break;
@@ -282,6 +283,7 @@ void show_menu_dialog(struct estate *state)
 				show_keybind_dialog(state);
 				break;
 			case 5:
+				break;
 			case 6:
 				return;
 			case 7:
