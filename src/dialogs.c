@@ -10,14 +10,18 @@
 void show_editor_settings_dialog(struct estate *state)
 {
 	short k = 0;
-	draw_dialog(state, 40, 40, 240, 160);
+	draw_dialog(state, 20, 20, 280, 200);
 	gfx_SetColor(state->border_color);
 	gfx_HorizLine_NoClip(40, 60, 240);
 	fontlib_SetCursorPosition(100, 45);
 	fontlib_SetForegroundColor(state->text_color);
 	fontlib_DrawString("Editor Settings");
 	fontlib_SetCursorPosition(31, 62);
-	fontlib_DrawString("Currently unimplemented.");
+	fontlib_DrawString("Changing settings graphically");
+	fontlib_SetCursorPosition(31, 74);
+	fontlib_DrawString("is not supported currently.");
+	fontlib_SetCursorPosition(31,86);
+	fontlib_DrawString("Please edit CEDITRC");
 	gfx_BlitBuffer();
 	k = ngetchx();
 }
@@ -158,6 +162,9 @@ void show_appearance_settings_dialog(struct estate *state)
 	}
 }
 
+/*
+ * Draws the main menu given the state parameters and the selection index
+ */
 void menu_backend_draw(struct estate *state, int index)
 {
 	draw_dialog(state, 20, 20, 280, 200);
@@ -231,8 +238,23 @@ void menu_backend_draw(struct estate *state, int index)
 	fontlib_DrawString("Quit CEdit");
 }
 
-void show_persistance_dialog(struct estate *state)
+void show_persistence_dialog(struct estate *state)
 {
+	short k = 0;
+	draw_dialog(state, 20, 20, 280, 200);
+	gfx_SetColor(state->border_color);
+	gfx_HorizLine_NoClip(40, 60, 240);
+	fontlib_SetCursorPosition(100, 45);
+	fontlib_SetForegroundColor(state->text_color);
+	fontlib_DrawString("Persistance Settings");
+	fontlib_SetCursorPosition(31, 62);
+	fontlib_DrawString("Changing settings graphically");
+	fontlib_SetCursorPosition(31, 74);
+	fontlib_DrawString("is not supported currently.");
+	fontlib_SetCursorPosition(31,86);
+	fontlib_DrawString("Please edit CEDITRC");
+	gfx_BlitBuffer();
+	k = ngetchx();
 }
 
 void show_menu_dialog(struct estate *state)
