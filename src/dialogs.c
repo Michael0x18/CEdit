@@ -7,21 +7,83 @@
 
 #include "dialogs.h"
 
+uint8_t show_color_selection_dialog(struct estate *state, uint8_t current_value)
+{
+	short k = 0;
+	uint8_t temp_transparent_color = state->transparent_color;
+	short index = current_value;
+	while (k != KEY_CLEAR)
+	{
+		state->transparent_color = temp_transparent_color;
+		draw_dialog(state, 20, 20, 280, 200);
+		gfx_SetColor(state->border_color);
+		gfx_HorizLine_NoClip(20, 40, 280);
+		fontlib_SetCursorPosition(110, 25);
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_DrawString("Select Color");
+		fontlib_SetCursorPosition(31, 42);
+		fontlib_DrawString("Selected: ");
+		fontlib_DrawUInt(index, 1);
+		state->transparent_color = state->background_color;
+		const int J_MAX = 8;
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 32; j++)
+			{
+				gfx_SetColor(32 * i + j);
+				gfx_FillRectangle_NoClip(32 + 8 * j, 72 + 8 * i, 8, 8);
+			}
+		}
+		gfx_SetColor(state->border_color);
+		gfx_Rectangle_NoClip(32 + 8 * (index % 32), 72 + 8 * (index >> 5), 8, 8);
+		gfx_Rectangle_NoClip(31 + 8 * (index % 32), 71 + 8 * (index >> 5), 10, 10);
+		gfx_BlitBuffer();
+		k = ngetchx();
+		if (k == KEY_CLEAR)
+		{
+			return current_value;
+		}
+		if (k == KEY_RIGHT)
+		{
+			index++;
+		}
+		if (k == KEY_LEFT)
+		{
+			index--;
+		}
+		if (k == KEY_UP)
+		{
+			index -= 256 / J_MAX;
+		}
+		if (k == KEY_DOWN)
+		{
+			index += 256 / J_MAX;
+		}
+		if (k == '\n')
+		{
+			state->transparent_color = temp_transparent_color;
+			return index;
+		}
+		index += 256;
+		index %= 256;
+	}
+}
+
 void show_editor_settings_dialog(struct estate *state)
 {
 	short k = 0;
 	draw_dialog(state, 20, 20, 280, 200);
 	gfx_SetColor(state->border_color);
-	gfx_HorizLine_NoClip(40, 60, 240);
-	fontlib_SetCursorPosition(100, 45);
+	gfx_HorizLine_NoClip(20, 40, 280);
+	fontlib_SetCursorPosition(100, 25);
 	fontlib_SetForegroundColor(state->text_color);
 	fontlib_DrawString("Editor Settings");
-	fontlib_SetCursorPosition(31, 62);
-	fontlib_DrawString("Changing settings graphically");
-	fontlib_SetCursorPosition(31, 74);
-	fontlib_DrawString("is not supported currently.");
-	fontlib_SetCursorPosition(31,86);
-	fontlib_DrawString("Please edit CEDITRC");
+	fontlib_SetCursorPosition(31, 42);
+	fontlib_DrawString("Changing settings graphically is");
+	fontlib_SetCursorPosition(31, 54);
+	fontlib_DrawString("not currently supported.");
+	fontlib_SetCursorPosition(31, 66);
+	fontlib_DrawString("Please edit CEDITRC instead.");
 	gfx_BlitBuffer();
 	k = ngetchx();
 }
@@ -32,16 +94,187 @@ void show_keybind_dialog(struct estate *state)
 	draw_dialog(state, 40, 40, 240, 160);
 	gfx_SetColor(state->border_color);
 	gfx_HorizLine_NoClip(40, 60, 240);
-	fontlib_SetCursorPosition(100, 45);
+	fontlib_SetCursorPosition(80, 45);
 	fontlib_SetForegroundColor(state->text_color);
 	fontlib_DrawString("Keybind Information");
-	fontlib_SetCursorPosition(31, 62);
-	fontlib_DrawString("See the documentation online.");
+	fontlib_SetCursorPosition(51, 62);
+	fontlib_DrawString("Press [CLEAR] to quit.");
+	fontlib_SetCursorPosition(51, 74);
+	fontlib_DrawString("Hold modifiers like 2nd.");
+	fontlib_SetCursorPosition(51, 86);
+	fontlib_DrawString("See docs for more info.");
 	gfx_BlitBuffer();
 	k = ngetchx();
 }
 
 void show_appearance_settings_dialog(struct estate *state)
+{
+	short k = 0;
+	int index = 0;
+	while (k != KEY_CLEAR)
+	{
+		draw_dialog(state, 20, 20, 280, 200);
+		gfx_SetColor(state->border_color);
+		gfx_HorizLine_NoClip(20, 40, 280);
+		fontlib_SetCursorPosition(84, 25);
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_DrawString("Appearance Settings");
+
+		fontlib_SetCursorPosition(45, 45);
+		fontlib_SetForegroundColor(
+			index == 0 ? state->focus_color : state->text_color);
+		fontlib_DrawString("Text color");
+
+		fontlib_SetCursorPosition(45, 57);
+		fontlib_SetForegroundColor(
+			index == 1 ? state->focus_color : state->text_color);
+		fontlib_DrawString("Text highlight color");
+
+		fontlib_SetCursorPosition(45, 69);
+		fontlib_SetForegroundColor(
+			index == 2 ? state->focus_color : state->text_color);
+		fontlib_DrawString("Text selection color");
+
+		fontlib_SetCursorPosition(45, 81);
+		fontlib_SetForegroundColor(
+			index == 3 ? state->focus_color : state->text_color);
+		fontlib_DrawString("Text selection highlight color");
+
+		fontlib_SetCursorPosition(45, 93);
+		fontlib_SetForegroundColor(
+			index == 4 ? state->focus_color : state->text_color);
+		fontlib_DrawString("Background color");
+
+		fontlib_SetCursorPosition(45, 105);
+		fontlib_SetForegroundColor(
+			index == 5 ? state->focus_color : state->text_color);
+		fontlib_DrawString("Transparent color");
+
+		fontlib_SetCursorPosition(45, 117);
+		fontlib_SetForegroundColor(
+			index == 6 ? state->focus_color : state->text_color);
+		fontlib_DrawString("Status bar color");
+
+		fontlib_SetCursorPosition(45, 129);
+		fontlib_SetForegroundColor(
+			index == 7 ? state->focus_color : state->text_color);
+		fontlib_DrawString("Status bar text color");
+
+		fontlib_SetCursorPosition(45, 141);
+		fontlib_SetForegroundColor(
+			index == 8 ? state->focus_color : state->text_color);
+		fontlib_DrawString("Border color");
+
+		fontlib_SetCursorPosition(45, 153);
+		fontlib_SetForegroundColor(
+			index == 9 ? state->focus_color : state->text_color);
+		fontlib_DrawString("Drop shadow color");
+
+		fontlib_SetCursorPosition(45, 165);
+		fontlib_SetForegroundColor(
+			index == 10 ? state->focus_color : state->text_color);
+		fontlib_DrawString("Focus color");
+
+		gfx_SetColor(state->text_color);
+		gfx_FillRectangle_NoClip(31, 46, 10, 10);
+		gfx_SetColor(state->text_highlight_color);
+		gfx_FillRectangle_NoClip(31, 58, 10, 10);
+		gfx_SetColor(state->text_selection_color);
+		gfx_FillRectangle_NoClip(31, 70, 10, 10);
+		gfx_SetColor(state->text_selection_highlight_color);
+		gfx_FillRectangle_NoClip(31, 82, 10, 10);
+		//sike!
+		//gfx_SetColor(state->background_color);
+		//gfx_FillRectangle_NoClip(31, 94, 10, 10);
+		//Sike!
+		//gfx_SetColor(state->transparent_color);
+		//gfx_FillRectangle_NoClip(31, 106, 10, 10);
+		gfx_SetColor(state->statusbar_color);
+		gfx_FillRectangle_NoClip(31, 118, 10, 10);
+		gfx_SetColor(state->statusbar_text_color);
+		gfx_FillRectangle_NoClip(31, 130, 10, 10);
+		gfx_SetColor(state->border_color);
+		gfx_FillRectangle_NoClip(31, 142, 10, 10);
+		gfx_SetColor(state->dropshadow_color);
+		gfx_FillRectangle_NoClip(31, 154, 10, 10);
+		gfx_SetColor(state->focus_color);
+		gfx_FillRectangle_NoClip(31, 166, 10, 10);
+
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_SetCursorPosition(31, 178);
+		fontlib_DrawString("These settings are temporary.");
+		fontlib_SetCursorPosition(31, 190);
+		fontlib_DrawString("Edit CEDITRC to make changes");
+		fontlib_SetCursorPosition(31, 202);
+		fontlib_DrawString("permanent.");
+
+		gfx_BlitBuffer();
+		k = ngetchx();
+		if (k == KEY_RIGHT || k == '\n')
+		{
+			switch (index)
+			{
+			case 0:
+				state->text_color = show_color_selection_dialog(state, state->text_color);
+				/*gfx_FillScreen(255);
+				fontlib_SetForegroundColor(state->text_color);
+				fontlib_SetCursorPosition(0,0);
+				fontlib_DrawUInt(state->text_color,1);
+				gfx_BlitBuffer();
+				ngetchx();*/
+				break;
+			case 1:
+				state->text_highlight_color = show_color_selection_dialog(state, state->text_highlight_color);
+				break;
+			case 2:
+				state->text_selection_color = show_color_selection_dialog(state, state->text_selection_color);
+				break;
+			case 3:
+				state->text_selection_highlight_color = show_color_selection_dialog(state, state->text_selection_highlight_color);
+				break;
+			case 4:
+				state->background_color = show_color_selection_dialog(state, state->background_color);
+				break;
+			case 5:
+				state->transparent_color = show_color_selection_dialog(state, state->transparent_color);
+				break;
+			case 6:
+				state->statusbar_color = show_color_selection_dialog(state, state->statusbar_color);
+				break;
+			case 7:
+				state->statusbar_text_color = show_color_selection_dialog(state, state->statusbar_text_color);
+				break;
+			case 8:
+				state->border_color = show_color_selection_dialog(state, state->border_color);
+				break;
+			case 9:
+				state->dropshadow_color = show_color_selection_dialog(state, state->dropshadow_color);
+				break;
+			case 10:
+				state->focus_color = show_color_selection_dialog(state, state->focus_color);
+				break;
+
+			}
+		}
+		if (k == KEY_UP)
+		{
+			if (index)
+			{
+				index--;
+			}
+		}
+		if (k == KEY_DOWN)
+		{
+			if (index < 10)
+			{
+				index++;
+			}
+		}
+	}
+}
+
+//TODO embed color picker in dialog
+void show_appearance_settings_dialog_nocolor(struct estate *state)
 {
 	short k = 0;
 	int index = 0;
@@ -135,15 +368,17 @@ void show_appearance_settings_dialog(struct estate *state)
 
 		fontlib_SetForegroundColor(state->text_color);
 		fontlib_SetCursorPosition(31, 178);
-		fontlib_DrawString("Settings can be changed in the");
+		fontlib_DrawString("These settings are temporary.");
 		fontlib_SetCursorPosition(31, 190);
-		fontlib_DrawString("CEDITRC file.");
+		fontlib_DrawString("Edit CEDITRC to make changes");
+		fontlib_SetCursorPosition(31, 202);
+		fontlib_DrawString("permanent.");
 
 		gfx_BlitBuffer();
 		k = ngetchx();
 		if (k == KEY_RIGHT || k == '\n')
 		{
-			//launch stuff
+			show_color_selection_dialog(state, 1);
 		}
 		if (k == KEY_UP)
 		{
@@ -246,13 +481,13 @@ void show_persistence_dialog(struct estate *state)
 	gfx_HorizLine_NoClip(20, 40, 280);
 	fontlib_SetCursorPosition(100, 25);
 	fontlib_SetForegroundColor(state->text_color);
-	fontlib_DrawString("Persistance Settings");
+	fontlib_DrawString("Editor Settings");
 	fontlib_SetCursorPosition(31, 42);
-	fontlib_DrawString("Changing settings graphically");
+	fontlib_DrawString("Changing settings graphically is");
 	fontlib_SetCursorPosition(31, 54);
-	fontlib_DrawString("is not supported currently.");
-	fontlib_SetCursorPosition(31,66);
-	fontlib_DrawString("Please edit CEDITRC");
+	fontlib_DrawString("not currently supported.");
+	fontlib_SetCursorPosition(31, 66);
+	fontlib_DrawString("Please edit CEDITRC instead.");
 	gfx_BlitBuffer();
 	k = ngetchx();
 }
