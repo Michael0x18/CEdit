@@ -43,4 +43,9 @@ int main(int,char**);
  */
 bool initialize(struct estate*);
 
+/*
+ * Parse the CEDITRC file, if it exists, and do stuff.
+ */
+void parse_rc(struct estate*);
+
 #endif /* SRC_CEDIT_H_ */

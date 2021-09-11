@@ -6,6 +6,8 @@
  */
 
 #include "dialogs.h"
+#include "primitives.h"
+
 
 uint8_t show_color_selection_dialog(struct estate *state, uint8_t current_value)
 {
@@ -78,12 +80,14 @@ void show_editor_settings_dialog(struct estate *state)
 	fontlib_SetCursorPosition(100, 25);
 	fontlib_SetForegroundColor(state->text_color);
 	fontlib_DrawString("Editor Settings");
-	fontlib_SetCursorPosition(31, 42);
+	/*fontlib_SetCursorPosition(31, 42);
 	fontlib_DrawString("Changing settings graphically is");
 	fontlib_SetCursorPosition(31, 54);
 	fontlib_DrawString("not currently supported.");
 	fontlib_SetCursorPosition(31, 66);
-	fontlib_DrawString("Please edit CEDITRC instead.");
+	fontlib_DrawString("Please edit CEDITRC instead.");*/
+	draw_switch(state,45,45,true);
+	draw_switch(state,65,65,false);
 	gfx_BlitBuffer();
 	k = ngetchx();
 }
