@@ -21,26 +21,6 @@ void draw_checkbox(struct estate *state, int x, int y, bool on){
     return;
 }
 void draw_switch(struct estate *state, int x, int y, bool on){
-    // if(on)
-    //     gfx_SetColor(state->focus_color);
-    // else
-    //     gfx_SetColor(state->background_color);
-    // gfx_FillCircle_NoClip(x+7,y+7,7);
-    // gfx_FillCircle_NoClip(x+21,y+7,7);
-    // gfx_FillRectangle_NoClip(x+7,y,14,7);
-    // if(on){
-    //     gfx_SetColor(state->background_color);
-    //     gfx_FillCircle_NoClip(x+21,y+7,7);
-    //     gfx_SetColor(state->border_color);
-    //     gfx_Circle_NoClip(x+21,y+7,7);
-    // }else{
-    //     gfx_SetColor(state->background_color);
-    //     gfx_FillCircle_NoClip(x+7,y+7,7);
-    //     gfx_SetColor(state->border_color);
-    //     gfx_Circle_NoClip(x+21,y+7,7);
-    // }
-    
-    
         gfx_SetColor(on?state->focus_color:state->background_color);
         gfx_FillCircle_NoClip(x+7,y+7,7);
         gfx_FillCircle_NoClip(x+21,y+7,7);

@@ -8,7 +8,6 @@
 #include "dialogs.h"
 #include "primitives.h"
 
-
 uint8_t show_color_selection_dialog(struct estate *state, uint8_t current_value)
 {
 	short k = 0;
@@ -74,22 +73,18 @@ uint8_t show_color_selection_dialog(struct estate *state, uint8_t current_value)
 void show_editor_settings_dialog(struct estate *state)
 {
 	short k = 0;
-	draw_dialog(state, 20, 20, 280, 200);
-	gfx_SetColor(state->border_color);
-	gfx_HorizLine_NoClip(20, 40, 280);
-	fontlib_SetCursorPosition(100, 25);
-	fontlib_SetForegroundColor(state->text_color);
-	fontlib_DrawString("Editor Settings");
-	/*fontlib_SetCursorPosition(31, 42);
-	fontlib_DrawString("Changing settings graphically is");
-	fontlib_SetCursorPosition(31, 54);
-	fontlib_DrawString("not currently supported.");
-	fontlib_SetCursorPosition(31, 66);
-	fontlib_DrawString("Please edit CEDITRC instead.");*/
-	draw_switch(state,45,45,true);
-	draw_switch(state,65,65,false);
-	gfx_BlitBuffer();
-	k = ngetchx();
+
+	while (k != KEY_CLEAR)
+	{
+		draw_dialog(state, 20, 20, 280, 200);
+		gfx_SetColor(state->border_color);
+		gfx_HorizLine_NoClip(20, 40, 280);
+		fontlib_SetCursorPosition(100, 25);
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_DrawString("Editor Settings");
+		gfx_BlitBuffer();
+		k = ngetchx();
+	}
 }
 
 void show_keybind_dialog(struct estate *state)
@@ -257,7 +252,6 @@ void show_appearance_settings_dialog(struct estate *state)
 			case 10:
 				state->focus_color = show_color_selection_dialog(state, state->focus_color);
 				break;
-
 			}
 		}
 		if (k == KEY_UP)
