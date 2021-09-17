@@ -15,6 +15,7 @@ bool initialize(struct estate *state) {
 #ifdef BOS_BUILD
 	fontlib_font_pack_t *font;
 #endif
+	state->autoarchive=false;
 	char buf1[10] = "Untitled";
 	char buf2[10] = "DrMono";
 	state->multi_lines = 5;

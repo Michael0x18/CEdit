@@ -120,7 +120,23 @@ struct estate {
 	int24_t lines[10000];
 	//Data in the clipboard
 	char clipboard_data[10000];
+	///////////////////////////Random Editor Settings///////////////////////////
+	//Default is false, if true, files will be archived after writes. Does nothing on BOS.
 	bool autoarchive;
+	//Default is true, if enabled, unsaved file = prompt
+	bool saveprompt;
+	//Default is true, if enabled, used regular expressions in the search box
+	bool useregex;
+	//Default is true, if enabled, blink the cursor slowly
+	bool blinkcursor;
+	//Default is true, if enabled, write files under a different filename, then remove the existing and rename the new file.
+	bool backupfiles;
+	//Default is true, if enabled, parse ceditrc from /etc/cedit/ceditrc. Otherwise use /home/.ceditrc
+	//Does nothin on TIOS
+	bool bos_use_system_config;
+	//Default is false. If enabled, boost BOS maximum buffer size to 128Kb
+	//Does nothing on TIOS
+	bool bos_use_extra_buffer;
 };
 
 #endif /* SRC_STATE_H_ */
