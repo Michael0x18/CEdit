@@ -13,6 +13,11 @@
 #include <fontlibc.h>
 
 #include "primitives.h"
+#include "cedit.h"
+#include "editor.h"
+#include "state.h"
+#include "gfx.h"
+#include "tigcclib.h"
 
 void draw_radio_button(struct estate *state, int x, int y, bool on){
     return;

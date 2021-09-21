@@ -546,6 +546,7 @@ void editor_mainloop(struct estate *state) {
 }
 
 void bs(struct estate *state) {
+    state->saved = false;
 	if (state->selection_active) {
 		state->selection_active = false;
 		while (state->selection_anchor < state->c1) {//if selection is to left
@@ -568,6 +569,7 @@ void bs(struct estate *state) {
 }
 
 void del(struct estate *state) {
+    state->saved = false;
 	if (state->selection_active) {
 		state->selection_active = false;
 		while (state->selection_anchor < state->c1) {//if selection is to left
@@ -685,7 +687,6 @@ void load_text(struct estate *state) {
 	}
 #else
 	ti_var_t var;
-	ti_CloseAll();
 	var = ti_Open(state->filename, "r");
 	if (var == 0) {
 		return;		//no error out
@@ -694,11 +695,13 @@ void load_text(struct estate *state) {
 	while ((c = ti_GetC(var)) != EOF) {
 		insert_char(state, c);
 	}
+    ti_Close(var);
 #endif
+    state->saved = true;
 }
 
 void write_file(struct estate *state) {
-	int fullsize = state->c1 + MAX_BUFFER_SIZE - (state->c2 + 1);
+	int24_t fullsize = state->c1 + (MAX_BUFFER_SIZE - (state->c2 + 1));
 #ifdef BOS_BUILD
 	void *fd = fs_OpenFile(state->filename);
 	if (fd == -1) {
@@ -711,12 +714,19 @@ void write_file(struct estate *state) {
 		fs_Write(&state->text[state->c2 + 1], MAX_BUFFER_SIZE - (state->c2 + 1), 1, fd, state->c1);
 	}
 #else
-	ti_var_t var;
-	int i = 0;
+
+	ti_var_t var;/*
+    var = ti_Open(state->filename, "r");*/
+    bool current_archive_status = false;/*
+    if(var){
+        current_archive_status = ti_IsArchived(var);
+    }
+    ti_Close(var);*/
+	//int i = 0;
 	var = ti_Open(state->filename, "w");
  	ti_Resize(fullsize, var); //makes saving a lot faster due to only needing to resize the variable once
 	ti_Write(state->text,state->c1,1,var);
-	ti_Write(state->text+state->c2,MAX_BUFFER_SIZE-(state->c2+1),1,var);
+	ti_Write(state->text+state->c2+1,MAX_BUFFER_SIZE-(state->c2+1),1,var);
 	/*while (i < MAX_BUFFER_SIZE) {
 		if (i == state->c1)
 			i = state->c2 + 1;
@@ -731,7 +741,14 @@ void write_file(struct estate *state) {
 	 ti_Write(&state->text, state->eof, 1, var);
 	 }
 	 */
-	ti_Close(var);
+	//ti_Close(var);
+    //Do TIOS autoarchive, if needed.
+    if(state->autoarchive){
+        ti_SetArchiveStatus(true,var);
+    }else{
+        ti_SetArchiveStatus(current_archive_status,var);
+    }
+    ti_Close(var);
 #endif
 	state->saved = true;
 }

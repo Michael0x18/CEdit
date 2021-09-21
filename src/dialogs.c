@@ -68,12 +68,13 @@ uint8_t show_color_selection_dialog(struct estate *state, uint8_t current_value)
 		index += 256;
 		index %= 256;
 	}
+    return current_value;
 }
 
 void show_editor_settings_dialog(struct estate *state)
 {
 	short k = 0;
-
+    short index = 0;
 	while (k != KEY_CLEAR)
 	{
 		draw_dialog(state, 20, 20, 280, 200);
@@ -82,14 +83,86 @@ void show_editor_settings_dialog(struct estate *state)
 		fontlib_SetCursorPosition(100, 25);
 		fontlib_SetForegroundColor(state->text_color);
 		fontlib_DrawString("Editor Settings");
+        //~~//~~//~~//~~//~~//~~//~~//~~//~~//~~//
+        draw_switch(state,24,42,state->autoarchive);//autoarchive
+        fontlib_SetForegroundColor(index==0?state->focus_color:state->text_color);
+        fontlib_SetCursorPosition(24+32,43);
+        fontlib_DrawString("Auto archive files");
+        draw_switch(state,24,60,state->saveprompt);//saveprompt
+        fontlib_SetForegroundColor(index==1?state->focus_color:state->text_color);
+        fontlib_SetCursorPosition(24+32,61);
+        fontlib_DrawString("Show save prompt on exit");
+        draw_switch(state,24,78,state->useregex);//regex
+        fontlib_SetForegroundColor(index==2?state->focus_color:state->text_color);
+        fontlib_SetCursorPosition(24+32,79);
+        fontlib_DrawString("Use regex in search");
+        draw_switch(state,24,96,state->blinkcursor);//blinkcursor
+        fontlib_SetForegroundColor(index==3?state->focus_color:state->text_color);
+        fontlib_SetCursorPosition(24+32,97);
+        fontlib_DrawString("Blink cursor");
+        draw_switch(state,24,96+18,state->backupfiles);//backup
+        fontlib_SetForegroundColor(index==4?state->focus_color:state->text_color);
+        fontlib_SetCursorPosition(24+32,96+19);
+        fontlib_DrawString("Copy on write");
+        draw_switch(state,24,96+36,state->bos_use_system_config);//bos_system
+        fontlib_SetForegroundColor(index==5?state->focus_color:state->text_color);
+        fontlib_SetCursorPosition(24+32,96+37);
+        fontlib_DrawString("Use config file in /etc");
+        draw_switch(state,24,96+54,state->bos_use_extra_buffer);//extra_buffer
+        fontlib_SetForegroundColor(index==6?state->focus_color:state->text_color);
+        fontlib_SetCursorPosition(24+32,96+55);
+        fontlib_DrawString("128Kb edit buffer (BOS)");
+        fontlib_SetForegroundColor(state->text_color);
+        fontlib_SetCursorPosition(24,96+55+18);
+        fontlib_DrawString("Permanent changes can be made");
+        fontlib_SetCursorPosition(24,96+55+30);
+        fontlib_DrawString("by editing CEDITRC");
+        //~~//~~//~~//~~//~~//~~//~~//~~//~~//~~//
 		gfx_BlitBuffer();
 		k = ngetchx();
+        if(k==KEY_DOWN){
+            index++;
+            if(index>=7)
+                index=6;
+        }
+        if(k==KEY_UP){
+            index--;
+            if(index<0){
+                index=0;
+            }
+
+        }
+        if(k==KEY_RIGHT || k=='\n'){
+            switch(index){
+                case 0:
+                    state->autoarchive=!(state->autoarchive);
+                    break;
+                case 1:
+                    state->saveprompt=!(state->saveprompt);
+                    break;
+                case 2:
+                    state->useregex=!(state->useregex);
+                    break;
+                case 3:
+                    state->blinkcursor=!(state->blinkcursor);
+                    break;
+                case 4:
+                    state->backupfiles=!(state->backupfiles);
+                    break;
+                case 5:
+                    state->bos_use_system_config=!(state->bos_use_system_config);
+                    break;
+                case 6:
+                    state->bos_use_extra_buffer=!(state->bos_use_extra_buffer);
+                    break;
+            }
+        }
 	}
 }
 
 void show_keybind_dialog(struct estate *state)
 {
-	short k = 0;
+	//short k = 0;
 	draw_dialog(state, 40, 40, 240, 160);
 	gfx_SetColor(state->border_color);
 	gfx_HorizLine_NoClip(40, 60, 240);
@@ -103,7 +176,7 @@ void show_keybind_dialog(struct estate *state)
 	fontlib_SetCursorPosition(51, 86);
 	fontlib_DrawString("See docs for more info.");
 	gfx_BlitBuffer();
-	k = ngetchx();
+	ngetchx();
 }
 
 void show_appearance_settings_dialog(struct estate *state)
@@ -473,7 +546,7 @@ void menu_backend_draw(struct estate *state, int index)
 
 void show_persistence_dialog(struct estate *state)
 {
-	short k = 0;
+	//short k = 0;
 	draw_dialog(state, 20, 20, 280, 200);
 	gfx_SetColor(state->border_color);
 	gfx_HorizLine_NoClip(20, 40, 280);
@@ -487,7 +560,7 @@ void show_persistence_dialog(struct estate *state)
 	fontlib_SetCursorPosition(31, 66);
 	fontlib_DrawString("Please edit CEDITRC instead.");
 	gfx_BlitBuffer();
-	k = ngetchx();
+	ngetchx();
 }
 
 void show_menu_dialog(struct estate *state)
