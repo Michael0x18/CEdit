@@ -1,30 +1,16 @@
-
 # ----------------------------
-# Program Options
-# ----------------------------
-
-NAME         ?= CEDIT
-ICON         ?= icon.png
-DESCRIPTION  ?= "CEdit editor"
-COMPRESSED   ?= YES
-ARCHIVED     ?= YES
-
-# ----------------------------
-# Compile Options
+# Makefile Options
 # ----------------------------
 
-CFLAGS   ?= -Oz -W -Wall -Wextra -Wwrite-strings
-CXXFLAGS ?= -Oz -W -Wall -Wextra -Wwrite-strings
+NAME = CEDIT
+ICON = icon.png
+DESCRIPTION = "CEdit editor"
+COMPRESSED = YES
+ARCHIVED = YES
 
-# ----------------------------
-# Debug Options
-# ----------------------------
+CFLAGS = -Wall -Wextra -Oz
+CXXFLAGS = -Wall -Wextra -Oz
 
 # ----------------------------
 
-ifndef CEDEV
-$(error CEDEV environment path variable is not set)
-endif
-
-include $(CEDEV)/meta/makefile.mk
-
+include $(shell cedev-config --makefile)
