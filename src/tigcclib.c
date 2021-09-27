@@ -13,7 +13,7 @@
 short kmain[] = { KEY_NO_EXIST, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_UP,
                   KEY_NO_EXIST, KEY_NO_EXIST, KEY_NO_EXIST, KEY_NO_EXIST, '\n', '+', '-',
                   '*', '/', '^', KEY_CLEAR, KEY_NO_EXIST, '-', '3', '6', '9', ')',
-                  KEY_UNBOUND, KEY_UNBOUND, KEY_NO_EXIST, '.', '2', '5', '8', '(',
+                  KEY_UNBOUND, KEY_STATE, KEY_NO_EXIST, '.', '2', '5', '8', '(',
                   KEY_UNBOUND, KEY_UNBOUND, KEY_SAVE, '0', '1', '4', '7', ',',
                   KEY_UNBOUND, KEY_UNBOUND, KEY_NO_EXIST, KEY_RESERVED, KEY_SAVE, '\\',
                   '|', '=', KEY_UNBOUND, KEY_UNBOUND, KEY_NO_EXIST, KEY_F5, KEY_F4,

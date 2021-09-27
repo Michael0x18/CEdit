@@ -8,6 +8,8 @@
 #include "dialogs.h"
 #include "editor.h"
 #include "tigcclib.h"
+#include "find.h"
+//#include "softc.h"
 
 bool is_control(short k) {
 	return (k <= 0) || (k >= 256);
@@ -365,6 +367,13 @@ void handle_key(struct estate *state, short k) {
 			gfx_SwapDraw();
 			show_menu_dialog(state);
 			break;
+        case KEY_OPEN:
+            draw_editor(state);
+            gfx_SwapDraw();
+            open_file(state);
+            break;
+        case KEY_STATE:
+            break;
 		}
 	}
 }
@@ -380,12 +389,12 @@ void cursor_to_end_select(struct estate *state) {
 	}
 }
 void cursor_multi_up_select(struct estate *state) {
-	for (int i = 0; i < state->multi_lines; i++) {
+	for (int i = 0; i < 5; i++) {
 		cursor_up_select(state);
 	}
 }
 void cursor_multi_down_select(struct estate *state) {
-	for (int i = 0; i < state->multi_lines; i++) {
+	for (int i = 0; i < 5; i++) {
 		cursor_down_select(state);
 	}
 }
@@ -417,6 +426,7 @@ int draw_editor(struct estate *state) {
 	int24_t cp = 0;
 	bool drawn = false;
 	//Start drawing
+    fontlib_SetForegroundColor(state->text_color);
 	fontlib_SetCursorPosition(0, LINE_SPACING);
 	fontlib_DrawGlyph(state->scr_line_offset ? '+' : ':');
 	//Iterate buffer
@@ -652,13 +662,13 @@ void cursor_to_right_word(struct estate *state) {
 }
 
 void cursor_multi_up(struct estate *state) {
-	for (int i = 0; i < state->multi_lines; i++) {
+	for (int i = 0; i < 5; i++) {
 		cursor_up(state);
 	}
 }
 
 void cursor_multi_down(struct estate *state) {
-	for (int i = 0; i < state->multi_lines; i++) {
+	for (int i = 0; i < 5; i++) {
 		cursor_down(state);
 	}
 }

@@ -221,6 +221,7 @@ int main(int argc, char **argv) {
     gfx_Begin();
     parseRC();
 	load_text(&editor_state);
+    //draw_editor(&editor_state);
 	editor_mainloop(&editor_state);
 	gfx_End();
 	return 0;

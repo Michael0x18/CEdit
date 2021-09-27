@@ -96,6 +96,7 @@ struct estate {
 	char fontname[10];
 	int8_t fonttype;
 	fontlib_font_t *font;
+    ti_var_t clipboard_file;
 	//the radius for rounded corners on dialogs.
 	int8_t corner_radius;
 	//Cursor x position
@@ -119,7 +120,7 @@ struct estate {
 	//Line len buffer
 	int24_t lines[10000];
 	//Data in the clipboard
-	char clipboard_data[10000];
+	//char clipboard_data[10000];
 	///////////////////////////Random Editor Settings///////////////////////////
 	//Default is false, if true, files will be archived after writes. Does nothing on BOS.
 	bool autoarchive;

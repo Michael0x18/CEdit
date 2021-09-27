@@ -31,7 +31,7 @@
 #include "libmalloc.h"
 #endif
 
-#define CEDIT_VERSION_STRING "CEDIT 0.08 BETA"
+#define CEDIT_VERSION_STRING "CEDIT 0.07 BETA"
 
 /*
  * Main function
