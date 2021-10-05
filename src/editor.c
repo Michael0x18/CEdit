@@ -11,11 +11,13 @@
 #include "find.h"
 //#include "softc.h"
 
-bool is_control(short k) {
+bool is_control(short k)
+{
 	return (k <= 0) || (k >= 256);
 }
 
-void insert_newline(struct estate *state) {
+void insert_newline(struct estate *state)
+{
 	//Line split
 	int tmp = state->lines[state->lc1] - state->lc_offset;
 	state->lines[state->lc1] = state->lc_offset;
@@ -25,23 +27,30 @@ void insert_newline(struct estate *state) {
 	state->lc_offset = 0;
 }
 
-void insert_char(struct estate *state, char c) {
-	if (state->selection_active) {
+void insert_char(struct estate *state, char c)
+{
+	if (state->selection_active)
+	{
 		bs(state);
 	}
 	state->saved = false;
 	state->text[state->c1] = c;
 	state->c1++;
-	if (state->text[state->c1 - 1] == '\n') {
+	if (state->text[state->c1 - 1] == '\n')
+	{
 		insert_newline(state);
-	} else {
+	}
+	else
+	{
 		state->lines[state->lc1]++;
 		state->lc_offset++;
 	}
 }
 
-void line_down(struct estate *state) {
-	if (state->lc2 < MAX_BUFFER_SIZE) {
+void line_down(struct estate *state)
+{
+	if (state->lc2 < MAX_BUFFER_SIZE)
+	{
 		state->lc2++;
 		state->lc1++;
 		state->lines[state->lc1] = state->lines[state->lc2];
@@ -49,8 +58,10 @@ void line_down(struct estate *state) {
 	}
 }
 
-void line_up(struct estate *state) {
-	if (state->lc1 > 0) {
+void line_up(struct estate *state)
+{
+	if (state->lc1 > 0)
+	{
 		state->lines[state->lc2] = state->lines[state->lc1];
 		state->lc1--;
 		state->lc2--;
@@ -58,18 +69,24 @@ void line_up(struct estate *state) {
 	}
 }
 
-void cursor_left(struct estate *state) {
-	if (state->selection_active) {
+void cursor_left(struct estate *state)
+{
+	if (state->selection_active)
+	{
 		state->selection_active = false;
 		if (state->selection_anchor > state->c2 + 1)
 			return;
 		while (state->selection_anchor < state->c1 - 2)
 			cursor_left(state);
 	}
-	if (state->c1 > 0) {
-		if (state->lc_offset == 0) {
+	if (state->c1 > 0)
+	{
+		if (state->lc_offset == 0)
+		{
 			line_up(state);
-		} else {
+		}
+		else
+		{
 			//Moving on same line
 			state->lc_offset--;
 		}
@@ -79,18 +96,25 @@ void cursor_left(struct estate *state) {
 	}
 }
 
-void cursor_left_select(struct estate *state) {
-	if (!state->selection_active) {
+void cursor_left_select(struct estate *state)
+{
+	if (!state->selection_active)
+	{
 		state->selection_active = true;
 		state->selection_anchor = state->c2;
 	}
-	if (state->c1 == state->selection_anchor) {
+	if (state->c1 == state->selection_anchor)
+	{
 		state->selection_anchor = state->c2;
 	}
-	if (state->c1 > 0) {
-		if (state->lc_offset == 0) {
+	if (state->c1 > 0)
+	{
+		if (state->lc_offset == 0)
+		{
 			line_up(state);
-		} else {
+		}
+		else
+		{
 			//Moving on same line
 			state->lc_offset--;
 		}
@@ -100,18 +124,24 @@ void cursor_left_select(struct estate *state) {
 	}
 }
 
-void cursor_right(struct estate *state) {
-	if (state->selection_active) {
+void cursor_right(struct estate *state)
+{
+	if (state->selection_active)
+	{
 		state->selection_active = false;
 		if (state->selection_anchor < state->c1 - 1)
 			return;
 		while (state->selection_anchor > state->c2 + 2)
 			cursor_right(state);
 	}
-	if (state->c2 < MAX_BUFFER_SIZE - 1) {
-		if (state->lc_offset == state->lines[state->lc1]) {
+	if (state->c2 < MAX_BUFFER_SIZE - 1)
+	{
+		if (state->lc_offset == state->lines[state->lc1])
+		{
 			line_down(state);
-		} else {
+		}
+		else
+		{
 			state->lc_offset++;
 		}
 		state->c2++;
@@ -120,18 +150,25 @@ void cursor_right(struct estate *state) {
 	}
 }
 
-void cursor_right_select(struct estate *state) {
-	if (!state->selection_active) {
+void cursor_right_select(struct estate *state)
+{
+	if (!state->selection_active)
+	{
 		state->selection_active = true;
 		state->selection_anchor = state->c1;
 	}
-	if (state->c2 == state->selection_anchor) {
+	if (state->c2 == state->selection_anchor)
+	{
 		state->selection_anchor = state->c1;
 	}
-	if (state->c2 < MAX_BUFFER_SIZE - 1) {
-		if (state->lc_offset == state->lines[state->lc1]) {
+	if (state->c2 < MAX_BUFFER_SIZE - 1)
+	{
+		if (state->lc_offset == state->lines[state->lc1])
+		{
 			line_down(state);
-		} else {
+		}
+		else
+		{
 			state->lc_offset++;
 		}
 		state->c2++;
@@ -140,19 +177,26 @@ void cursor_right_select(struct estate *state) {
 	}
 }
 
-void cursor_up(struct estate *state) {
+void cursor_up(struct estate *state)
+{
 	//if the current line is long enough
-	if (state->selection_active) {
+	if (state->selection_active)
+	{
 		cursor_left(state);
 	}
-	if (state->lc_offset >= NUM_COLS) {
-		for (int i = 0; i < NUM_COLS; i++) {
+	if (state->lc_offset >= NUM_COLS)
+	{
+		for (int i = 0; i < NUM_COLS; i++)
+		{
 			cursor_left(state);
 		}
-	} else {
+	}
+	else
+	{
 		//cache the current offset -- use this later
 		int old = state->lc_offset;
-		while (state->lc_offset > 0) {
+		while (state->lc_offset > 0)
+		{
 			cursor_left(state);
 		}
 		if (!state->c1)
@@ -165,24 +209,31 @@ void cursor_up(struct estate *state) {
 		if (state->lc_offset % NUM_COLS < old)
 			return;
 		int c = state->lc_offset - state->lc_offset % NUM_COLS;
-		c += old;		//Offset to move to from start of line
+		c += old; //Offset to move to from start of line
 		int to_move = state->lc_offset - c;
-		for (int i = 0; i < to_move; i++) {
+		for (int i = 0; i < to_move; i++)
+		{
 			cursor_left(state);
 		}
 	}
 }
 
-void cursor_up_select(struct estate *state) {
+void cursor_up_select(struct estate *state)
+{
 	//if the current line is long enough
-	if (state->lc_offset >= NUM_COLS) {
-		for (int i = 0; i < NUM_COLS; i++) {
+	if (state->lc_offset >= NUM_COLS)
+	{
+		for (int i = 0; i < NUM_COLS; i++)
+		{
 			cursor_left_select(state);
 		}
-	} else {
+	}
+	else
+	{
 		//cache the current offset -- use this later
 		int old = state->lc_offset;
-		while (state->lc_offset > 0) {
+		while (state->lc_offset > 0)
+		{
 			cursor_left_select(state);
 		}
 		if (!state->c1)
@@ -195,71 +246,100 @@ void cursor_up_select(struct estate *state) {
 		if (state->lc_offset % NUM_COLS < old)
 			return;
 		int c = state->lc_offset - state->lc_offset % NUM_COLS;
-		c += old;		//Offset to move to from start of line
+		c += old; //Offset to move to from start of line
 		int to_move = state->lc_offset - c;
-		for (int i = 0; i < to_move; i++) {
+		for (int i = 0; i < to_move; i++)
+		{
 			cursor_left_select(state);
 		}
 	}
 }
 
-void cursor_down(struct estate *state) {
-	if (state->selection_active) {
-		state->selection_active=0;
+void cursor_down(struct estate *state)
+{
+	if (state->selection_active)
+	{
+		state->selection_active = 0;
 		cursor_down(state);
 	}
-	if (state->lines[state->lc1] - state->lc_offset > NUM_COLS) {
-		for (int i = 0; i < NUM_COLS; i++) {
+	if (state->lines[state->lc1] - state->lc_offset > NUM_COLS)
+	{
+		for (int i = 0; i < NUM_COLS; i++)
+		{
 			cursor_right(state);
 		}
-	} else {
+	}
+	else
+	{
 		int old = state->lc_offset;
 		int oldb = state->lines[state->lc1];
-		for (int i = 0; i < oldb - old; i++) {
+		for (int i = 0; i < oldb - old; i++)
+		{
 			cursor_right(state);
 		}
 		cursor_right(state);
-		if (state->lines[state->lc1] < old % NUM_COLS) {
-			for (int i = 0; i < state->lines[state->lc1]; i++) {
+		if (state->lines[state->lc1] < old % NUM_COLS)
+		{
+			for (int i = 0; i < state->lines[state->lc1]; i++)
+			{
 				cursor_right(state);
 			}
-		} else {
-			for (int i = 0; i < old % NUM_COLS; i++) {
+		}
+		else
+		{
+			for (int i = 0; i < old % NUM_COLS; i++)
+			{
 				cursor_right(state);
 			}
 		}
 	}
 }
 
-void cursor_down_select(struct estate *state) {
-	if (state->lines[state->lc1] - state->lc_offset > NUM_COLS) {
-		for (int i = 0; i < NUM_COLS; i++) {
+void cursor_down_select(struct estate *state)
+{
+	if (state->lines[state->lc1] - state->lc_offset > NUM_COLS)
+	{
+		for (int i = 0; i < NUM_COLS; i++)
+		{
 			cursor_right_select(state);
 		}
-	} else {
+	}
+	else
+	{
 		int old = state->lc_offset;
 		int oldb = state->lines[state->lc1];
-		for (int i = 0; i < oldb - old; i++) {
+		for (int i = 0; i < oldb - old; i++)
+		{
 			cursor_right_select(state);
 		}
 		cursor_right_select(state);
-		if (state->lines[state->lc1] < old % NUM_COLS) {
-			for (int i = 0; i < state->lines[state->lc1]; i++) {
+		if (state->lines[state->lc1] < old % NUM_COLS)
+		{
+			for (int i = 0; i < state->lines[state->lc1]; i++)
+			{
 				cursor_right_select(state);
 			}
-		} else {
-			for (int i = 0; i < old % NUM_COLS; i++) {
+		}
+		else
+		{
+			for (int i = 0; i < old % NUM_COLS; i++)
+			{
 				cursor_right_select(state);
 			}
 		}
 	}
 }
 
-void handle_key(struct estate *state, short k) {
-	if (!is_control(k)) {
+void handle_key(struct estate *state, short k)
+{
+	if (!is_control(k))
+	{
 		insert_char(state, k);
-	} else {
-		switch (k) {
+	}
+	else
+	{
+		switch (k)
+		{
 		case KEY_SUP:
 			cursor_up_select(state);
 			break;
@@ -272,22 +352,22 @@ void handle_key(struct estate *state, short k) {
 		case KEY_SRIGHT:
 			cursor_right_select(state);
 			break;
-		case KEY_LEFT:		//left
+		case KEY_LEFT: //left
 			cursor_left(state);
 			break;
-		case KEY_RIGHT:		//right
+		case KEY_RIGHT: //right
 			cursor_right(state);
 			break;
-		case KEY_DOWN:		//down
+		case KEY_DOWN: //down
 			cursor_down(state);
 			break;
-		case KEY_UP:		//up
+		case KEY_UP: //up
 			cursor_up(state);
 			break;
-		case KEY_BS:		//backspace
+		case KEY_BS: //backspace
 			bs(state);
 			break;
-		case KEY_DEL:		//delete
+		case KEY_DEL: //delete
 			del(state);
 			break;
 		case KEY_SAVE_AS:
@@ -296,8 +376,9 @@ void handle_key(struct estate *state, short k) {
 			if (!show_save_dialog(state))
 				write_file(state);
 			break;
-		case KEY_SAVE:		//save
-			if (!state->named) {
+		case KEY_SAVE: //save
+			if (!state->named)
+			{
 				draw_editor(state);
 				gfx_SwapDraw();
 				if (show_save_dialog(state))
@@ -317,16 +398,16 @@ void handle_key(struct estate *state, short k) {
 		case KEY_WSUP:
 			cursor_multi_up_select(state);
 			break;
-		case KEY_WLEFT:		//2nd-left
+		case KEY_WLEFT: //2nd-left
 			cursor_to_left_word(state);
 			break;
-		case KEY_WRIGHT:		//2nd-right
+		case KEY_WRIGHT: //2nd-right
 			cursor_to_right_word(state);
 			break;
-		case KEY_WUP:		//2nd-up
+		case KEY_WUP: //2nd-up
 			cursor_multi_up(state);
 			break;
-		case KEY_WDOWN:		//2nd-down
+		case KEY_WDOWN: //2nd-down
 			cursor_multi_down(state);
 			break;
 		case KEY_LSLEFT:
@@ -341,16 +422,16 @@ void handle_key(struct estate *state, short k) {
 		case KEY_LSDOWN:
 			cursor_to_end_select(state);
 			break;
-		case KEY_LLEFT:		//meta-left
+		case KEY_LLEFT: //meta-left
 			cursor_to_l_start(state);
 			break;
-		case KEY_LRIGHT:		//meta-right
+		case KEY_LRIGHT: //meta-right
 			cursor_to_l_end(state);
 			break;
-		case KEY_LUP:		//meta-up
+		case KEY_LUP: //meta-up
 			cursor_to_start(state);
 			break;
-		case KEY_LDOWN:		//meta-down
+		case KEY_LDOWN: //meta-down
 			cursor_to_end(state);
 			break;
 		case KEY_F1:
@@ -367,57 +448,71 @@ void handle_key(struct estate *state, short k) {
 			gfx_SwapDraw();
 			show_menu_dialog(state);
 			break;
-        case KEY_OPEN:
-            draw_editor(state);
-            gfx_SwapDraw();
-            open_file(state);
-            break;
-        case KEY_STATE:
-            break;
+		case KEY_OPEN:
+			draw_editor(state);
+			gfx_SwapDraw();
+			open_file(state);
+			break;
+		case KEY_STATE:
+			break;
 		}
 	}
 }
 
-void cursor_to_start_select(struct estate *state) {
-	while (state->c1) {
+void cursor_to_start_select(struct estate *state)
+{
+	while (state->c1)
+	{
 		cursor_left_select(state);
 	}
 }
-void cursor_to_end_select(struct estate *state) {
-	while (state->c2 < MAX_BUFFER_SIZE - 1) {
+void cursor_to_end_select(struct estate *state)
+{
+	while (state->c2 < MAX_BUFFER_SIZE - 1)
+	{
 		cursor_right_select(state);
 	}
 }
-void cursor_multi_up_select(struct estate *state) {
-	for (int i = 0; i < 5; i++) {
+void cursor_multi_up_select(struct estate *state)
+{
+	for (int i = 0; i < 5; i++)
+	{
 		cursor_up_select(state);
 	}
 }
-void cursor_multi_down_select(struct estate *state) {
-	for (int i = 0; i < 5; i++) {
+void cursor_multi_down_select(struct estate *state)
+{
+	for (int i = 0; i < 5; i++)
+	{
 		cursor_down_select(state);
 	}
 }
-void cursor_to_l_start_select(struct estate *state) {
-	while (state->lc_offset) {
+void cursor_to_l_start_select(struct estate *state)
+{
+	while (state->lc_offset)
+	{
 		cursor_left_select(state);
 	}
 }
-void cursor_to_l_end_select(struct estate *state) {
-	while (state->lc_offset < state->lines[state->lc1]) {
+void cursor_to_l_end_select(struct estate *state)
+{
+	while (state->lc_offset < state->lines[state->lc1])
+	{
 		cursor_right_select(state);
 	}
 }
 
-void cursor_to_left_word_select(struct estate *state) {
+void cursor_to_left_word_select(struct estate *state)
+{
 	//while(state->eof)
 }
 
-void cursor_to_right_word_select(struct estate *state) {
-
+void cursor_to_right_word_select(struct estate *state)
+{
 }
 
-int draw_editor(struct estate *state) {
+int draw_editor(struct estate *state)
+{
 	gfx_FillScreen(state->background_color);
 	//Initialize temporary variables
 	int24_t i = state->scr_offset;
@@ -426,27 +521,29 @@ int draw_editor(struct estate *state) {
 	int24_t cp = 0;
 	bool drawn = false;
 	//Start drawing
-    fontlib_SetForegroundColor(state->text_color);
+	fontlib_SetForegroundColor(state->text_color);
 	fontlib_SetCursorPosition(0, LINE_SPACING);
 	fontlib_DrawGlyph(state->scr_line_offset ? '+' : ':');
 	//Iterate buffer
-	while (i < MAX_BUFFER_SIZE && (cp < MAX_BUFFER_SIZE - state->c2 + state->c1)
-			&& row < NUM_LINES + 1) {
+	while (i < MAX_BUFFER_SIZE && (cp < MAX_BUFFER_SIZE - state->c2 + state->c1) && row < NUM_LINES + 1)
+	{
 		fontlib_SetForegroundColor(state->text_color);
 		fontlib_SetBackgroundColor(state->text_highlight_color);
 		fontlib_SetTransparency(true);
-		if (i == state->c1) {
-			if (col >= NUM_COLS) {
+		if (i == state->c1)
+		{
+			if (col >= NUM_COLS)
+			{
 				gfx_VertLine_NoClip(319, LINE_SPACING * row + FONT_WIDTH + 1,
-				LINE_SPACING);
+									LINE_SPACING);
 				state->cx = 319, state->cy = LINE_SPACING * row + FONT_WIDTH + 1;
-
-			} else {
+			}
+			else
+			{
 				gfx_VertLine_NoClip((FONT_WIDTH + FONT_WIDTH * col),
-				LINE_SPACING * row + LINE_SPACING + 1, LINE_SPACING);
+									LINE_SPACING * row + LINE_SPACING + 1, LINE_SPACING);
 				state->cx = (FONT_WIDTH + FONT_WIDTH * col), state->cy =
-				LINE_SPACING * row + LINE_SPACING + 1;
-
+																 LINE_SPACING * row + LINE_SPACING + 1;
 			}
 
 			i = state->c2 + 1;
@@ -455,7 +552,8 @@ int draw_editor(struct estate *state) {
 				break;
 		}
 
-		if (state->text[i] == '\n') {
+		if (state->text[i] == '\n')
+		{
 			row++;
 			col = 0;
 			i++;
@@ -464,13 +562,14 @@ int draw_editor(struct estate *state) {
 			fontlib_DrawGlyph(':');
 			continue;
 		}
-		if (state->selection_active
-				&& ((state->selection_anchor <= i && i < state->c1)
-						|| (state->selection_anchor >= i && i > state->c2))) {
+		if (state->selection_active && ((state->selection_anchor <= i && i < state->c1) || (state->selection_anchor >= i && i > state->c2)))
+		{
 			fontlib_SetForegroundColor(state->text_selection_color);
 			fontlib_SetBackgroundColor(state->text_selection_highlight_color);
 			fontlib_SetTransparency(false);
-		} else {
+		}
+		else
+		{
 			fontlib_SetForegroundColor(state->text_color);
 			fontlib_SetBackgroundColor(state->text_highlight_color);
 			fontlib_SetTransparency(true);
@@ -480,11 +579,12 @@ int draw_editor(struct estate *state) {
 		i++;
 		cp++;
 		col++;
-		if (col >= NUM_COLS) {
+		if (col >= NUM_COLS)
+		{
 			col = 0;
 			row++;
 			fontlib_SetCursorPosition(FONT_WIDTH,
-			LINE_SPACING * row + LINE_SPACING);
+									  LINE_SPACING * row + LINE_SPACING);
 		}
 	}
 	fontlib_SetForegroundColor(state->statusbar_text_color);
@@ -492,8 +592,8 @@ int draw_editor(struct estate *state) {
 	fontlib_SetTransparency(true);
 	//Draw statusbars
 	gfx_SetColor(state->statusbar_color);
-	gfx_FillRectangle_NoClip(0, 0, 320, 12);		//Top
-	gfx_FillRectangle_NoClip(1, 228, 62, 12);		//Floating segments
+	gfx_FillRectangle_NoClip(0, 0, 320, 12);  //Top
+	gfx_FillRectangle_NoClip(1, 228, 62, 12); //Floating segments
 	gfx_FillRectangle_NoClip(65, 228, 62, 12);
 	gfx_FillRectangle_NoClip(129, 228, 62, 12);
 	gfx_FillRectangle_NoClip(193, 228, 62, 12);
@@ -529,10 +629,14 @@ int draw_editor(struct estate *state) {
 	fontlib_SetForegroundColor(state->text_color);
 	fontlib_SetBackgroundColor(state->text_highlight_color);
 	fontlib_SetTransparency(true);
-	if (!drawn) {
-		if (state->c1 < state->scr_offset) {
+	if (!drawn)
+	{
+		if (state->c1 < state->scr_offset)
+		{
 			scroll_up(state);
-		} else {
+		}
+		else
+		{
 			scroll_down(state);
 		}
 		gfx_SwapDraw();
@@ -543,200 +647,260 @@ int draw_editor(struct estate *state) {
 	return 0;
 }
 
-void editor_mainloop(struct estate *state) {
+void editor_mainloop(struct estate *state)
+{
 	short k = 0;
-	while (true) {
+	while (true)
+	{
 		draw_editor(state);
 		gfx_SwapDraw();
 		k = ngetchx_xy(state, state->cx, state->cy);
 		if (k == KEY_CLEAR)
-			break;
+		{
+			//Rely on short circuit
+			if (state->saved || show_unsaved_dialog(state))
+			{
+				break;
+			}
+		}
 		handle_key(state, k);
 	}
 }
 
-void bs(struct estate *state) {
-    state->saved = false;
-	if (state->selection_active) {
+void bs(struct estate *state)
+{
+	state->saved = false;
+	if (state->selection_active)
+	{
 		state->selection_active = false;
-		while (state->selection_anchor < state->c1) {//if selection is to left
+		while (state->selection_anchor < state->c1)
+		{ //if selection is to left
 			bs(state);
 		}
-		while (state->selection_anchor > state->c2) {//if selection is to left
+		while (state->selection_anchor > state->c2)
+		{ //if selection is to left
 			del(state);
 		}
-	} else if (state->c1) {
-		if (state->lc_offset == 0) {
-			state->lc1--;		//Delete line
+	}
+	else if (state->c1)
+	{
+		if (state->lc_offset == 0)
+		{
+			state->lc1--; //Delete line
 			state->lc_offset = state->lines[state->lc1];
 			state->lines[state->lc1] += state->lines[state->lc1 + 1];
-		} else {
-			state->lc_offset--;		//else go back
+		}
+		else
+		{
+			state->lc_offset--; //else go back
 			state->lines[state->lc1]--;
 		}
 		state->c1--;
 	}
 }
 
-void del(struct estate *state) {
-    state->saved = false;
-	if (state->selection_active) {
+void del(struct estate *state)
+{
+	state->saved = false;
+	if (state->selection_active)
+	{
 		state->selection_active = false;
-		while (state->selection_anchor < state->c1) {//if selection is to left
+		while (state->selection_anchor < state->c1)
+		{ //if selection is to left
 			bs(state);
 		}
-		while (state->selection_anchor > state->c2) {//if selection is to left
+		while (state->selection_anchor > state->c2)
+		{ //if selection is to left
 			del(state);
 		}
-	} else if (state->c2 < MAX_BUFFER_SIZE - 1) {
-		if (state->lc_offset == state->lines[state->lc1]) {
+	}
+	else if (state->c2 < MAX_BUFFER_SIZE - 1)
+	{
+		if (state->lc_offset == state->lines[state->lc1])
+		{
 			state->lc2++;
 			state->lines[state->lc1] += state->lines[state->lc2 + 1];
-		} else {
+		}
+		else
+		{
 			state->lines[state->lc1]--;
 		}
 		state->c2++;
 	}
 }
 
-void scroll_up(struct estate *state) {
+void scroll_up(struct estate *state)
+{
 	state->scr_offset = state->c1 - state->lc_offset % NUM_COLS;
 	state->scr_line = state->lc1;
 	state->scr_line_offset = state->lc_offset - state->lc_offset % NUM_COLS;
-
 }
 
-void scroll_down(struct estate *state) {
-//18 lines total, currently 38 chars
-	if (!state->selection_active) {
+void scroll_down(struct estate *state)
+{
+	//18 lines total, currently 38 chars
+	if (!state->selection_active)
+	{
 		int pre_offset = state->lc_offset;
-		for (int i = 0; i < 17; i++) {
+		for (int i = 0; i < 17; i++)
+		{
 			cursor_up(state);
 		}
 		scroll_up(state);
-		for (int i = 0; i < 17; i++) {
+		for (int i = 0; i < 17; i++)
+		{
 			cursor_down(state);
 		}
-		while (state->lc_offset < pre_offset) {
+		while (state->lc_offset < pre_offset)
+		{
 			cursor_right(state);
 		}
-		while (state->lc_offset > pre_offset) {
+		while (state->lc_offset > pre_offset)
+		{
 			cursor_left(state);
 		}
-	} else {
+	}
+	else
+	{
 		int pre_offset = state->lc_offset;
-		for (int i = 0; i < 17; i++) {
+		for (int i = 0; i < 17; i++)
+		{
 			cursor_up_select(state);
 		}
 		scroll_up(state);
-		for (int i = 0; i < 17; i++) {
+		for (int i = 0; i < 17; i++)
+		{
 			cursor_down_select(state);
 		}
-		while (state->lc_offset < pre_offset) {
+		while (state->lc_offset < pre_offset)
+		{
 			cursor_right_select(state);
 		}
-		while (state->lc_offset > pre_offset) {
+		while (state->lc_offset > pre_offset)
+		{
 			cursor_left_select(state);
 		}
 	}
-
 }
 
-void cursor_to_start(struct estate *state) {
-	while (state->c1) {
+void cursor_to_start(struct estate *state)
+{
+	while (state->c1)
+	{
 		cursor_left(state);
 	}
 }
 
-void cursor_to_end(struct estate *state) {
-	while (state->c2 < MAX_BUFFER_SIZE - 1) {
+void cursor_to_end(struct estate *state)
+{
+	while (state->c2 < MAX_BUFFER_SIZE - 1)
+	{
 		cursor_right(state);
 	}
 }
 
-void cursor_to_left_word(struct estate *state) {
+void cursor_to_left_word(struct estate *state)
+{
 }
 
-void cursor_to_right_word(struct estate *state) {
-
+void cursor_to_right_word(struct estate *state)
+{
 }
 
-void cursor_multi_up(struct estate *state) {
-	for (int i = 0; i < 5; i++) {
+void cursor_multi_up(struct estate *state)
+{
+	for (int i = 0; i < 5; i++)
+	{
 		cursor_up(state);
 	}
 }
 
-void cursor_multi_down(struct estate *state) {
-	for (int i = 0; i < 5; i++) {
+void cursor_multi_down(struct estate *state)
+{
+	for (int i = 0; i < 5; i++)
+	{
 		cursor_down(state);
 	}
 }
 
-void cursor_to_l_start(struct estate *state) {
-	while (state->lc_offset) {
+void cursor_to_l_start(struct estate *state)
+{
+	while (state->lc_offset)
+	{
 		cursor_left(state);
 	}
 }
 
-void cursor_to_l_end(struct estate *state) {
-	while (state->lc_offset < state->lines[state->lc1]) {
+void cursor_to_l_end(struct estate *state)
+{
+	while (state->lc_offset < state->lines[state->lc1])
+	{
 		cursor_right(state);
 	}
 }
 
-void load_text(struct estate *state) {
+void load_text(struct estate *state)
+{
 #ifdef BOS_BUILD
 	void *fd = fs_OpenFile(state->filename);
-	if (fd != -1){
+	if (fd != -1)
+	{
 		char *ptr = fs_GetFDPtr(fd);
 		char *end = &ptr[fs_GetFDLen(fd)];
-		while (ptr < end){
+		while (ptr < end)
+		{
 			insert_char(state, *ptr++);
 		}
 	}
 #else
 	ti_var_t var;
 	var = ti_Open(state->filename, "r");
-	if (var == 0) {
-		return;		//no error out
+	if (var == 0)
+	{
+		return; //no error out
 	}
 	char c;
-	while ((c = ti_GetC(var)) != EOF) {
+	while ((c = ti_GetC(var)) != EOF)
+	{
 		insert_char(state, c);
 	}
-    ti_Close(var);
+	ti_Close(var);
 #endif
-    state->saved = true;
+	state->saved = true;
 }
 
-void write_file(struct estate *state) {
+void write_file(struct estate *state)
+{
 	int24_t fullsize = state->c1 + (MAX_BUFFER_SIZE - (state->c2 + 1));
 #ifdef BOS_BUILD
 	void *fd = fs_OpenFile(state->filename);
-	if (fd == -1) {
+	if (fd == -1)
+	{
 		fd = fs_CreateFile(state->filename, 0, fullsize);
-	} else {
+	}
+	else
+	{
 		fs_SetSize(fullsize, fd);
 	}
-	if (fullsize > 0) {
+	if (fullsize > 0)
+	{
 		fs_Write(&state->text, state->c1, 1, fd, 0);
 		fs_Write(&state->text[state->c2 + 1], MAX_BUFFER_SIZE - (state->c2 + 1), 1, fd, state->c1);
 	}
 #else
 
-	ti_var_t var;/*
+	ti_var_t var;						 /*
     var = ti_Open(state->filename, "r");*/
-    bool current_archive_status = false;/*
+	bool current_archive_status = false; /*
     if(var){
         current_archive_status = ti_IsArchived(var);
     }
     ti_Close(var);*/
 	//int i = 0;
 	var = ti_Open(state->filename, "w");
- 	ti_Resize(fullsize, var); //makes saving a lot faster due to only needing to resize the variable once
-	ti_Write(state->text,state->c1,1,var);
-	ti_Write(state->text+state->c2+1,MAX_BUFFER_SIZE-(state->c2+1),1,var);
+	ti_Resize(fullsize, var); //makes saving a lot faster due to only needing to resize the variable once
+	ti_Write(state->text, state->c1, 1, var);
+	ti_Write(state->text + state->c2 + 1, MAX_BUFFER_SIZE - (state->c2 + 1), 1, var);
 	/*while (i < MAX_BUFFER_SIZE) {
 		if (i == state->c1)
 			i = state->c2 + 1;
@@ -752,13 +916,151 @@ void write_file(struct estate *state) {
 	 }
 	 */
 	//ti_Close(var);
-    //Do TIOS autoarchive, if needed.
-    if(state->autoarchive){
-        ti_SetArchiveStatus(true,var);
-    }else{
-        ti_SetArchiveStatus(current_archive_status,var);
-    }
-    ti_Close(var);
+	//Do TIOS autoarchive, if needed.
+	if (state->autoarchive)
+	{
+		ti_SetArchiveStatus(true, var);
+	}
+	else
+	{
+		ti_SetArchiveStatus(current_archive_status, var);
+	}
+	ti_Close(var);
 #endif
 	state->saved = true;
+}
+
+/**
+Parse the CEDITRC file.
+
+
+
+*/
+void parseRC(struct estate *state)
+{
+#ifdef BOS_BUILD
+//TODO Fix this
+#else
+	FILE *f = fopen("CEDITRC", "r");
+	if (!f)
+		return;
+	char buffer[256];
+	while (!feof(f))
+	{
+		fgets(buffer, 256, f);
+		if (0 == strncmp(buffer, "TC:", 3))
+		{
+			int val = atoi(buffer + 3);
+			if (val < 256 && val >= 0)
+			{
+				state->text_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "THC:", 4))
+		{
+			int val = atoi(buffer + 4);
+			if (val < 256 && val >= 0)
+			{
+				state->text_highlight_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "TSC:", 4))
+		{
+			int val = atoi(buffer + 4);
+			if (val < 256 && val >= 0)
+			{
+				state->text_selection_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "TSHC:", 5))
+		{
+			int val = atoi(buffer + 5);
+			if (val < 256 && val >= 0)
+			{
+				state->text_selection_highlight_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "BGC:", 4))
+		{
+			int val = atoi(buffer + 4);
+			if (val < 256 && val >= 0)
+			{
+				state->background_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "TRC:", 4))
+		{
+			int val = atoi(buffer + 4);
+			if (val < 256 && val >= 0)
+			{
+				state->transparent_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "SBC:", 4))
+		{
+			int val = atoi(buffer + 4);
+			if (val < 256 && val >= 0)
+			{
+				state->statusbar_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "SBTC:", 5))
+		{
+			int val = atoi(buffer + 5);
+			if (val < 256 && val >= 0)
+			{
+				state->statusbar_text_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "TSHC:", 5))
+		{
+			int val = atoi(buffer + 5);
+			if (val < 256 && val >= 0)
+			{
+				state->text_selection_highlight_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "BC:", 3))
+		{
+			int val = atoi(buffer + 3);
+			if (val < 256 && val >= 0)
+			{
+				state->border_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "DSC:", 4))
+		{
+			int val = atoi(buffer + 4);
+			if (val < 256 && val >= 0)
+			{
+				state->dropshadow_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "FC:", 3))
+		{
+			int val = atoi(buffer + 3);
+			if (val < 256 && val >= 0)
+			{
+				state->focus_color = val;
+			}
+		}
+		if (0 == strncmp(buffer, "AA:", 3))
+		{
+			int val = atoi(buffer + 3);
+			if (val)
+			{
+				state->autoarchive = 1;
+			}
+		}
+		if (0 == strncmp(buffer, "CB:", 3))
+		{
+			int val = atoi(buffer + 3);
+			if (val)
+			{
+				state->blinkcursor = 1;
+			}
+		}
+	}
+	fclose(f);
+#endif
 }

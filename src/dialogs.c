@@ -20,6 +20,7 @@ You may use version 2.1 or later only.
 
 #include "dialogs.h"
 #include "primitives.h"
+#include <math.h>
 
 uint8_t show_color_selection_dialog(struct estate *state, uint8_t current_value)
 {
@@ -81,13 +82,13 @@ uint8_t show_color_selection_dialog(struct estate *state, uint8_t current_value)
 		index += 256;
 		index %= 256;
 	}
-    return current_value;
+	return current_value;
 }
 
 void show_editor_settings_dialog(struct estate *state)
 {
 	short k = 0;
-    short index = 0;
+	short index = 0;
 	while (k != KEY_CLEAR)
 	{
 		draw_dialog(state, 20, 20, 280, 200);
@@ -96,80 +97,84 @@ void show_editor_settings_dialog(struct estate *state)
 		fontlib_SetCursorPosition(100, 25);
 		fontlib_SetForegroundColor(state->text_color);
 		fontlib_DrawString("Editor Settings");
-        //~~//~~//~~//~~//~~//~~//~~//~~//~~//~~//
-        draw_switch(state,24,42,state->autoarchive);//autoarchive
-        fontlib_SetForegroundColor(index==0?state->focus_color:state->text_color);
-        fontlib_SetCursorPosition(24+32,43);
-        fontlib_DrawString("Auto archive files");
-        draw_switch(state,24,60,state->saveprompt);//saveprompt
-        fontlib_SetForegroundColor(index==1?state->focus_color:state->text_color);
-        fontlib_SetCursorPosition(24+32,61);
-        fontlib_DrawString("Show save prompt on exit");
-        draw_switch(state,24,78,state->useregex);//regex
-        fontlib_SetForegroundColor(index==2?state->focus_color:state->text_color);
-        fontlib_SetCursorPosition(24+32,79);
-        fontlib_DrawString("Use regex in search");
-        draw_switch(state,24,96,state->blinkcursor);//blinkcursor
-        fontlib_SetForegroundColor(index==3?state->focus_color:state->text_color);
-        fontlib_SetCursorPosition(24+32,97);
-        fontlib_DrawString("Blink cursor");
-        draw_switch(state,24,96+18,state->backupfiles);//backup
-        fontlib_SetForegroundColor(index==4?state->focus_color:state->text_color);
-        fontlib_SetCursorPosition(24+32,96+19);
-        fontlib_DrawString("Copy on write");
-        draw_switch(state,24,96+36,state->bos_use_system_config);//bos_system
-        fontlib_SetForegroundColor(index==5?state->focus_color:state->text_color);
-        fontlib_SetCursorPosition(24+32,96+37);
-        fontlib_DrawString("Use config file in /etc");
-        draw_switch(state,24,96+54,state->bos_use_extra_buffer);//extra_buffer
-        fontlib_SetForegroundColor(index==6?state->focus_color:state->text_color);
-        fontlib_SetCursorPosition(24+32,96+55);
-        fontlib_DrawString("128Kb edit buffer (BOS)");
-        fontlib_SetForegroundColor(state->text_color);
-        fontlib_SetCursorPosition(24,96+55+18);
-        fontlib_DrawString("Permanent changes can be made");
-        fontlib_SetCursorPosition(24,96+55+30);
-        fontlib_DrawString("by editing CEDITRC");
-        //~~//~~//~~//~~//~~//~~//~~//~~//~~//~~//
+		//~~//~~//~~//~~//~~//~~//~~//~~//~~//~~//
+		draw_switch(state, 24, 42, state->autoarchive); //autoarchive
+		fontlib_SetForegroundColor(index == 0 ? state->focus_color : state->text_color);
+		fontlib_SetCursorPosition(24 + 32, 43);
+		fontlib_DrawString("Auto archive files");
+		draw_switch(state, 24, 60, state->saveprompt); //saveprompt
+		fontlib_SetForegroundColor(index == 1 ? state->focus_color : state->text_color);
+		fontlib_SetCursorPosition(24 + 32, 61);
+		fontlib_DrawString("Show save prompt on exit");
+		draw_switch(state, 24, 78, state->useregex); //regex
+		fontlib_SetForegroundColor(index == 2 ? state->focus_color : state->text_color);
+		fontlib_SetCursorPosition(24 + 32, 79);
+		fontlib_DrawString("Use regex in search");
+		draw_switch(state, 24, 96, state->blinkcursor); //blinkcursor
+		fontlib_SetForegroundColor(index == 3 ? state->focus_color : state->text_color);
+		fontlib_SetCursorPosition(24 + 32, 97);
+		fontlib_DrawString("Blink cursor");
+		draw_switch(state, 24, 96 + 18, state->backupfiles); //backup
+		fontlib_SetForegroundColor(index == 4 ? state->focus_color : state->text_color);
+		fontlib_SetCursorPosition(24 + 32, 96 + 19);
+		fontlib_DrawString("Copy on write");
+		draw_switch(state, 24, 96 + 36, state->bos_use_system_config); //bos_system
+		fontlib_SetForegroundColor(index == 5 ? state->focus_color : state->text_color);
+		fontlib_SetCursorPosition(24 + 32, 96 + 37);
+		fontlib_DrawString("Use config file in /etc");
+		draw_switch(state, 24, 96 + 54, state->bos_use_extra_buffer); //extra_buffer
+		fontlib_SetForegroundColor(index == 6 ? state->focus_color : state->text_color);
+		fontlib_SetCursorPosition(24 + 32, 96 + 55);
+		fontlib_DrawString("128Kb edit buffer (BOS)");
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_SetCursorPosition(24, 96 + 55 + 18);
+		fontlib_DrawString("Permanent changes can be made");
+		fontlib_SetCursorPosition(24, 96 + 55 + 30);
+		fontlib_DrawString("by editing CEDITRC");
+		//~~//~~//~~//~~//~~//~~//~~//~~//~~//~~//
 		gfx_BlitBuffer();
 		k = ngetchx();
-        if(k==KEY_DOWN){
-            index++;
-            if(index>=7)
-                index=6;
-        }
-        if(k==KEY_UP){
-            index--;
-            if(index<0){
-                index=0;
-            }
-
-        }
-        if(k==KEY_RIGHT || k=='\n'){
-            switch(index){
-                case 0:
-                    state->autoarchive=!(state->autoarchive);
-                    break;
-                case 1:
-                    state->saveprompt=!(state->saveprompt);
-                    break;
-                case 2:
-                    state->useregex=!(state->useregex);
-                    break;
-                case 3:
-                    state->blinkcursor=!(state->blinkcursor);
-                    break;
-                case 4:
-                    state->backupfiles=!(state->backupfiles);
-                    break;
-                case 5:
-                    state->bos_use_system_config=!(state->bos_use_system_config);
-                    break;
-                case 6:
-                    state->bos_use_extra_buffer=!(state->bos_use_extra_buffer);
-                    break;
-            }
-        }
+		if (k == KEY_DOWN)
+		{
+			index++;
+			if (index >= 7)
+				index = 6;
+		}
+		if (k == KEY_UP)
+		{
+			index--;
+			if (index < 0)
+			{
+				index = 0;
+			}
+		}
+		if (k == KEY_RIGHT || k == '\n')
+		{
+			switch (index)
+			{
+			case 0:
+				state->autoarchive = !(state->autoarchive);
+				break;
+			case 1:
+				state->saveprompt = !(state->saveprompt);
+				break;
+			case 2:
+				state->useregex = !(state->useregex);
+				break;
+			case 3:
+				state->blinkcursor = !(state->blinkcursor);
+				break;
+			case 4:
+				state->backupfiles = !(state->backupfiles);
+				break;
+			case 5:
+				state->bos_use_system_config = !(state->bos_use_system_config);
+				break;
+			case 6:
+				state->bos_use_extra_buffer = !(state->bos_use_extra_buffer);
+				break;
+			}
+		}
 	}
 }
 
@@ -678,47 +683,147 @@ void draw_dialog(struct estate *state, int x, int y, int w, int h)
 							 h - state->corner_radius - state->corner_radius + 2);
 }
 
+int min(int a, int b)
+{
+	return a < b ? a : b;
+}
+
 #ifdef BOS_BUILD
 //TODO!!!
 #else
 bool show_open_dialog(struct estate *state)
 {
-    short k = 0;
-    int index = 0;
-    char *var_name;
-    void* search_pos = NULL;
-    int i = 0;
-    while((var_name = ti_Detect(&search_pos, "")) != NULL) {
-        i++;
-    }
-    void* arr;
-    os_MemChk(&arr);
-    i=0;
-    while((var_name = ti_Detect(&search_pos, "A")) != NULL) {
-        strncpy((char*)arr+8*i,var_name,8);
-        i++;
-    }
-    while(k!=KEY_CLEAR){
-        draw_dialog(state, 20, 20, 280, 200);
+
+	const int num_rows = 13;
+	short k = 0;
+	//Selected index
+	int index = 0;
+	//index on screen
+	int sindex = 0;
+	//index of start of screen
+	int scrstart = 0;
+	char *var_name;
+	void *search_pos = NULL;
+	int i = 0;
+	void *arr;
+	os_MemChk(&arr);
+	//array is blocked into 24s first 8 chars are the title, next 16 are the first characters of the file
+	while ((var_name = ti_Detect(&search_pos, NULL)) != NULL)
+	{
+		strncpy((char *)arr + 24 * i, var_name, 8);
+		ti_var_t slot1 = ti_Open(var_name, "r");
+		for (int j = 0; j < 16; j++)
+		{
+			char c = ti_GetC(slot1);
+			if (c == EOF)
+				break;
+			//Save the char
+			*((char *)arr + 24 * i + 8 + j) = c;
+		}
+		ti_Close(slot1);
+		i++;
+	}
+	int numfiles = i;
+	while (k != KEY_CLEAR)
+	{
+		draw_dialog(state, 20, 20, 280, 200);
 		gfx_SetColor(state->border_color);
 		gfx_HorizLine_NoClip(20, 40, 280);
 		fontlib_SetCursorPosition(84, 25);
 		fontlib_SetForegroundColor(state->text_color);
 		fontlib_DrawString("Open File (filename)");
 		fontlib_SetCursorPosition(45, 205);
-        fontlib_DrawString("Press enter to open");
-        gfx_SetColor(state->statusbar_color);
-        gfx_Rectangle_NoClip(25,45,270,160);
-        gfx_SetColor(state->border_color);
-        gfx_Rectangle_NoClip(26,46,270,160);
-        fontlib_SetCursorPosition(45,45);
-        fontlib_DrawString(arr+8*index);
-        index++;
-        gfx_BlitBuffer();
-        k=ngetchx();
-    }
+		fontlib_DrawString("Press enter to open");
+		gfx_SetColor(state->statusbar_color);
+		gfx_Rectangle_NoClip(25, 45, 270, 160);
+		gfx_SetColor(state->border_color);
+		gfx_Rectangle_NoClip(26, 46, 270, 160);
+		for (i = 0; i < min(num_rows, numfiles); i++)
+		{
+			if (i == sindex)
+			{
+				fontlib_SetForegroundColor(state->focus_color);
+				gfx_SetColor(state->statusbar_color);
+				gfx_FillRectangle_NoClip(27, 46 + 12 * i, 268, 12);
+			}
+			else
+			{
+				fontlib_SetForegroundColor(state->text_color);
+			}
+			//Set initial cursor position
+			fontlib_SetCursorPosition(32, 45 + 12 * i);
+			//Draw the name
+			fontlib_DrawStringL(arr + 24 * (i + scrstart), 8);
+			//Draw separator
+			fontlib_SetCursorPosition(32 + 8 * 8, 12 * i + 45);
+			fontlib_DrawString(" - ");
+			//Draw file preview.
+			fontlib_DrawStringL(arr + 24 * (i + scrstart) + 8, 16);
+		}
+		gfx_BlitBuffer();
+		k = ngetchx();
+		if (k == KEY_UP)
+		{
+			index--;
+			if (index < 0)
+				index = 0;
+			sindex--;
+			if (sindex < 0)
+			{
+				sindex = 0;
+				scrstart--;
+				if (scrstart < 0)
+				{
+					scrstart = 0;
+				}
+			}
+		}
+		if (k == KEY_DOWN)
+		{
+			index++;
+			if (index >= numfiles)
+				index = numfiles;
+			sindex++;
+			if (sindex >= num_rows)
+			{
+				sindex = num_rows - 1;
+				scrstart++;
+				if (scrstart >= numfiles - num_rows)
+				{
+					if (numfiles - num_rows > 0)
+					{
+						scrstart = numfiles - num_rows;
+					}
+					else
+					{
+						scrstart = 0;
+					}
+				}
+			}
+			//Edge case - no trap
+			if (sindex >= numfiles)
+			{
+				sindex = numfiles - 1;
+			}
+		}
+		if (k == '\n')
+		{
+			if (state->saved || show_unsaved_dialog(state))
+			{
+				strncpy(state->filename, (char *)arr + 24 * index, 8);
+				initialize(state);
+				parseRC(state);
+				load_text(state);
+				state->named = true;
+				return true;
+			}
+		}
+	}
+	return false;
 }
 #endif
+
+//==========================//END_OF_OPEN_FUNCTIONS//==========================//
 
 //1 means canceled
 bool show_save_dialog(struct estate *state)
@@ -805,4 +910,23 @@ void show_about_dialog(struct estate *state)
 	fontlib_DrawString(CEDIT_VERSION_STRING);
 	gfx_BlitBuffer();
 	ngetchx();
+}
+
+bool show_unsaved_dialog(struct estate *state)
+{
+	draw_dialog(state, 60, 60, 200, 120);
+	gfx_SetColor(state->border_color);
+	gfx_HorizLine_NoClip(60, 80, 200);
+	//fontlib_SetCursorPosition(115,80);
+	fontlib_SetCursorPosition(115, 65);
+	fontlib_DrawString("Warning: Unsaved");
+	fontlib_SetCursorPosition(80, 120);
+	fontlib_DrawString("Press enter to discard unsaved changes");
+	gfx_BlitBuffer();
+	short k = ngetchx();
+	if (k == '\n')
+	{
+		return true;
+	}
+	return false;
 }
