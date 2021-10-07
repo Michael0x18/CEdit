@@ -15,22 +15,21 @@ Current features:
  - Cut/Copy/Paste
  - Selection
  - Persistant clipboard: saves clipboard to standard appvar ("CLIPDATA")
-
-Upcoming features:
-
+ - Search
+ - Word operations (move left one word, etc)
  - Shell icon
  - File browser
  - Customizable colors
+
+Upcoming features:
  - Customizable fonts
  - Adjust size, spacing, color, etc of dialog boxes
  - Adjustable text size
  - Word wrap, not just line wrap
- - Word operations (move left one word, etc)
  - Tabs
  - Syntax highlighting?? Editing BASIC programs?
  - Shell integration: Wish list: BOSShell, Xenon
  - Help menu
- - Search and/or replace
  - Hex editor mode?
  - Integration with BOS system clipboard
 
