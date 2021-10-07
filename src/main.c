@@ -16,6 +16,7 @@ bool initialize(struct estate *state)
 #ifdef BOS_BUILD
 	fontlib_font_pack_t *font;
 #endif
+    memset(state->search_buffer,0,255);
 	//Default is false, if true, files will be archived after writes. Does nothing on BOS.
 	state->autoarchive = false;
 	//Default is true, if enabled, unsaved file = prompt
@@ -64,6 +65,7 @@ bool initialize(struct estate *state)
 
 	state->font = 0;
 	state->fonttype = 3;
+    state->hide_special_files=1;
 #ifndef BOS_BUILD
 	//state->text=malloc_noheap(MAX_BUFFER_SIZE);
 	//state->text = malloc(MAX_BUFFER_SIZE);

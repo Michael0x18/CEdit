@@ -138,6 +138,16 @@ struct estate {
 	//Default is false. If enabled, boost BOS maximum buffer size to 128Kb
 	//Does nothing on TIOS
 	bool bos_use_extra_buffer;
+    //Hide special files, like config files:
+    //  Cesium config file
+    //  CLIBS
+    //  Experimental CLIBS - USBDRVCE/FATDRVCE
+    //  The DrMono font pack
+    //  files that begin with a dot
+    //  Default is true
+    bool hide_special_files;
+    //For the search text buffer
+    char search_buffer[256];
 };
 
 #endif /* SRC_STATE_H_ */

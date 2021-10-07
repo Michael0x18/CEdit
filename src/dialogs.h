@@ -35,6 +35,8 @@
  */
 void show_editor_settings_dialog(struct estate *);
 
+void show_search_dialog(struct estate *);
+
 void show_appearance_settings_dialog(struct estate *);
 
 /*

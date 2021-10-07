@@ -443,6 +443,13 @@ void handle_key(struct estate *state, short k)
 		case KEY_F3:
 			cb_paste(state);
 			break;
+        case KEY_F4:
+            draw_editor(state);
+            gfx_SwapDraw();
+            show_search_dialog(state);
+            draw_editor(state);
+            gfx_SwapDraw();
+            break;
 		case KEY_F5:
 			draw_editor(state);
 			gfx_SwapDraw();
@@ -504,11 +511,22 @@ void cursor_to_l_end_select(struct estate *state)
 
 void cursor_to_left_word_select(struct estate *state)
 {
-	//while(state->eof)
+    while(state->c1 && (state->text[state->c1-1]=='\n' || state->text[state->c1-1]==' ')){
+        cursor_left_select(state);
+    }
+    while(state->c1 && (state->text[state->c1-1]!='\n' && state->text[state->c1-1]!=' ')){
+        cursor_left_select(state);
+    }
 }
 
 void cursor_to_right_word_select(struct estate *state)
 {
+    while(state->c2<MAX_BUFFER_SIZE - 1 && (state->text[state->c2+1]=='\n' || state->text[state->c2+1]==' ')){
+        cursor_right_select(state);
+    }
+    while(state->c2<MAX_BUFFER_SIZE - 1 && (state->text[state->c2+1]!='\n' && state->text[state->c2+1]!=' ')){
+        cursor_right_select(state);
+    }
 }
 
 int draw_editor(struct estate *state)
@@ -658,6 +676,9 @@ void editor_mainloop(struct estate *state)
 		if (k == KEY_CLEAR)
 		{
 			//Rely on short circuit
+            //First do this to remove other dialog artifacts
+            draw_editor(state);
+            gfx_SwapDraw();
 			if (state->saved || show_unsaved_dialog(state))
 			{
 				break;
@@ -801,10 +822,22 @@ void cursor_to_end(struct estate *state)
 
 void cursor_to_left_word(struct estate *state)
 {
+    while(state->c1 && (state->text[state->c1-1]=='\n' || state->text[state->c1-1]==' ')){
+        cursor_left(state);
+    }
+    while(state->c1 && (state->text[state->c1-1]!='\n' && state->text[state->c1-1]!=' ')){
+        cursor_left(state);
+    }
 }
 
 void cursor_to_right_word(struct estate *state)
 {
+    while(state->c2<MAX_BUFFER_SIZE - 1 && (state->text[state->c2+1]=='\n' || state->text[state->c2+1]==' ')){
+        cursor_right(state);
+    }
+    while(state->c2<MAX_BUFFER_SIZE - 1 && (state->text[state->c2+1]!='\n' && state->text[state->c2+1]!=' ')){
+        cursor_right(state);
+    }
 }
 
 void cursor_multi_up(struct estate *state)
@@ -1060,6 +1093,11 @@ void parseRC(struct estate *state)
 				state->blinkcursor = 1;
 			}
 		}
+        if (0==strncmp(buffer, "HSF:",4)){
+            int val = atoi(buffer + 4);
+            if(val==0)
+                state->hide_special_files=0;
+        }
 	}
 	fclose(f);
 #endif
