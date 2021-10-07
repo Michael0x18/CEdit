@@ -31,21 +31,21 @@
 #include "libmalloc.h"
 #endif
 
-#define CEDIT_VERSION_STRING "CEDIT 0.9 BETA"
+#define CEDIT_VERSION_STRING "CEDIT 1.0"
 
 /*
  * Main function
  */
-int main(int,char**);
+int main(int, char **);
 
 /*
  * Initializes the editor
  */
-bool initialize(struct estate*);
+bool initialize(struct estate *);
 
 /*
  * Parse the CEDITRC file, if it exists, and do stuff.
  */
-void parse_rc(struct estate*);
+void parse_rc(struct estate *);
 
 #endif /* SRC_CEDIT_H_ */

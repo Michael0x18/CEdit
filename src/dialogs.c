@@ -26,24 +26,30 @@ You may use version 2.1 or later only.
 #include <math.h>
 
 //Does actual searching stufff - with three f's
-void perform_search(struct estate *state){
-    for(int i = state->c2+1;(unsigned)i<MAX_BUFFER_SIZE-strlen(state->search_buffer); i++){
-        if(0==strncasecmp(state->search_buffer,(state->text+i),strlen(state->search_buffer))){
-            while(state->c2<i-1){
-                cursor_right(state);
-            }
-            for(int j = 0; (unsigned)j < strlen(state->search_buffer); j++){
-                cursor_right_select(state);
-            }
-            return;
-        }
-    }
+void perform_search(struct estate *state)
+{
+	for (int i = state->c2 + 1; (unsigned)i < MAX_BUFFER_SIZE - strlen(state->search_buffer); i++)
+	{
+		if (0 == strncasecmp(state->search_buffer, (state->text + i), strlen(state->search_buffer)))
+		{
+			while (state->c2 < i - 1)
+			{
+				cursor_right(state);
+			}
+			for (int j = 0; (unsigned)j < strlen(state->search_buffer); j++)
+			{
+				cursor_right_select(state);
+			}
+			return;
+		}
+	}
 }
 
-void show_search_dialog(struct estate * state){
+void show_search_dialog(struct estate *state)
+{
 	short k = 0;
 	int numchars = 0;
-    numchars=strlen(state->search_buffer);
+	numchars = strlen(state->search_buffer);
 	int cx = 52;
 	while (true)
 	{
@@ -75,9 +81,9 @@ void show_search_dialog(struct estate * state){
 			{
 				return;
 			}
-            //TODO search for stuff
-            perform_search(state);
-            return;
+			//TODO search for stuff
+			perform_search(state);
+			return;
 		}
 		if (!is_control(k))
 		{
@@ -95,7 +101,6 @@ void show_search_dialog(struct estate * state){
 	}
 	return;
 }
-
 
 uint8_t show_color_selection_dialog(struct estate *state, uint8_t current_value)
 {
@@ -763,30 +768,31 @@ int min(int a, int b)
 	return a < b ? a : b;
 }
 
-bool is_special(char* s){
-    if(s[0]=='.')
-        return true;
-    if(0==strcmp("Cesium",s))
-        return true;
-    if(0==strcmp("CLIPDATA",s))
-        return true;
-    if(0==strcmp("DrMono",s))
-        return true;
-    if(0==strcmp("FATDRVCE",s))
-        return true;
-    if(0==strcmp("FONTLIBC",s))
-        return true;
-    if(0==strcmp("GRAPHX",s))
-        return true;
-    if(0==strcmp("FILEIOC",s))
-        return true;
-    if(0==strcmp("ICEHOOKS",s))
-        return true;
-    if(0==strcmp("LibLoad",s))
-        return true;
-    if(0==strcmp("USBDRVCE",s))
-        return true;
-    return false;
+bool is_special(char *s)
+{
+	if (s[0] == '.')
+		return true;
+	if (0 == strcmp("Cesium", s))
+		return true;
+	if (0 == strcmp("CLIPDATA", s))
+		return true;
+	if (0 == strcmp("DrMono", s))
+		return true;
+	if (0 == strcmp("FATDRVCE", s))
+		return true;
+	if (0 == strcmp("FONTLIBC", s))
+		return true;
+	if (0 == strcmp("GRAPHX", s))
+		return true;
+	if (0 == strcmp("FILEIOC", s))
+		return true;
+	if (0 == strcmp("ICEHOOKS", s))
+		return true;
+	if (0 == strcmp("LibLoad", s))
+		return true;
+	if (0 == strcmp("USBDRVCE", s))
+		return true;
+	return false;
 }
 
 #ifdef BOS_BUILD
@@ -811,20 +817,22 @@ bool show_open_dialog(struct estate *state)
 	//array is blocked into 24s first 8 chars are the title, next 16 are the first characters of the file
 	while ((var_name = ti_Detect(&search_pos, NULL)) != NULL)
 	{
-        if(state->hide_special_files){
-            if(is_special(var_name))
-                continue;
-        }
+		if (state->hide_special_files)
+		{
+			if (is_special(var_name))
+				continue;
+		}
 		strncpy((char *)arr + 24 * i, var_name, 8);
 		ti_var_t slot1 = ti_Open(var_name, "r");
 		for (int j = 0; j < 16; j++)
 		{
 			char c = ti_GetC(slot1);
-			if (c == EOF){
-				c='\0';
-            }
-            if(c=='\n')
-                c=' ';
+			if (c == EOF)
+			{
+				c = '\0';
+			}
+			if (c == '\n')
+				c = ' ';
 			//Save the char
 			*((char *)arr + 24 * i + 8 + j) = c;
 		}
@@ -1020,7 +1028,6 @@ void show_about_dialog(struct estate *state)
 	ngetchx();
 }
 
-
 //TODO fix this - it's disgusting
 bool show_unsaved_dialog(struct estate *state)
 {
@@ -1032,8 +1039,8 @@ bool show_unsaved_dialog(struct estate *state)
 	fontlib_DrawString("Warning: Unsaved changes");
 	fontlib_SetCursorPosition(65, 80);
 	fontlib_DrawString("[enter]: discard");
-    fontlib_SetCursorPosition(65,91);
-    fontlib_DrawString("[clear]: cancel");
+	fontlib_SetCursorPosition(65, 91);
+	fontlib_DrawString("[clear]: cancel");
 	gfx_BlitBuffer();
 	short k = ngetchx();
 	if (k == '\n')
