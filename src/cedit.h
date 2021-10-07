@@ -31,7 +31,11 @@
 #include "libmalloc.h"
 #endif
 
-#define CEDIT_VERSION_STRING "CEDIT 1.0"
+#ifdef BOS_BUILD
+#define CEDIT_VERSION_STRING "CEDIT 1.0 BOS"
+#else
+#define CEDIT_VERSION_STRING "CEDIT 1.0 TIOS"
+#endif
 
 /*
  * Main function
