@@ -792,6 +792,10 @@ bool is_special(char *s)
 		return true;
 	if (0 == strcmp("USBDRVCE", s))
 		return true;
+	if (0==strcmp("KEYPADC",s))
+		return true;
+	if(0==strcmp("MSDDRVCE",s))
+		return true;
 	return false;
 }
 
