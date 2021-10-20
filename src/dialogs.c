@@ -69,7 +69,7 @@ void show_search_dialog(struct estate *state)
 		fontlib_DrawString(state->search_buffer);
 		gfx_VertLine(52 + FONT_WIDTH * numchars, 112, 12);
 		cx = 52 + FONT_WIDTH * numchars;
-		gfx_BlitBuffer();
+		//gfx_BlitBuffer();
 		k = ngetchx_xy(state, cx, 112);
 		if (k == KEY_CLEAR)
 		{
@@ -132,7 +132,7 @@ uint8_t show_color_selection_dialog(struct estate *state, uint8_t current_value)
 		gfx_SetColor(state->border_color);
 		gfx_Rectangle_NoClip(32 + 8 * (index % 32), 72 + 8 * (index >> 5), 8, 8);
 		gfx_Rectangle_NoClip(31 + 8 * (index % 32), 71 + 8 * (index >> 5), 10, 10);
-		gfx_BlitBuffer();
+		//gfx_BlitBuffer();
 		k = ngetchx();
 		if (k == KEY_CLEAR)
 		{
@@ -212,7 +212,7 @@ void show_editor_settings_dialog(struct estate *state)
 		fontlib_SetCursorPosition(24, 96 + 55 + 30);
 		fontlib_DrawString("by editing CEDITRC");
 		//~~//~~//~~//~~//~~//~~//~~//~~//~~//~~//
-		gfx_BlitBuffer();
+		//gfx_BlitBuffer();
 		k = ngetchx();
 		if (k == KEY_DOWN)
 		{
@@ -273,7 +273,7 @@ void show_keybind_dialog(struct estate *state)
 	fontlib_DrawString("Hold modifiers like 2nd.");
 	fontlib_SetCursorPosition(51, 86);
 	fontlib_DrawString("See docs for more info.");
-	gfx_BlitBuffer();
+	//gfx_BlitBuffer();
 	ngetchx();
 }
 
@@ -378,7 +378,7 @@ void show_appearance_settings_dialog(struct estate *state)
 		fontlib_SetCursorPosition(31, 202);
 		fontlib_DrawString("permanent.");
 
-		gfx_BlitBuffer();
+		//gfx_BlitBuffer();
 		k = ngetchx();
 		if (k == KEY_RIGHT || k == '\n')
 		{
@@ -390,7 +390,7 @@ void show_appearance_settings_dialog(struct estate *state)
 				fontlib_SetForegroundColor(state->text_color);
 				fontlib_SetCursorPosition(0,0);
 				fontlib_DrawUInt(state->text_color,1);
-				gfx_BlitBuffer();
+				//gfx_BlitBuffer();
 				ngetchx();*/
 				break;
 			case 1:
@@ -543,7 +543,7 @@ void show_appearance_settings_dialog_nocolor(struct estate *state)
 		fontlib_SetCursorPosition(31, 202);
 		fontlib_DrawString("permanent.");
 
-		gfx_BlitBuffer();
+		//gfx_BlitBuffer();
 		k = ngetchx();
 		if (k == KEY_RIGHT || k == '\n')
 		{
@@ -657,7 +657,7 @@ void show_persistence_dialog(struct estate *state)
 	fontlib_DrawString("not currently supported.");
 	fontlib_SetCursorPosition(31, 66);
 	fontlib_DrawString("Please edit CEDITRC instead.");
-	gfx_BlitBuffer();
+	//gfx_BlitBuffer();
 	ngetchx();
 }
 
@@ -711,7 +711,7 @@ void show_menu_dialog(struct estate *state)
 		}
 		menu_backend_draw(state, index);
 
-		gfx_BlitBuffer();
+		//gfx_BlitBuffer();
 		k = ngetchx();
 	}
 }
@@ -880,7 +880,7 @@ bool show_open_dialog(struct estate *state)
 			//Draw file preview.
 			fontlib_DrawStringL(arr + 24 * (i + scrstart) + 8, 16);
 		}
-		gfx_BlitBuffer();
+		//gfx_BlitBuffer();
 		k = ngetchx();
 		if (k == KEY_UP)
 		{
@@ -977,7 +977,7 @@ bool show_save_dialog(struct estate *state)
 		fontlib_DrawString(buffer);
 		gfx_VertLine(52 + FONT_WIDTH * numchars, 112, 12);
 		cx = 52 + FONT_WIDTH * numchars;
-		gfx_BlitBuffer();
+		//gfx_BlitBuffer();
 		k = ngetchx_xy(state, cx, 112);
 		if (k == KEY_CLEAR)
 		{
@@ -1028,7 +1028,7 @@ void show_about_dialog(struct estate *state)
 	fontlib_DrawString("About CEdit");
 	fontlib_SetCursorPosition(80, 120);
 	fontlib_DrawString(CEDIT_VERSION_STRING);
-	gfx_BlitBuffer();
+	//gfx_BlitBuffer();
 	ngetchx();
 }
 
@@ -1045,7 +1045,7 @@ bool show_unsaved_dialog(struct estate *state)
 	fontlib_DrawString("[enter]: discard");
 	fontlib_SetCursorPosition(65, 91);
 	fontlib_DrawString("[clear]: cancel");
-	gfx_BlitBuffer();
+	//gfx_BlitBuffer();
 	short k = ngetchx();
 	if (k == '\n')
 	{

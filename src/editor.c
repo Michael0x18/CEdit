@@ -372,7 +372,7 @@ void handle_key(struct estate *state, short k)
 			break;
 		case KEY_SAVE_AS:
 			draw_editor(state);
-			gfx_SwapDraw();
+			//gfx_SwapDraw();
 			if (!show_save_dialog(state))
 				write_file(state);
 			break;
@@ -380,7 +380,7 @@ void handle_key(struct estate *state, short k)
 			if (!state->named)
 			{
 				draw_editor(state);
-				gfx_SwapDraw();
+				//gfx_SwapDraw();
 				if (show_save_dialog(state))
 					break;
 			}
@@ -445,19 +445,19 @@ void handle_key(struct estate *state, short k)
 			break;
         case KEY_F4:
             draw_editor(state);
-            gfx_SwapDraw();
+            //gfx_SwapDraw();
             show_search_dialog(state);
             draw_editor(state);
-            gfx_SwapDraw();
+            //gfx_SwapDraw();
             break;
 		case KEY_F5:
 			draw_editor(state);
-			gfx_SwapDraw();
+			//gfx_SwapDraw();
 			show_menu_dialog(state);
 			break;
 		case KEY_OPEN:
 			draw_editor(state);
-			gfx_SwapDraw();
+			//gfx_SwapDraw();
 			open_file(state);
 			break;
 		case KEY_STATE:
@@ -529,9 +529,9 @@ void cursor_to_right_word_select(struct estate *state)
     }
 }
 
-int draw_editor(struct estate *state)
+int draw_editor_full(struct estate *state)
 {
-	gfx_FillScreen(state->background_color);
+    gfx_FillScreen(state->background_color);
 	//Initialize temporary variables
 	int24_t i = state->scr_offset;
 	int8_t row = 0;
@@ -619,7 +619,7 @@ int draw_editor(struct estate *state)
 	//Draw text on segs
 	fontlib_SetCursorPosition(20, 228);
 	fontlib_DrawString("Cut");
-	fontlib_SetCursorPosition(80, 228);
+	fontlib_SetCursorPosition(80, 226);
 	fontlib_DrawString("Copy");
 	fontlib_SetCursorPosition(140, 228);
 	fontlib_DrawString("Paste");
@@ -657,12 +657,18 @@ int draw_editor(struct estate *state)
 		{
 			scroll_down(state);
 		}
-		gfx_SwapDraw();
+		//gfx_SwapDraw();
 		draw_editor(state);
 	}
 
 	//fontlib_DrawInt(state->selection_anchor, 5);
 	return 0;
+
+}
+
+int draw_editor(struct estate *state)
+{
+	return draw_editor_full(state);
 }
 
 void editor_mainloop(struct estate *state)
@@ -671,14 +677,14 @@ void editor_mainloop(struct estate *state)
 	while (true)
 	{
 		draw_editor(state);
-		gfx_SwapDraw();
+		//gfx_SwapDraw();
 		k = ngetchx_xy(state, state->cx, state->cy);
 		if (k == KEY_CLEAR)
 		{
 			//Rely on short circuit
             //First do this to remove other dialog artifacts
             draw_editor(state);
-            gfx_SwapDraw();
+            //gfx_SwapDraw();
 			if (state->saved || show_unsaved_dialog(state))
 			{
 				break;

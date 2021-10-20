@@ -28,7 +28,7 @@
 #ifdef BOS_BUILD
 #define MAX_BUFFER_SIZE 65536
 #else
-#define MAX_BUFFER_SIZE 16384//65536
+#define MAX_BUFFER_SIZE 76800//16384//65536
 #endif
 
 /*
@@ -116,7 +116,8 @@ struct estate {
 	//Text buffer
 	//char text[16385];
 	//Gonna make it 64Kb.
-	char text[MAX_BUFFER_SIZE];
+	//char text[MAX_BUFFER_SIZE];
+    char* text;
 	//Line len buffer
 	int24_t lines[10000];
 	//Data in the clipboard

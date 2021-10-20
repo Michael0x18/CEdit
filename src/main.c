@@ -7,6 +7,7 @@
  */
 
 #include "cedit.h"
+#include "libmalloc.h"
 #ifdef BOS_BUILD
 #include <bos.h>
 #endif
@@ -67,6 +68,9 @@ bool initialize(struct estate *state)
 	state->fonttype = 3;
     state->hide_special_files=1;
 #ifndef BOS_BUILD
+    //os_MemChk(&state->text);
+    state->text=(char*)gfx_vram;
+    state->text+=76800;
 	//state->text=malloc_noheap(MAX_BUFFER_SIZE);
 	//state->text = malloc(MAX_BUFFER_SIZE);
 	//Temporary workaround to avoid buffer being yeeted by fileIO.
@@ -135,7 +139,7 @@ int main(int argc, char **argv)
 int main(int argc, char **argv)
 {
 	static struct estate editor_state;
-
+    //editor_state.text = (char*)malloc_noheap_safe(65536,"CEDITBUF");
 	if (initialize(&editor_state))
 	{
 		os_ClrHome();
@@ -164,7 +168,7 @@ int main(int argc, char **argv)
 	gfx_Begin();
 	parseRC(&editor_state);
 	load_text(&editor_state);
-
+    draw_editor_full(&editor_state);
 	editor_mainloop(&editor_state);
 	gfx_End();
 	return 0;

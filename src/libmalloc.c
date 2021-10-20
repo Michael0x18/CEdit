@@ -29,3 +29,12 @@ void* malloc_noheap(size_t size){
 	return ret;
 
 }
+
+void* malloc_noheap_safe(size_t size,char* handle){
+    //Create file - goes into RAM
+    ti_var_t var = ti_Open(handle,"w");
+    ti_Resize(size,var);
+    void* data = ti_GetDataPtr(var);
+    ti_Close(var);
+    return data;
+}

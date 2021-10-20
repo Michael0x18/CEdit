@@ -183,4 +183,6 @@ void write_file(struct estate *);
 //Load data from RC file
 void parseRC(struct estate *);
 
+int draw_editor_full(struct estate*);
+
 #endif /* SRC_EDITOR_H_ */
