@@ -1,8 +1,5 @@
-#ifndef main_h
-#define main_h
-/*
- * FILE main.h
- */
+#ifndef LIBMALLOC_H
+#define LIBMALLOC_H
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -18,10 +15,7 @@
 #include <keypadc.h>
 #include <fontlibc.h>
 
-/* 
- * Main function
- * Does basic starting
- */
-int main(int argc, char **argv);
+void* malloc_noheap(size_t size);
+void* malloc_noheap_safe(size_t, char*);
 
-#endif
+#endif /*LIBMALLOC_H*/
