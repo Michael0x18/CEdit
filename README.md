@@ -1,36 +1,8 @@
-# CEdit
-TI 84 plus CE text editor
+# CEdit2
+TI 84 plus CE text editor - VERSION 2 EXTREMELY UNSTABLE
 
-Current features:
+This is the development branch of CEdit. The editor core is currently undergoing a complete rewrite, and alternative avenues for drawing and rendering are being explored. This means that this version is prone to **sweeping API changes that can and will crash your calculator**. It is in an **unstable state** and likely will not be stable for several months.
 
- - Supports multiple platforms: BOS and TIOS
- - Edit any appvar - just put the name in the Ans variable before running the program
- - Modifier holding - type faster than ever before!
- - Very stable
- - A fancy dialog system.
- - Edit files up to 16Kb in size on TIOS and up to 64Kb on BOS (TIOS limit is due to file saving limitations and lack of safe ram).
- - Fast editing using buffer gap method.
- - Powerful: Combinations of modifier keys allow you to type almost all characters.
- - Shell integration: Currently compatible with VYSION, CESIUM, and all shells that use the standard argument format.
- - Cut/Copy/Paste
- - Selection
- - Persistant clipboard: saves clipboard to standard appvar ("CLIPDATA")
- - Search
- - Word operations (move left one word, etc)
- - Shell icon
- - File browser
- - Customizable colors
+**DO NOT USE THIS BRANCH. DO STUFF FROM MASTER. THIS ONE IS JUST FOR EXPERIMENTATION. IN FACT, IT CURRENTLY DOESN'T WORK AS AN EDITOR. IT'S JUST A 4BPP COLUMN-MAJOR DEMO RIGHT NOW. DO NOT BE DECEIVED BY THE PROGRAM'S ON CALC NAME BEING CEDIT. THIS IS BECAUSE THE MAKEFILE HAS NOT BEEN MODIFIED ON THIS BRANCH. DO NOT USE THIS BRANCH. EVER. ONCE CHANGES ARE STABLE, THEY WILL BE PUT IN MASTER. DO NOT USE THIS BRANCH. IT CAN AND WILL CAUSE CRASHES.**
 
-Upcoming features:
- - Customizable fonts
- - Adjust size, spacing, color, etc of dialog boxes
- - Adjustable text size
- - Word wrap, not just line wrap
- - Tabs
- - Syntax highlighting?? Editing BASIC programs?
- - Shell integration: Wish list: BOSShell, Xenon
- - Help menu
- - Hex editor mode?
- - Integration with BOS system clipboard
-
-For usage information, please see the CEdit manual: https://github.com/Michael0x18/CEdit/blob/master/cedit.pdf
+**You have been warned.**
