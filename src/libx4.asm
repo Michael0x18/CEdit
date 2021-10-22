@@ -19,14 +19,38 @@ _x4_Begin:
 
 public _x4_LoadDefaultPalette
 _x4_LoadDefaultPalette:
-	ld	hl, $0000
+	ld	hl, $0000							;Black
 	ld	(ti.mpLcdPalette + 0 * word), hl
-	ld	hl, $001F
-	ld	(ti.mpLcdPalette + 1 * word), hl
-	ld	hl, $7C00
+	ld	hl, $A94A							;Dark Gray
+	ld	(ti.mpLcdPalette + 1 * word), hl	
+	ld	hl, $4631							;Gray
 	ld	(ti.mpLcdPalette + 2 * word), hl
-	ld	hl, $03E0
+	ld	hl, $6318							;MedGray
 	ld	(ti.mpLcdPalette + 3 * word), hl
+	ld	hl, $739C							;LtGray
+	ld	(ti.mpLcdPalette + 4 * word), hl
+	ld	hl, $FFFF							;White
+	ld	(ti.mpLcdPalette + 5 * word), hl
+	ld	hl, $1F								;Blue
+	ld	(ti.mpLcdPalette + 6 * word), hl
+	ld	hl, $8260							;Green
+	ld	(ti.mpLcdPalette + 7 * word), hl
+	ld	hl, $7C00							;Red
+	ld	(ti.mpLcdPalette + 8 * word), hl
+	ld	hl, $10								;Navy
+	ld	(ti.mpLcdPalette + 9 * word), hl
+	ld	hl, $25F							;LtBlue
+	ld	(ti.mpLcdPalette + 10 * word), hl
+	ld	hl, $FFE0							;Yellow
+	ld	(ti.mpLcdPalette + 11 * word), hl
+	ld	hl, $7C1F							;Magenta
+	ld	(ti.mpLcdPalette + 12 * word), hl
+	ld	hl, $FE05							;Orange
+	ld	(ti.mpLcdPalette + 13 * word), hl
+	ld	hl, $5880							;Brown
+	ld	(ti.mpLcdPalette + 14 * word), hl
+	ld	hl, $FFFF							;White2
+	ld	(ti.mpLcdPalette + 15 * word), hl
 	ret
 
 public _x4_End
