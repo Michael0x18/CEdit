@@ -48,6 +48,7 @@ _x4_FillScreen:
 	ld	de, ti.vRam + 1
 	ld	bc, 38400 - 1
 	ld	(hl), a
+	rld
 	ldir
 	ret
 
