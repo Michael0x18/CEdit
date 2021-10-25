@@ -1,5 +1,5 @@
 #ifndef libx4_h
-#define libx4
+#define libx4_h
 
 /*
  * Sets up the 4bpp drawing  
