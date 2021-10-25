@@ -10,9 +10,9 @@ include 'spi.asm'
 ; void x4_Begin(void)
 public _x4_Begin
 _x4_Begin:
-    ld a,ti.lcdBpp4
-    ld (ti.mpLcdCtrl), a
-    spi	$36, $2c		;Do mysterious spi stuff to get it in column-major mode
+	ld	a,ti.lcdBpp4
+	ld	(ti.mpLcdCtrl), a
+	spi	$36, $2c		;Do mysterious spi stuff to get it in column-major mode
 	spi	$2a, 0,0, 0,$ef
 	spi	$2b, 0,0, 1,$3f
 	ret
@@ -55,9 +55,9 @@ _x4_LoadDefaultPalette:
 
 public _x4_End
 _x4_End:
-    spi $2a, 0,0, 1,$3f
-	spi $2b, 0,0, 0,$ef
-	spi $36, $08
+	spi	$2a, 0,0, 1,$3f
+	spi	$2b, 0,0, 0,$ef
+	spi	$36, $08
 	ld	a, ti.lcdBpp16
 	ld 	(ti.mpLcdCtrl), a
 	ret
@@ -65,8 +65,8 @@ _x4_End:
 ; Clears the screen. Takes the color to use on the top of the stack
 public _x4_FillScreen
 _x4_FillScreen:
-	ld hl,3
-	add hl,sp
+	ld	hl,3
+	add	hl,sp
 	ld	a,(hl)
 	ld	hl, ti.vRam
 	ld	de, ti.vRam + 1
@@ -76,3 +76,26 @@ _x4_FillScreen:
 	ldir
 	ret
 
+; Fast copy a buffer from src to dest, order is dest then src, so read src first
+public _x4_BlitBuffer
+_x4_BlitBuffer:
+	ld	hl,3
+	add	hl,sp
+	ld	de,(hl)
+	inc	hl
+	inc	hl
+	inc	hl
+	ld	hl,(hl)
+	ld	bc,38400
+	ldir
+	ret
+;	add	hl,sp
+;	ld	bc,(hl)
+;	inc	hl
+;	inc	hl
+;	inc	hl
+;	ld	de,(hl)
+;	ld	hl,bc
+;	ld	bc,38400
+;	ldir
+;	ret
