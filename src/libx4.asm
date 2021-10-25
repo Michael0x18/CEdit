@@ -68,8 +68,8 @@ _x4_FillScreen:
 	ld	hl,3
 	add	hl,sp
 	ld	a,(hl)
-	ld	hl, ti.vRam
-	ld	de, ti.vRam + 1
+	ld	hl, (x4_Buffer)
+	ld	de, (x4_Buffer) + 1
 	ld	bc, 38400 - 1
 	ld	(hl), a
 	rld
@@ -89,13 +89,8 @@ _x4_BlitBuffer:
 	ld	bc,38400
 	ldir
 	ret
-;	add	hl,sp
-;	ld	bc,(hl)
-;	inc	hl
-;	inc	hl
-;	inc	hl
-;	ld	de,(hl)
-;	ld	hl,bc
-;	ld	bc,38400
-;	ldir
-;	ret
+
+
+section .data
+private x4_Buffer
+	x4_Buffer dl ti.vRam
