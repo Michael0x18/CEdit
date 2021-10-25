@@ -90,7 +90,22 @@ _x4_BlitBuffer:
 	ldir
 	ret
 
+; Returns the current drawing location
+public _x4_GetDrawLocation
+_x4_GetDrawLocation:
+	ld	hl,x4_Buffer
+	ret
+
+; Sets the current drawing location. Takes in a buffer
+public _x4_SetDrawLocation
+_x4_SetDrawLocation:
+	ld	hl,3
+	add	hl,sp
+	ld	bc, (hl)
+	ld	(x4_Buffer),bc
+	ret
 
 section .data
+; The currently active drawing buffer.
 private x4_Buffer
 	x4_Buffer dl ti.vRam
