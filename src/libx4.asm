@@ -69,7 +69,8 @@ _x4_FillScreen:
 	add	hl,sp
 	ld	a,(hl)
 	ld	hl, (x4_Buffer)
-	ld	de, (x4_Buffer) + 1
+	ld	de, (x4_Buffer)
+	inc	de
 	ld	bc, 38400 - 1
 	ld	(hl), a
 	rld
@@ -103,6 +104,14 @@ _x4_SetDrawLocation:
 	add	hl,sp
 	ld	bc, (hl)
 	ld	(x4_Buffer),bc
+	ret
+
+public _x4_SetScreenLocation
+_x4_SetScreenLocation:
+	ld	hl,3
+	add	hl,sp
+	ld	bc, (hl)
+	ld	(ti.mpLcdBase),bc
 	ret
 
 section .data
