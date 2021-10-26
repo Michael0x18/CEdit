@@ -3,6 +3,8 @@
 
 #include "libx4_constants.h"
 
+extern void* x4_Buffer;
+
 /*
  * Sets up the 4bpp drawing  
  * Note: You need to call the palette setting,
@@ -67,6 +69,17 @@ void* x4_GetScreenLocation(void);
  */
 void x4_BlitBuffer(void* dest, void* src);
 
-void x4_PutPixel(void);
+void x4_PutPixel(int x, int y, int c){
+    int offset = x*120 + y/2;
+    uint8_t mask;
+    if(y%2==1){
+        c<<=4;
+        mask = 0b00001111;
+    }else{
+        mask = 0b11110000;
+    }
+    *((char*)x4_Buffer+offset)&=mask;
+    *((char*)x4_Buffer+offset)|=c;
+}
 
 #endif
