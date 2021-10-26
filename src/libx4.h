@@ -41,7 +41,8 @@ void x4_FillScreen(int8_t color);
 void x4_LoadDefaultPalette(void);
 
 /*
- * Returns the address of the drawing location.
+ * Returns the address ofd the drawing location.
+ * Note: Return is broken
  */
 void* x4_GetDrawLocation(void);
 
@@ -57,6 +58,7 @@ void x4_SetScreenLocation(void* addr);
 
 /*
  * Returns the location of the screen
+ * Note: Return is broken
  */
 void* x4_GetScreenLocation(void);
 

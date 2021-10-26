@@ -51,11 +51,6 @@ _x4_LoadDefaultPalette:
 	ld	(ti.mpLcdPalette + 14 * word), hl
 	ld	hl, $FFFF							;White2
 	ld	(ti.mpLcdPalette + 15 * word), hl
-	ret
-
-public _x4_End
-_x4_End:
-	spi	$2a, 0,0, 1,$3f
 	spi	$2b, 0,0, 0,$ef
 	spi	$36, $08
 	ld	a, ti.lcdBpp16
