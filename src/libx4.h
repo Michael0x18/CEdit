@@ -129,7 +129,8 @@ void x4_Line(int x1, int y1, int x2, int y2, int c){
 		return;
 	}
 	if(dy==0){
-		x4_VertLine(x1,y1,x2-x1,c);
+		x4_HorizLine(x1,y1,x2-x1,c);
+		return;
 	}
 	if(dx>dy){
 		//Run this x major
