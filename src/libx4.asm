@@ -57,13 +57,22 @@ _x4_LoadDefaultPalette:
 	ld 	(ti.mpLcdCtrl), a
 	ret
 
+public _x4_End
+_x4_End:
+	spi	$2a, 0,0, 1,$3f
+	spi	$2b, 0,0, 0,$ef
+	spi	$36, $08
+	ld	a, ti.lcdBpp16
+	ld 	(ti.mpLcdCtrl), a
+	ret
+
 ; Clears the screen. Takes the color to use on the top of the stack
 public _x4_FillScreen
 _x4_FillScreen:
 	ld	hl,3
 	add	hl,sp
 	ld	a,(hl)
-	ld	hl, (x4_Buffer)
+	ld	hl, (_x4_Buffer)
 	ld	de, (x4_Buffer)
 	inc	de
 	ld	bc, 38400 - 1
@@ -89,7 +98,7 @@ _x4_BlitBuffer:
 ; Returns the current drawing location
 public _x4_GetDrawLocation
 _x4_GetDrawLocation:
-	ld	hl,x4_Buffer
+	ld	hl,_x4_Buffer
 	ret
 
 ; Sets the current drawing location. Takes in a buffer
@@ -98,7 +107,7 @@ _x4_SetDrawLocation:
 	ld	hl,3
 	add	hl,sp
 	ld	bc, (hl)
-	ld	(x4_Buffer),bc
+	ld	(_x4_Buffer),bc
 	ret
 
 public _x4_SetScreenLocation
@@ -111,5 +120,5 @@ _x4_SetScreenLocation:
 
 section .data
 ; The currently active drawing buffer.
-private x4_Buffer
-	x4_Buffer dl ti.vRam
+public _x4_Buffer
+	_x4_Buffer dl ti.vRam

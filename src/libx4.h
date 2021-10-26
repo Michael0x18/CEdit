@@ -67,4 +67,6 @@ void* x4_GetScreenLocation(void);
  */
 void x4_BlitBuffer(void* dest, void* src);
 
+void x4_PutPixel(void);
+
 #endif
