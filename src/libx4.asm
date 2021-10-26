@@ -2,7 +2,7 @@
 ;       4bpp routines
 ;
 ;       License is LGPL
-;       Michael0x18
+;       Michael0x18, beckadamtheinventor
 ;
 include 'ti84pceg.inc'
 include 'spi.asm'
@@ -19,38 +19,10 @@ _x4_Begin:
 
 public _x4_LoadDefaultPalette
 _x4_LoadDefaultPalette:
-	ld	hl, $0000							;Black
-	ld	(ti.mpLcdPalette + 0 * word), hl
-	ld	hl, $A94A							;Dark Gray
-	ld	(ti.mpLcdPalette + 1 * word), hl	
-	ld	hl, $4631							;Gray
-	ld	(ti.mpLcdPalette + 2 * word), hl
-	ld	hl, $6318							;MedGray
-	ld	(ti.mpLcdPalette + 3 * word), hl
-	ld	hl, $739C							;LtGray
-	ld	(ti.mpLcdPalette + 4 * word), hl
-	ld	hl, $FFFF							;White
-	ld	(ti.mpLcdPalette + 5 * word), hl
-	ld	hl, $1F								;Blue
-	ld	(ti.mpLcdPalette + 6 * word), hl
-	ld	hl, $8260							;Green
-	ld	(ti.mpLcdPalette + 7 * word), hl
-	ld	hl, $7C00							;Red
-	ld	(ti.mpLcdPalette + 8 * word), hl
-	ld	hl, $10								;Navy
-	ld	(ti.mpLcdPalette + 9 * word), hl
-	ld	hl, $25F							;LtBlue
-	ld	(ti.mpLcdPalette + 10 * word), hl
-	ld	hl, $FFE0							;Yellow
-	ld	(ti.mpLcdPalette + 11 * word), hl
-	ld	hl, $7C1F							;Magenta
-	ld	(ti.mpLcdPalette + 12 * word), hl
-	ld	hl, $FE05							;Orange
-	ld	(ti.mpLcdPalette + 13 * word), hl
-	ld	hl, $5880							;Brown
-	ld	(ti.mpLcdPalette + 14 * word), hl
-	ld	hl, $FFFF							;White2
-	ld	(ti.mpLcdPalette + 15 * word), hl
+	ld	hl, _x4_DefaulPaletteData	; default palette entries
+	ld	de, ti.mpLcdPalette	; lcd palette entries
+	ld	bc, 16
+	ldir
 	ret
 
 public _x4_End
@@ -65,28 +37,31 @@ _x4_End:
 ; Clears the screen. Takes the color to use on the top of the stack
 public _x4_FillScreen
 _x4_FillScreen:
-	ld	hl,3
-	add	hl,sp
-	ld	a,(hl)
+	pop	bc
+	ex	(sp), hl
+	push	bc
+; pack 4bpp color into 8 bits
+	ld	a, l	; a = color
+	and	a, $F	; a &= 0b1111
+	add	a, a	; a += a
+	add	a, a	; a += a
+	add	a, a	; a += a
+	add	a, a	; a += a
+	add	a, l	; a += color
 	ld	hl, (_x4_Buffer)
 	ld	de, (_x4_Buffer)
 	inc	de
 	ld	bc, 38400 - 1
 	ld	(hl), a
-	rld
 	ldir
 	ret
 
 ; Fast copy a buffer from src to dest, order is dest then src, so read src first
 public _x4_BlitBuffer
 _x4_BlitBuffer:
-	ld	hl,3
-	add	hl,sp
-	ld	de,(hl)
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	hl,(hl)
+	pop	bc,de
+	ex	(sp),hl
+	push	de,bc
 	ld	bc,38400
 	ldir
 	ret
@@ -100,21 +75,43 @@ _x4_GetDrawLocation:
 ; Sets the current drawing location. Takes in a buffer
 public _x4_SetDrawLocation
 _x4_SetDrawLocation:
-	ld	hl,3
-	add	hl,sp
-	ld	bc, (hl)
-	ld	(_x4_Buffer),bc
-	ret
+	pop	de
+	ex	(sp),hl
+	ld	(_x4_Buffer),hl
+	ex	hl,de
+	jp	(hl)
 
 public _x4_SetScreenLocation
 _x4_SetScreenLocation:
-	ld	hl,3
-	add	hl,sp
-	ld	bc, (hl)
-	ld	(ti.mpLcdBase),bc
-	ret
+	pop	de
+	ex	(sp),hl
+	ld	(ti.mpLcdBase),hl
+	ex	hl,de
+	jp	(hl)
 
 section .data
+; Palette data
+public _x4_DefaulPaletteData
+_x4_DefaulPaletteData:
+	dw	$0000		;Black
+	dw	$A94A		;Dark Gray
+	dw	$4631		;Gray
+	dw	$6318		;MedGray
+	dw	$739C		;LtGray
+	dw	$FFFF		;White
+	dw	$001F		;Blue
+	dw	$8260		;Green
+	dw	$7C00		;Red
+	dw	$0010		;Navy
+	dw	$25F		;LtBlue
+	dw	$FFE0		;Yellow
+	dw	$7C1F		;Magenta
+	dw	$FE05		;Orange
+	dw	$5880		;Brown
+	dw	$FFFF		;White2
+
+
+
 ; The currently active drawing buffer.
 public _x4_Buffer
 	_x4_Buffer dl ti.vRam
