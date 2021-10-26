@@ -71,6 +71,7 @@ void x4_BlitBuffer(void* dest, void* src);
 
 void x4_PutPixel(int x, int y, int c){
     int offset = x*120 + y/2;
+    //int offset = y*160 + x/2;
     uint8_t mask;
     if(y%2==1){
         c<<=4;

@@ -28,15 +28,20 @@ int main(int argc, char** argv){
 int main(void){
     x4_Begin();
     x4_LoadDefaultPalette();
-    x4_SetDrawLocation(X4_BUFFER_1);
+    x4_SetDrawLocation(X4_BUFFER_2);
 
     x4_FillScreen(15);
 
-    for(int x = 0; x < 200; x++)
-        for(int y = 0; y < 200; y++)
-            x4_PutPixel(y,x,0);
-
+     for(int x = 0; x < 200; x++){
+         for(int y = 0; y < 200; y++){
+             x4_PutPixel(y,x,0);
+      
+         }
+     }
+    //x4_PutPixel(1,0,0);
+    x4_SetScreenLocation(X4_BUFFER_2);
     while(!os_GetCSC());
 
+    x4_SetScreenLocation(X4_BUFFER_1);
     x4_End();
 }
