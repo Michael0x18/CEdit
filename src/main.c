@@ -32,13 +32,14 @@ int main(void){
 
     x4_FillScreen(15);
 
-     for(int x = 0; x < 200; x++){
-         for(int y = 0; y < 200; y++){
+     for(int x = 0; x < 20; x++){
+         for(int y = 0; y < 20; y++){
              x4_PutPixel(y,x,0);
       
          }
      }
     //x4_PutPixel(1,0,0);
+    x4_HorizLine(40,40,40,6);
     x4_SetScreenLocation(X4_BUFFER_2);
     while(!os_GetCSC());
 

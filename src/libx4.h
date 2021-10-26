@@ -83,4 +83,20 @@ void x4_PutPixel(int x, int y, int c){
     *((char*)x4_Buffer+offset)|=c;
 }
 
+void x4_HorizLine(int x, int y, int len, int c){
+	int offset = x*120 + y/2;
+	uint8_t mask;
+	if(y%2==1){
+		c<<=4;
+		mask=0b00001111;
+	}else{
+		mask=0b11110000;
+	}
+	for(int i = 0; i < len; i++){
+		*((char*)x4_Buffer+offset)&=mask;
+		*((char*)x4_Buffer+offset)|=c;
+		offset+=120;
+	}
+}
+
 #endif
