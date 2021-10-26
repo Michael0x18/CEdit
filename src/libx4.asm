@@ -51,10 +51,6 @@ _x4_LoadDefaultPalette:
 	ld	(ti.mpLcdPalette + 14 * word), hl
 	ld	hl, $FFFF							;White2
 	ld	(ti.mpLcdPalette + 15 * word), hl
-	spi	$2b, 0,0, 0,$ef
-	spi	$36, $08
-	ld	a, ti.lcdBpp16
-	ld 	(ti.mpLcdCtrl), a
 	ret
 
 public _x4_End
@@ -73,7 +69,7 @@ _x4_FillScreen:
 	add	hl,sp
 	ld	a,(hl)
 	ld	hl, (_x4_Buffer)
-	ld	de, (x4_Buffer)
+	ld	de, (_x4_Buffer)
 	inc	de
 	ld	bc, 38400 - 1
 	ld	(hl), a
