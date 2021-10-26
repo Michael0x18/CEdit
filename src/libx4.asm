@@ -21,7 +21,7 @@ public _x4_LoadDefaultPalette
 _x4_LoadDefaultPalette:
 	ld	hl, _x4_DefaulPaletteData	; default palette entries
 	ld	de, ti.mpLcdPalette	; lcd palette entries
-	ld	bc, 16
+	ld	bc, 16 * word
 	ldir
 	ret
 
