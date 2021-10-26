@@ -43,6 +43,7 @@ _x4_FillScreen:
 ; pack 4bpp color into 8 bits
 	ld	a, l	; a = color
 	and	a, $F	; a &= 0b1111
+	ld	l, a	; color &= 0b1111
 	add	a, a	; a += a
 	add	a, a	; a += a
 	add	a, a	; a += a
