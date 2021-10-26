@@ -133,7 +133,15 @@ void x4_Line(int x1, int y1, int x2, int y2, int c){
 	}
 	if(dx>dy){
 		//Run this x major
-		return;//For now; test
+		short py = y1 < y2 ? 1 : -1;
+		for(int i = 0; i < dx; i++){
+			x4_PutPixel(x1+i,y1+py*(dy*i/dx),c);
+		}
+	}else{
+		short px = x1 < x2 ? 1 : -1;
+		for(int i = 0; i < dy; i++){
+			x4_PutPixel(x1+px*(dx*i/dy),y1+i,c);
+		}
 	}
 }
 
