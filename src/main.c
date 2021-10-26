@@ -11,20 +11,20 @@ int main(int argc, char** argv){
         x4_FillScreen(i);
         while(!os_GetCSC());
     }
-    x4_SetDrawLocation(X4_BUFFER_2);
-    x4_FillScreen(7);
-    x4_SetDrawLocation(X4_BUFFER_3);
-    x4_FillScreen(6);
+    //x4_SetDrawLocation(X4_BUFFER_2);
+    //x4_FillScreen(7);
+    //x4_SetDrawLocation(X4_BUFFER_3);
+    //x4_FillScreen(6);
     //while(!os_GetCSC());
-    x4_BlitBuffer(X4_BUFFER_1,X4_BUFFER_2);
-    while(!os_GetCSC());
+    //x4_BlitBuffer(X4_BUFFER_1,X4_BUFFER_2);
+    //while(!os_GetCSC());
     //x4_BlitBuffer(X4_BUFFER_1,X4_BUFFER_3);
-    x4_SetScreenLocation(X4_BUFFER_3);
-    while(!os_GetCSC());
+    //x4_SetScreenLocation(X4_BUFFER_3);
+    //while(!os_GetCSC());
     x4_SetScreenLocation(X4_BUFFER_1);
     x4_End();
-}
-*/
+}*/
+
 int main(void){
     x4_Begin();
     x4_LoadDefaultPalette();
@@ -46,3 +46,4 @@ int main(void){
     x4_SetScreenLocation(X4_BUFFER_1);
     x4_End();
 }
+

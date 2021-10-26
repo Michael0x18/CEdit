@@ -34,6 +34,20 @@ _x4_End:
 	ld 	(ti.mpLcdCtrl), a
 	ret
 
+public _x4_FillScreen_nocheck
+_x4_FillScreen_nocheck:
+	ld	hl,3
+	add	hl,sp
+	ld	a,(hl)
+	ld	hl, (_x4_Buffer)
+	ld	de, (_x4_Buffer)
+	inc	de
+	ld	bc, 38400 - 1
+	ld	(hl), a
+	rld
+	ldir
+	ret
+
 ; Clears the screen. Takes the color to use on the top of the stack
 public _x4_FillScreen
 _x4_FillScreen:

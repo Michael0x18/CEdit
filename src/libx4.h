@@ -92,10 +92,48 @@ void x4_HorizLine(int x, int y, int len, int c){
 	}else{
 		mask=0b11110000;
 	}
-	for(int i = 0; i < len; i++){
-		*((char*)x4_Buffer+offset)&=mask;
-		*((char*)x4_Buffer+offset)|=c;
-		offset+=120;
+	if(len>0){
+			for(int i = 0; i < len; i++){
+			*((char*)x4_Buffer+offset)&=mask;
+			*((char*)x4_Buffer+offset)|=c;
+			offset+=120;
+		}
+	}else{
+		for(int i = 0; i > len;i--){
+			*((char*)x4_Buffer+offset)&=mask;
+			*((char*)x4_Buffer+offset)|=c;
+			offset-=120;
+		}
+	}	
+}
+
+void x4_VertLine(int x, int y, int len, int c){
+	if(len>0){
+		for(int i = 0; i < len; i++){
+			x4_PutPixel(x,y+i,c);//F this I'm not writing a real routine
+		}
+	}else{
+		for(int i = 0; i > len; i++){
+			x4_PutPixel(x,y+i,c);
+		}
+	}
+}
+
+void x4_Line(int x1, int y1, int x2, int y2, int c){
+	short dx=x2-x1;
+	short dy=y2-y1;
+	if(dx<0)dx=-dx;
+	if(dy<0)dy=-dy;
+	if(dx==0){
+		x4_VertLine(x1,y1,y2-y1,c);
+		return;
+	}
+	if(dy==0){
+		x4_VertLine(x1,y1,x2-x1,c);
+	}
+	if(dx>dy){
+		//Run this x major
+		return;//For now; test
 	}
 }
 
