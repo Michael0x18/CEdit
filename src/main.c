@@ -39,7 +39,7 @@ void swapdraw(void){
 		a=true;
 	}
 }
-
+/*
 int main(void){
 	x4_Begin();
 	x4_LoadDefaultPalette();
@@ -82,7 +82,7 @@ int main(void){
 	}
 	x4_SetScreenLocation(X4_BUFFER_1);
 	x4_End();
-}
+}*/
 
 /*
 int main(void){
@@ -113,3 +113,27 @@ int main(void){
 	}
 	x4_End();
 }*/
+
+
+int main(void){
+	x4_Begin();
+	x4_LoadDefaultPalette();
+	x4_FillScreen(6);
+	x4_SetDrawLocation(X4_BUFFER_2);
+	x4_FillScreen(7);
+	while(!kb_IsDown(kb_KeyClear)){
+		swapdraw();
+	}
+	x4_SetScreenLocation(X4_BUFFER_1);
+	x4_End();
+}
+
+
+
+
+
+
+
+
+
+
