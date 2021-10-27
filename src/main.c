@@ -41,6 +41,10 @@ void swapdraw(void){
 }
 
 int main(void){
+	int32_t andit= 0b00000111111111111111111111111111l;
+	int32_t orit = 0b00010000000000000000000000000000l;
+	lcd_Timing2&=andit;
+	lcd_Timing2|=orit;
 	x4_Begin();
 	x4_LoadDefaultPalette();
 	x4_FillScreen(15);
