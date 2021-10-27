@@ -81,8 +81,8 @@ int main(void){
 		if(kb_IsDown(kb_KeyDown)){
 			b++;
 		}
-		x4_BlitBuffer(X4_BUFFER_1,X4_BUFFER_2);
-		gfx_Wait();
+//x4_BlitBuffer(X4_BUFFER_1,X4_BUFFER_2);
+		//gfx_Wait();
 		swapdraw();
 		//delay(250);
 		//gfx_Wait();
