@@ -36,17 +36,11 @@ _x4_End:
 
 public _x4_FillScreen_nocheck
 _x4_FillScreen_nocheck:
-	ld	hl,3
-	add	hl,sp
-	ld	a,(hl)
-	ld	hl, (_x4_Buffer)
-	ld	de, (_x4_Buffer)
-	inc	de
-	ld	bc, 38400 - 1
-	ld	(hl), a
-	rld
-	ldir
-	ret
+	pop	bc
+	ex	(sp),hl
+	push	bc
+	ld	a, l
+	jq	_x4_FillScreen.entry
 
 ; Clears the screen. Takes the color to use on the top of the stack
 public _x4_FillScreen
@@ -63,6 +57,7 @@ _x4_FillScreen:
 	add	a, a	; a += a
 	add	a, a	; a += a
 	add	a, l	; a += color
+.entry:
 	ld	hl, (_x4_Buffer)
 	ld	de, (_x4_Buffer)
 	inc	de
@@ -71,11 +66,11 @@ _x4_FillScreen:
 	ldir
 	ret
 
-; Fast copy a buffer from src to dest, order is dest then src, so read src first
+; copy a buffer from src to dest, order is dest then src, so read src first
 public _x4_BlitBuffer
 _x4_BlitBuffer:
 	pop	bc,de
-	ex	(sp),hl
+	ex (sp),hl
 	push	de,bc
 	ld	bc,38400
 	ldir
@@ -84,7 +79,7 @@ _x4_BlitBuffer:
 ; Returns the current drawing location
 public _x4_GetDrawLocation
 _x4_GetDrawLocation:
-	ld	hl,_x4_Buffer
+	ld	hl,(_x4_Buffer)
 	ret
 
 ; Sets the current drawing location. Takes in a buffer
@@ -105,6 +100,10 @@ _x4_SetScreenLocation:
 	jp	(hl)
 
 section .data
+; The currently active drawing buffer.
+public _x4_Buffer
+	_x4_Buffer	dl	ti.vRam
+
 ; Palette data
 public _x4_DefaulPaletteData
 _x4_DefaulPaletteData:
@@ -125,8 +124,10 @@ _x4_DefaulPaletteData:
 	dw	$5880		;Brown
 	dw	$FFFF		;White2
 
+public _x4_FontSpacing
+_x4_FontSpacing	dl	default_font_spacing
 
+public _x4_FontData
+_x4_FontData	dl	default_font_data
 
-; The currently active drawing buffer.
-public _x4_Buffer
-	_x4_Buffer dl ti.vRam
+include 'font.asm'
