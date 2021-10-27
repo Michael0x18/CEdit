@@ -26,6 +26,7 @@
 x4_SetScreenLocation(X4_BUFFER_1);
 x4_End();
 }*/
+
 bool a = false;
 void swapdraw(void){
 	if(a){
@@ -42,8 +43,8 @@ void swapdraw(void){
 int main(void){
 	x4_Begin();
 	x4_LoadDefaultPalette();
-	x4_SetDrawLocation(X4_BUFFER_1);
-
+	x4_FillScreen(15);
+	x4_SetDrawLocation(X4_BUFFER_2);
 	x4_FillScreen(15);
 
 	//for(int x = 0; x < 20; x++){
@@ -58,8 +59,8 @@ int main(void){
 	int a = 0;int b=0;short k = 0;
 	while(!kb_IsDown(kb_KeyClear)){
 		//k=0;
-		swapdraw();
-		x4_FillScreen(15);
+		//swapdraw();
+		//x4_FillScreen(15);
 		x4_Line(0,0,a,b,0);
 		//while(!k)
 		//	k = os_GetCSC();
@@ -75,7 +76,7 @@ int main(void){
 		if(kb_IsDown(kb_KeyDown)){
 			b++;
 		}
-		//swapdraw();
+		swapdraw();
 		delay(10);
 		//gfx_Wait();
 	}
@@ -83,3 +84,32 @@ int main(void){
 	x4_End();
 }
 
+/*
+int main(void){
+	int x=0;
+	int y=0;
+	x4_Begin();
+	x4_LoadDefaultPalette();
+	x4_FillScreen(15);
+	while(!kb_IsDown(kb_KeyClear)){
+		if(kb_IsDown(kb_KeyUp)){
+			y--;
+		}
+		if(kb_IsDown(kb_KeyDown)){
+			y++;
+		}
+		if(kb_IsDown(kb_KeyRight)){
+			x++;
+		}
+		if(kb_IsDown(kb_KeyLeft)){
+			x--;
+		}
+		if(y<0)y=0;
+		if(y>239)y=239;
+		if(x<0)x=0;
+		if(x>319)x=319;
+		x4_PutPixel(x,y,0);
+		delay(10);
+	}
+	x4_End();
+}*/
