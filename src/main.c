@@ -26,9 +26,8 @@
 x4_SetScreenLocation(X4_BUFFER_1);
 x4_End();
 }*/
-
+bool a = false;
 void swapdraw(void){
-	static bool a;
 	if(a){
 		x4_SetScreenLocation(X4_BUFFER_1);
 		x4_SetDrawLocation(X4_BUFFER_2);
