@@ -97,21 +97,24 @@ _x4_SetDrawLocation:
 ; TODO make this wait for stuff
 public _x4_SetScreenLocation
 _x4_SetScreenLocation:
-	pop	de
-	pop	bc
-	push	bc
-	push	de
-	; For waiting
-	ld	hl,ti.mpLcdRis
+        ; Arguments
+        pop     de
+        pop     bc
+        push    bc
+        push    de
+        ; Wait
+        ld      hl,ti.mpLcdRis
 .loop:
-	bit	ti.bLcdIntLNBU,(hl)
-	jp	z,.loop
-	; End
-	ld	(ti.mpLcdBase),bc
-	ld	(_x4_PrevScrBuffer),bc
-	ld	hl,ti.bLcdIntLNBU
-	ld	(ti.mpLcdIcr),hl
-	ret
+        bit     ti.bLcdIntLNBU,(hl)
+        jp      z,.loop
+        ; Set
+        ld      de,(ti.mpLcdBase)
+        ld      (_x4_PrevScrBuffer),de
+        ld      (ti.mpLcdBase),bc
+        ; End
+        ld      hl,ti.mpLcdIcr
+        ld      (hl),(ti.mpLcdRis)
+        ret
 
 section .data
 ; The currently active drawing buffer.
@@ -145,6 +148,6 @@ public _x4_FontData
 _x4_FontData	dl	default_font_data
 
 public _x4_PrevScrBuffer
-_x4_PrevBuffer	dl	ti.vRam
+_x4_PrevScrBuffer	dl	ti.vRam
 
 include 'font.asm'
