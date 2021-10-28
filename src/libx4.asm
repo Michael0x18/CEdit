@@ -94,22 +94,24 @@ _x4_GetDrawLocation:
 public _x4_SetDrawLocation
 _x4_SetDrawLocation:
 	pop	de
-	pop	bc
-	push	bc
+	ex	(sp),hl
 	push	de
 	;Make the check
+	ld	de,(_x4_PrevScrBuffer)
 	push	hl
-	ld	de,(_x4_Buffer)
 	or	a,a
 	sbc	hl,de
 	jp	nz,.skip
-	ld	bc,(_x4_PrevScrBuffer)
-	add	bc,38400
+	ld	hl,(_x4_PrevScrBuffer)
+	ld	bc,38400
+	add	hl,bc
+	push	hl
+	pop	bc
 .loop:
 	ld	hl,(ti.mpLcdCurr)
 	or	a,a
 	sbc	hl,bc
-	jp	z,.loop
+	jp	c,.loop
 .skip:
 	pop	bc
 	ld	(_x4_Buffer),bc
