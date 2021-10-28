@@ -83,6 +83,7 @@ int main(void){
 		}
 //x4_BlitBuffer(X4_BUFFER_1,X4_BUFFER_2);
 		//gfx_Wait();
+		delay(10);
 		swapdraw();
 		//delay(250);
 		//gfx_Wait();

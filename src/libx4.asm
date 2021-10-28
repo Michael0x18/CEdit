@@ -83,6 +83,9 @@ _x4_GetDrawLocation:
 	ret
 
 ; Sets the current drawing location. Takes in a buffer
+; TODO make this wait for hw to finish moving buffer to
+; GRAM only if the buffer passed in is the same as the
+; one being displayed
 public _x4_SetDrawLocation
 _x4_SetDrawLocation:
 	pop	de
