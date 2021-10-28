@@ -10,11 +10,16 @@ include 'spi.asm'
 ; void x4_Begin(void)
 public _x4_Begin
 _x4_Begin:
+	;ei
 	ld	a,ti.lcdBpp4
 	ld	(ti.mpLcdCtrl), a
 	spi	$36, $2c		;Do mysterious spi stuff to get it in column-major mode
 	spi	$2a, 0,0, 0,$ef
 	spi	$2b, 0,0, 1,$3f
+        ld      hl,ti.mpLcdCtrl+1
+        set     12,(hl-1)
+        res     13,(hl-1)
+	;ld	hl,(_x4_Buffer)
 	ret
 
 public _x4_LoadDefaultPalette
@@ -89,12 +94,28 @@ _x4_GetDrawLocation:
 public _x4_SetDrawLocation
 _x4_SetDrawLocation:
 	pop	de
-	ex	(sp),hl
-	ld	(_x4_Buffer),hl
-	ex	hl,de
-	jp	(hl)
+	pop	bc
+	push	bc
+	push	de
+	;Make the check
+	push	hl
+	ld	de,(_x4_Buffer)
+	or	a,a
+	sbc	hl,de
+	jp	nz,.skip
+	ld	bc,(_x4_PrevScrBuffer)
+	add	bc,38400
+.loop:
+	ld	hl,(ti.mpLcdCurr)
+	or	a,a
+	sbc	hl,bc
+	jp	z,.loop
+.skip:
+	pop	bc
+	ld	(_x4_Buffer),bc
+	ret
 
-; TODO make this wait for stuff
+; DONE make this wait for stuff
 public _x4_SetScreenLocation
 _x4_SetScreenLocation:
         ; Arguments
@@ -113,13 +134,14 @@ _x4_SetScreenLocation:
         ld      (ti.mpLcdBase),bc
         ; End
         ld      hl,ti.mpLcdIcr
-        ld      (hl),(ti.mpLcdRis)
+        ld      (hl),ti.lcdIntLNBU
         ret
 
 section .data
 ; The currently active drawing buffer.
 public _x4_Buffer
-	_x4_Buffer	dl	ti.vRam
+	_x4_Buffer	:=	ti.mpLcdUpbase
+;	_x4_Buffer	dl	ti.vRam
 
 ; Palette data
 public _x4_DefaulPaletteData
