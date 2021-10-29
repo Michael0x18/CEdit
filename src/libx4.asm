@@ -93,28 +93,33 @@ _x4_GetDrawLocation:
 ; one being displayed
 public _x4_SetDrawLocation
 _x4_SetDrawLocation:
-	pop	de
-	ex	(sp),hl
-	push	de
+	pop	de				; Pop the return address
+	ex	(sp),hl				; Read the argument into hl
+	push	de				; Restore the stack
+	;Pre-check
+	ld	hl,(ti.mpLcdRis)
+	and	hl,ti.lcdIntVcomp
+
 	;Make the check
-	ld	de,(_x4_PrevScrBuffer)
-	push	hl
-	or	a,a
-	sbc	hl,de
-	jp	nz,.skip
-	ld	hl,(_x4_PrevScrBuffer)
-	ld	bc,38400
-	add	hl,bc
-	push	hl
-	pop	bc
-.loop:
-	ld	hl,(ti.mpLcdCurr)
-	or	a,a
-	sbc	hl,bc
-	jp	c,.loop
+	ld	de,(_x4_PrevScrBuffer)		; Load previous buffer into de
+	push	hl				; Put hl back onto the stack,
+	or	a,a				; Reset carry
+	sbc	hl,de				; Test for equality
+	jp	nz,.skip			; Jump if not equal
+	;Waiting for dma
+	ld	hl,(_x4_PrevScrBuffer)		; Load buffer address into hl
+	ld	bc,38400			; Stick size of buffer in bc
+	add	hl,bc				; Add to hl
+	push	hl				; Put hl on stack
+	pop	bc				; Pop to bc
+.loop:	; The main wait loop
+	ld	hl,(ti.mpLcdCurr)		; Load the cursor into hl
+	or	a,a				; Reset carry
+	sbc	hl,bc				; Test
+	jp	c,.loop				; Jump if <
 .skip:
-	pop	bc
-	ld	(_x4_Buffer),bc
+	pop	bc				; Pop bc back
+	ld	(_x4_Buffer),bc			; Set the draw location
 	ret
 
 ; DONE make this wait for stuff
