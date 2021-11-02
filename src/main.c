@@ -69,6 +69,7 @@ int main(void){
 		x4_Line(0,0,a,b,0);
 		//while(!k)
 		//	k = os_GetCSC();
+		kb_Scan();
 		if(kb_IsDown(kb_KeyLeft)){
 			a--;
 		}
