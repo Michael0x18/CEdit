@@ -97,8 +97,8 @@ _x4_SetDrawLocation:
 	ex	(sp),hl				; Read the argument into hl
 	push	de				; Restore the stack
 	;Pre-check
-	ld	hl,(ti.mpLcdRis)
-	and	hl,ti.lcdIntVcomp
+	;ld	hl,(ti.mpLcdRis)
+	;and	hl,ti.lcdIntVcomp
 
 	;Make the check
 	ld	de,(_x4_PrevScrBuffer)		; Load previous buffer into de
@@ -106,6 +106,11 @@ _x4_SetDrawLocation:
 	or	a,a				; Reset carry
 	sbc	hl,de				; Test for equality
 	jp	nz,.skip			; Jump if not equal
+	;Vcomp
+	; mpLcdRis & lcdIntVcomp
+	ld hl,ti.mpLcdRis
+	bit ti.bLcdIntVcomp,(hl)
+	jp	nz,.skip
 	;Waiting for dma
 	ld	hl,(_x4_PrevScrBuffer)		; Load buffer address into hl
 	ld	bc,38400			; Stick size of buffer in bc
@@ -141,7 +146,7 @@ _x4_SetScreenLocation:
         ld      (ti.mpLcdBase),bc
         ; End
         ld      hl,ti.mpLcdIcr
-        ld      (hl),ti.lcdIntLNBU
+	ld	(hl),ti.lcdIntLNBU or ti.lcdIntVcomp
         ret
 
 section .data
