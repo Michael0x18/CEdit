@@ -19,6 +19,8 @@ _x4_Begin:
         ld      hl,ti.mpLcdCtrl+1
         set     12,(hl-1)
         res     13,(hl-1)
+	ld	hl,ti.vRam
+	ld	(_x4_Buffer),hl
 	;ld	hl,(_x4_Buffer)
 	ret
 
@@ -152,7 +154,7 @@ _x4_SetScreenLocation:
 section .data
 ; The currently active drawing buffer.
 public _x4_Buffer
-	_x4_Buffer	:=	ti.mpLcdUpbase
+	_x4_Buffer	:=	ti.mpLcdLpbase
 ;	_x4_Buffer	dl	ti.vRam
 
 ; Palette data

@@ -41,6 +41,7 @@ void swapdraw(void){
 }
 
 int main(void){
+	bool f = false;
 	//int32_t andit= 0b00000111111111111111111111111111l;
 	//int32_t orit = 0b00000000000000000000000000000000l;
 	//lcd_Timing2&=andit;
@@ -64,8 +65,13 @@ int main(void){
 	while(!kb_IsDown(kb_KeyClear)){
 		//k=0;
 		//swapdraw();
+		if(f){
+			x4_SetDrawLocation(X4_BUFFER_2);
+		}else{
+			x4_SetDrawLocation(X4_BUFFER_1);
+		}
 		x4_FillScreen(15);
-		//x4_PutPixel(240,240,0);
+		x4_PutPixel(120,0,0);
 		x4_Line(0,0,a,b,0);
 		//while(!k)
 		//	k = os_GetCSC();
@@ -84,7 +90,13 @@ int main(void){
 		}
 //x4_BlitBuffer(X4_BUFFER_1,X4_BUFFER_2);
 		//gfx_Wait();
-		swapdraw();
+		//swapdraw();
+		if(f){
+			x4_SetScreenLocation(X4_BUFFER_2);
+		}else{
+			x4_SetScreenLocation(X4_BUFFER_1);
+		}
+		f=!f;
 		//delay(250);
 		//gfx_Wait();
 	}
