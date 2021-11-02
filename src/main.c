@@ -88,6 +88,10 @@ int main(void){
 		if(kb_IsDown(kb_KeyDown)){
 			b++;
 		}
+		if(a<0)a=0;
+		if(a>319)a=319;
+		if(b<0)b=0;
+		if(b>239)b=239;
 //x4_BlitBuffer(X4_BUFFER_1,X4_BUFFER_2);
 		//gfx_Wait();
 		//swapdraw();
