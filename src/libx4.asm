@@ -18,7 +18,7 @@ _x4_Begin:
 	spi	$2b, 0,0, 1,$3f
         ld      hl,ti.mpLcdCtrl+1
         set     12,(hl-1)
-        res     13,(hl-1)
+        set     13,(hl-1)
 	ld	hl,ti.vRam
 	ld	(_x4_Buffer),hl
 	;ld	hl,(_x4_Buffer)
@@ -136,10 +136,10 @@ _x4_SetDrawLocation:
 public _x4_SetScreenLocation
 _x4_SetScreenLocation:
         ; Arguments
-        pop     de
-        pop     bc
-        push    bc
-        push    de
+        pop     de							; Pop the return address
+        pop     bc							; Pop the new pointer
+        push    bc							; Restore the stack
+        push    de							; 
         ; Wait
         ld      hl,ti.mpLcdRis
 .loop:
