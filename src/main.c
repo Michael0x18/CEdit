@@ -65,7 +65,7 @@ int main(void){
 		//k=0;
 		//swapdraw();
 		x4_FillScreen(15);
-		x4_PutPixel(240,240,0);
+		//x4_PutPixel(240,240,0);
 		x4_Line(0,0,a,b,0);
 		//while(!k)
 		//	k = os_GetCSC();
