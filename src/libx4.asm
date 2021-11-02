@@ -110,9 +110,9 @@ _x4_SetDrawLocation:
 	jp	nz,.skip			; Jump if not equal
 	;Vcomp
 	; mpLcdRis & lcdIntVcomp
-	ld hl,ti.mpLcdRis
-	bit ti.bLcdIntVcomp,(hl)
-	jp	nz,.skip
+;	ld hl,ti.mpLcdRis
+;	bit ti.bLcdIntVcomp,(hl)
+;	jp	nz,.skip
 	;Waiting for dma
 	ld	hl,(_x4_PrevScrBuffer)		; Load buffer address into hl
 	ld	bc,38400			; Stick size of buffer in bc
@@ -120,6 +120,9 @@ _x4_SetDrawLocation:
 	push	hl				; Put hl on stack
 	pop	bc				; Pop to bc
 .loop:	; The main wait loop
+	ld	hl,ti.mpLcdRis
+	bit	ti.bLcdIntVcomp, (hl)
+	jp	nz,.skip
 	ld	hl,(ti.mpLcdCurr)		; Load the cursor into hl
 	or	a,a				; Reset carry
 	sbc	hl,bc				; Test
