@@ -106,7 +106,47 @@ void x4_HorizLine(int x, int y, int len, int c){
 		}
 	}	
 }
+const int fixfactor = 64;
 
+void x4_FastLine_Fix(int x, int y, int x2, int y2, int c) {
+	bool yl=0;
+	int sl=y2-y;
+	int ll=x2-x;
+	if (abs(sl)>abs(ll)) {
+		int tmp=sl;
+		sl=ll;
+		ll=tmp;
+		yl=1;
+	}
+	int24_t end=ll;
+	int24_t inc=0;
+	if (ll<0) {
+		inc=-1;
+		ll=-ll;
+	} else inc=1;
+	//fix
+	int dec;
+	if (ll==0) dec=sl*fixfactor;
+	else dec=fixfactor*sl/ll;
+	int j=0;//fix
+	if (yl) {
+		for (int i=0;i!=end;i+=inc) {
+			x4_PutPixel(x+(j/fixfactor),y+i,c);
+			j+=dec;
+		}
+	} else {
+		for (int i=0;i!=end;i+=inc) {
+			x4_PutPixel(x+i,y+(j/fixfactor),c);
+			j+=dec;
+		}
+	}
+	x4_PutPixel(x2,y2,c);
+}
+
+
+
+
+//EFLA type C fastline, adapted from the TIGCCLIB one
 void x4_FastLine(int x, int y, int x2, int y2, int c) {
 	bool yl=0;
 	int sl=y2-y;
