@@ -5,7 +5,7 @@
 #include <graphx.h>
 #include "libx4.h"
 
-int main(void){
+int main(void) {
 
 	int8_t frame = 0;
 	x4_Begin();
@@ -16,7 +16,7 @@ int main(void){
 	int cursor_x = 0;
 	int cursor_y = 0;
 
-	while(!kb_IsDown(kb_KeyClear)){
+	while(!kb_IsDown(kb_KeyClear)) {
 		x4_FillScreen(15);
 		x4_PutPixel(120, 0, 0);
 
@@ -41,13 +41,13 @@ int main(void){
 		if(cursor_y > 239)
 			cursor_y = 239;
 
-		if(frame){
+		if(frame) {
 
 			frame = 0;
 			x4_SetScreenLocation(X4_BUFFER_2);
 			x4_SetDrawLocation(X4_BUFFER_1);
 
-		}else{
+		}else {
 
 			frame = 1;
 			x4_SetScreenLocation(X4_BUFFER_1);
