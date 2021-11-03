@@ -107,6 +107,43 @@ void x4_HorizLine(int x, int y, int len, int c){
 	}	
 }
 
+void x4_FastLine(int x, int y, int x2, int y2, int c) {
+	bool yLonger=false;
+	int incrementVal, endVal;
+	int shortLen=y2-y;
+	int longLen=x2-x;
+	if (abs(shortLen)>abs(longLen)) {
+		int swap=shortLen;
+		shortLen=longLen;
+		longLen=swap;
+		yLonger=true;
+	}
+
+	endVal=longLen;
+	if (longLen<0) {
+		incrementVal=-1;
+		longLen=-longLen;
+	} else incrementVal=1;
+
+	double decInc;
+	if (longLen==0) decInc=(double)shortLen;
+	else decInc=((double)shortLen/(double)longLen);
+	double j=0.0;
+	if (yLonger) {
+		for (int i=0;i!=endVal;i+=incrementVal) {
+			x4_PutPixel(x+(int)j,y+i,c);
+			j+=decInc;
+		}
+	} else {
+		for (int i=0;i!=endVal;i+=incrementVal) {
+			x4_PutPixel(x+i,y+(int)j,c);
+			j+=decInc;
+		}
+	}
+
+
+}
+
 void x4_VertLine(int x, int y, int len, int c){
 	if(len>0){
 		for(int i = 0; i < len; i++){
@@ -132,6 +169,7 @@ void x4_Line(int x1, int y1, int x2, int y2, int c){
 		x4_HorizLine(x1,y1,x2-x1,c);
 		return;
 	}
+	//The real stuff,
 	if(dx>dy){
 		//Run this x major
 		short py = y1 < y2 ? 1 : -1;
@@ -144,6 +182,8 @@ void x4_Line(int x1, int y1, int x2, int y2, int c){
 			x4_PutPixel(x1+px*(dx*i/dy),y1+i,c);
 		}
 	}
+	x4_PutPixel(x1,y1,c);
+	x4_PutPixel(x2,y2,c);
 }
 
 #endif

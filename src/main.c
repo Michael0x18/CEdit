@@ -72,7 +72,7 @@ int main(void){
 		}
 		x4_FillScreen(15);
 		x4_PutPixel(120,0,0);
-		x4_Line(160,120,a,b,0);
+		x4_FastLine(160,120,a,b,0);
 		//while(!k)
 		//	k = os_GetCSC();
 		kb_Scan();
