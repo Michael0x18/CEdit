@@ -47,7 +47,7 @@ int main(void) {
 			x4_SetScreenLocation(X4_BUFFER_2);
 			x4_SetDrawLocation(X4_BUFFER_1);
 
-		}else {
+		} else {
 
 			frame = 1;
 			x4_SetScreenLocation(X4_BUFFER_1);
