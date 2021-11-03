@@ -154,6 +154,12 @@ _x4_SetScreenLocation:
         ld      (hl), ti.lcdIntLNBU or ti.lcdIntVcomp
         ret
 
+; x4_FastVertLine(x,y,len,c)
+_x4_FastVertLine:
+	;; TODO
+	
+	
+
 section .data
 ; The currently active drawing buffer.
 public _x4_Buffer
@@ -188,5 +194,17 @@ _x4_FontData	dl	default_font_data
 
 public _x4_PrevScrBuffer
 _x4_PrevScrBuffer	dl	ti.vRam
+
+; General purpose data thingy. For when I run out of registers
+public _x4_d0
+_x4_d0			dl	0
+
+; General purpose data thingy. For when I run out of registers
+public _x4_d1
+_x4_d1			dl	0
+
+; General purpose data thingy. For when I run out of registers
+public _x4_d2
+_x4_d2			dl	0
 
 include 'font.asm'

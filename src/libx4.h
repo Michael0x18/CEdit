@@ -106,8 +106,11 @@ void x4_HorizLine(int x, int y, int len, int c){
 		}
 	}	
 }
-const int fixfactor = 64;
 
+void x4_Rectangle(int x, int y, int width, int height){
+}
+
+const int fixfactor = 64;
 void x4_FastLine_Fix(int x, int y, int x2, int y2, int c) {
 	bool yl=0;
 	int sl=y2-y;
