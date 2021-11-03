@@ -117,7 +117,7 @@ _x4_SetDrawLocation:
 	ld	hl,(_x4_PrevScrBuffer)		; Load buffer address into hl
 	ld	bc,38400			; Stick size of buffer in bc
 	add	hl,bc				; Add to hl
-	push	hl				; Put hl on stack
+	push	hl				; Put hl on stack				;TODO fix this, it's stupid
 	pop	bc				; Pop to bc
 .loop:	; The main wait loop
 	ld	hl,ti.mpLcdRis
