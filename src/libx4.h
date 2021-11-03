@@ -108,36 +108,34 @@ void x4_HorizLine(int x, int y, int len, int c){
 }
 
 void x4_FastLine(int x, int y, int x2, int y2, int c) {
-	bool yLonger=false;
-	int incrementVal, endVal;
-	int shortLen=y2-y;
-	int longLen=x2-x;
-	if (abs(shortLen)>abs(longLen)) {
-		int swap=shortLen;
-		shortLen=longLen;
-		longLen=swap;
-		yLonger=true;
+	bool yl=0;
+	int sl=y2-y;
+	int ll=x2-x;
+	if (abs(sl)>abs(ll)) {
+		int tmp=sl;
+		sl=ll;
+		ll=tmp;
+		yl=1;
 	}
-
-	endVal=longLen;
-	if (longLen<0) {
-		incrementVal=-1;
-		longLen=-longLen;
-	} else incrementVal=1;
-
-	double decInc;
-	if (longLen==0) decInc=(double)shortLen;
-	else decInc=((double)shortLen/(double)longLen);
+	int24_t end=ll;
+	int24_t inc=0;
+	if (ll<0) {
+		inc=-1;
+		ll=-ll;
+	} else inc=1;
+	double dec;
+	if (ll==0) dec=(double)sl;
+	else dec=((double)sl/(double)ll);
 	double j=0.0;
-	if (yLonger) {
-		for (int i=0;i!=endVal;i+=incrementVal) {
+	if (yl) {
+		for (int i=0;i!=end;i+=inc) {
 			x4_PutPixel(x+(int)j,y+i,c);
-			j+=decInc;
+			j+=dec;
 		}
 	} else {
-		for (int i=0;i!=endVal;i+=incrementVal) {
+		for (int i=0;i!=end;i+=inc) {
 			x4_PutPixel(x+i,y+(int)j,c);
-			j+=decInc;
+			j+=dec;
 		}
 	}
 
