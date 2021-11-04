@@ -157,6 +157,49 @@ _x4_SetScreenLocation:
 ; x4_FastVertLine(x,y,len,c)
 _x4_FastVertLine:
 	;; TODO
+	ld	hl,-stack_size
+	call	__frameset
+	ld	bc,(ix+6)
+	ld	de,(ix+9)
+	ret
+
+public _x4_PutPixel
+_x4_PutPixel:
+	; read x and y
+	pop hl
+	pop bc
+	pop de
+	pop af
+	push af
+	pish de
+	push bc
+	push hl
+	; hl = scrap
+	; bc = x
+	; de = y
+	; a = c
+	push	bc
+	; now bc can be scrap
+	pop	hl
+	; hl becomes the offset
+	ld	bc,120
+	call	__imulu
+	; hl now has the offset, part 1
+	push	hl
+	; hl and bc now scrap
+	; Now compute the second half of offset
+	; y/2
+	push	de
+	pop	hl
+	; hl now contains y
+	ld	bc,2
+	call	__idivs
+	; hl now contains result
+	pop	de
+	add	hl,de
+	; hl now has offset
+		
+
 	
 	
 
