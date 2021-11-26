@@ -7,17 +7,38 @@
  */
 
 #include "cedit.h"
+#include "libmalloc.h"
 #ifdef BOS_BUILD
 #include <bos.h>
 void gui_PrintLine_wrapper(const char *str);
 #endif
 
-bool initialize(struct estate *state) {
+bool initialize(struct estate *state)
+{
 #ifdef BOS_BUILD
 	fontlib_font_pack_t *font;
 #else
 	char fontname[10] = "DrMono";
 #endif
+    memset(state->search_buffer,0,255);
+	//Default is false, if true, files will be archived after writes. Does nothing on BOS.
+	state->autoarchive = false;
+	//Default is true, if enabled, unsaved file = prompt
+	state->saveprompt = true;
+	//Default is true, if enabled, used regular expressions in the search box
+	state->useregex = true;
+	//Default is true, if enabled, blink the cursor slowly
+	state->blinkcursor = true;
+	//Default is true, if enabled, write files under a different filename, then remove the existing and rename the new file.
+	state->backupfiles = true;
+	//Default is true, if enabled, parse ceditrc from /etc/cedit/ceditrc. Otherwise use /home/.ceditrc
+	//Does nothin on TIOS
+	state->bos_use_system_config = true;
+	//Default is false. If enabled, boost BOS maximum buffer size to 128Kb
+	//Does nothing on TIOS
+	state->bos_use_extra_buffer = false;
+	char buf1[10] = "Untitled";
+	char buf2[10] = "DrMono";
 	state->multi_lines = 5;
 	state->named = false;
 	state->lc1 = 0;
@@ -51,21 +72,36 @@ bool initialize(struct estate *state) {
 
 	state->font = 0;
 	state->fonttype = 3;
+    state->hide_special_files=1;
+#ifndef BOS_BUILD
+    //os_MemChk(&state->text);
+    state->text=(char*)gfx_vram;
+    state->text+=76800;
+	//state->text=malloc_noheap(MAX_BUFFER_SIZE);
+	//state->text = malloc(MAX_BUFFER_SIZE);
+	//Temporary workaround to avoid buffer being yeeted by fileIO.
+#else
+	//BOS toolchain is okay with more than 64Kb, so just use static buffer
+#endif
 #ifdef BOS_BUILD
-	if ((font = (fontlib_font_pack_t*)fs_GetFilePtr(state->fontname)) != -1) {
-		if (font->fontCount >= state->fonttype){
-			state->font = ((void*)font) + font->font_list[state->fonttype];
+	if ((font = (fontlib_font_pack_t *)fs_GetFilePtr("/etc/fontlibc/DrMono")) != -1)
+	{
+		if (font->fontCount >= state->fonttype)
+		{
+			state->font = ((void *)font) + font->font_list[state->fonttype];
 		}
 	}
 #else
 	state->font = fontlib_GetFontByIndex("DrMono", state->fonttype);
 #endif
-	if (!state->font) {
+	if (!state->font)
+	{
 		os_ClrHome();
 		os_PutStrFull("E1: Font pack not found.");
 		return 1;
 	}
-	if (!fontlib_SetFont(state->font, 0)) {
+	if (!fontlib_SetFont(state->font, 0))
+	{
 		os_ClrHome();
 		os_PutStrFull("E2: Font pack Invalid.");
 		return 1;
@@ -97,37 +133,48 @@ int main(int argc, char *argv[]) {
 		memcpy(editor_state.filename, argv[1], 256);
 		editor_state.named = true;
 	}
-	load_text(&editor_state);
 	gfx_Begin();
+	parseRC(&editor_state);
+	load_text(&editor_state);
+	//draw_editor(&editor_state);
 	editor_mainloop(&editor_state);
 	gfx_End();
 	return 0;
 }
 #else
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	static struct estate editor_state;
-
-	if (initialize(&editor_state)) {
+    //editor_state.text = (char*)malloc_noheap_safe(65536,"CEDITBUF");
+	if (initialize(&editor_state))
+	{
 		os_ClrHome();
 		os_PutStrFull("E0: gfx-err");
 		ngetchx();
 		return 1;
 	}
 	//Argument parsing
-	if (argc == 2) {
+	if (argc == 2)
+	{
 		strncpy(editor_state.filename, argv[1], 8);
 		editor_state.named = true;
-	} else if (argc > 2) {
+	}
+	else if (argc > 2)
+	{
 		os_ClrHome();
 		os_PutStrFull("Usage: CEdit [FILE]");
 		while (!os_GetCSC())
 			continue;
 		return 1;
-	} else {
+	}
+	else
+	{
 		//Put a little help blurb
 	}
-	load_text(&editor_state);
 	gfx_Begin();
+	parseRC(&editor_state);
+	load_text(&editor_state);
+    draw_editor_full(&editor_state);
 	editor_mainloop(&editor_state);
 	gfx_End();
 	return 0;

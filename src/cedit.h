@@ -27,17 +27,29 @@
 #include "editor.h"
 #include "dialogs.h"
 #include "gfx.h"
+#ifndef BOS_BUILD
+#include "libmalloc.h"
+#endif
 
-#define CEDIT_VERSION_STRING "CEDIT 0.07 BETA"
+#ifdef BOS_BUILD
+#define CEDIT_VERSION_STRING "CEDIT 1.01 BOS"
+#else
+#define CEDIT_VERSION_STRING "CEDIT 1.01 TIOS"
+#endif
 
 /*
  * Main function
  */
-int main(int,char**);
+int main(int, char **);
 
 /*
  * Initializes the editor
  */
-bool initialize(struct estate*);
+bool initialize(struct estate *);
+
+/*
+ * Parse the CEDITRC file, if it exists, and do stuff.
+ */
+void parse_rc(struct estate *);
 
 #endif /* SRC_CEDIT_H_ */

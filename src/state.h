@@ -25,7 +25,11 @@
 /*
  * The max chars in the buffer
  */
-#define MAX_BUFFER_SIZE 16384
+#ifdef BOS_BUILD
+#define MAX_BUFFER_SIZE 65536
+#else
+#define MAX_BUFFER_SIZE 76800//16384//65536
+#endif
 
 /*
  * The default font width
@@ -96,6 +100,7 @@ struct estate {
 #endif
 	int8_t fonttype;
 	fontlib_font_t *font;
+    ti_var_t clipboard_file;
 	//the radius for rounded corners on dialogs.
 	int8_t corner_radius;
 	//Cursor x position
@@ -113,11 +118,41 @@ struct estate {
 
 	//These are best put at the end of the struct
 	//Text buffer
-	char text[16385];
+	//char text[16385];
+	//Gonna make it 64Kb.
+	//char text[MAX_BUFFER_SIZE];
+    char* text;
 	//Line len buffer
 	int24_t lines[10000];
 	//Data in the clipboard
-	char clipboard_data[10000];
+	//char clipboard_data[10000];
+	///////////////////////////Random Editor Settings///////////////////////////
+	//Default is false, if true, files will be archived after writes. Does nothing on BOS.
+	bool autoarchive;
+	//Default is true, if enabled, unsaved file = prompt
+	bool saveprompt;
+	//Default is true, if enabled, used regular expressions in the search box
+	bool useregex;
+	//Default is true, if enabled, blink the cursor slowly
+	bool blinkcursor;
+	//Default is true, if enabled, write files under a different filename, then remove the existing and rename the new file.
+	bool backupfiles;
+	//Default is true, if enabled, parse ceditrc from /etc/cedit/ceditrc. Otherwise use /home/.ceditrc
+	//Does nothin on TIOS
+	bool bos_use_system_config;
+	//Default is false. If enabled, boost BOS maximum buffer size to 128Kb
+	//Does nothing on TIOS
+	bool bos_use_extra_buffer;
+    //Hide special files, like config files:
+    //  Cesium config file
+    //  CLIBS
+    //  Experimental CLIBS - USBDRVCE/FATDRVCE
+    //  The DrMono font pack
+    //  files that begin with a dot
+    //  Default is true
+    bool hide_special_files;
+    //For the search text buffer
+    char search_buffer[256];
 };
 
 #endif /* SRC_STATE_H_ */

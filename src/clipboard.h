@@ -24,6 +24,7 @@
 
 #include "state.h"
 #include "editor.h"
+#define USE_PERSISTENT_CLIPBOARD
 
 void cb_copy(struct estate*);
 

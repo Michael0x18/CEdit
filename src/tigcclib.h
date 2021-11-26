@@ -86,7 +86,8 @@ enum ControlKeys {
 	KEY_REDO = 310,
 	KEY_QUIT = 311,
 	KEY_OPEN = 312,
-	KEY_SAVE_AS = 313
+	KEY_SAVE_AS = 313,
+    KEY_STATE=314,
 };
 
 
