@@ -803,7 +803,7 @@ int draw_editor(struct estate *state)
 
 	// //fontlib_DrawInt(state->selection_anchor, 5);
 	// return 0;
-	return draw_editor_full();
+	return draw_editor_full(state);
 }
 
 void editor_mainloop(struct estate *state)
@@ -1054,12 +1054,12 @@ void write_file(struct estate *state)
 	}
 	else
 	{
-		fs_SetSize(fullsize, fd);
+		fd = fs_SetSize(fullsize, fd);
 	}
 	if (fullsize > 0)
 	{
-		fs_Write(&state->text, state->c1, 1, fd, 0);
-		fs_Write(&state->text[state->c2 + 1], MAX_BUFFER_SIZE - (state->c2 + 1), 1, fd, state->c1);
+		fd = fs_Write(&state->text, state->c1, 1, fd, 0);
+		fd = fs_Write(&state->text[state->c2 + 1], MAX_BUFFER_SIZE - (state->c2 + 1), 1, fd, state->c1);
 	}
 #else
 
