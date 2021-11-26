@@ -10,6 +10,7 @@
 #include "libmalloc.h"
 #ifdef BOS_BUILD
 #include <bos.h>
+#define BOS_SAFERAM 0xD00E00
 void gui_PrintLine_wrapper(const char *str);
 #endif
 
@@ -17,6 +18,7 @@ bool initialize(struct estate *state)
 {
 #ifdef BOS_BUILD
 	fontlib_font_pack_t *font;
+	state->lines = sys_Malloc(10000 * sizeof(int16_t));
 #else
 	char fontname[10] = "DrMono";
 #endif
@@ -82,6 +84,7 @@ bool initialize(struct estate *state)
 	//Temporary workaround to avoid buffer being yeeted by fileIO.
 #else
 	//BOS toolchain is okay with more than 64Kb, so just use static buffer
+	state->text = BOS_SAFERAM;
 #endif
 #ifdef BOS_BUILD
 	if ((font = (fontlib_font_pack_t *)fs_GetFilePtr("/etc/fontlibc/DrMono")) != -1)

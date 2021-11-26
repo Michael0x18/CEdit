@@ -123,7 +123,11 @@ struct estate {
 	//char text[MAX_BUFFER_SIZE];
     char* text;
 	//Line len buffer
-	int24_t lines[10000];
+#ifdef BOS_BUILD
+	int16_t *lines;
+#else
+	int16_t lines[10000];
+#endif
 	//Data in the clipboard
 	//char clipboard_data[10000];
 	///////////////////////////Random Editor Settings///////////////////////////
