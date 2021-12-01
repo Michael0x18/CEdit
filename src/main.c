@@ -11,7 +11,7 @@
 #ifdef BOS_BUILD
 #include <bos.h>
 #define BOS_SAFERAM 0xD00E00
-void gui_PrintLine_wrapper(const char *str);
+#define gui_PrintLine_wrapper gui_PrintLine
 #endif
 
 bool initialize(struct estate *state)
