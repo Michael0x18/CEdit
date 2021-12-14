@@ -69,7 +69,7 @@ void *x4_GetScreenLocation(void);
  */
 void x4_BlitBuffer(void* dest, void* src);
 
-void x4_PutPixel_old(int x, int y, int c){
+void x4_PutPixel(int x, int y, int c){
     int offset = x*120 + y/2;
     //int offset = y*160 + x/2;
     uint8_t mask;

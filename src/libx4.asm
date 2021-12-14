@@ -153,56 +153,32 @@ _x4_SetScreenLocation:
         ld      hl,ti.mpLcdIcr
         ld      (hl), ti.lcdIntLNBU or ti.lcdIntVcomp
         ret
-
 ; x4_FastVertLine(x,y,len,c)
-_x4_FastVertLine:
-	;; TODO
-	ld	hl,-stack_size
-	call	__frameset
-	ld	bc,(ix+6)
-	ld	de,(ix+9)
-	ret
+;_x4_FastVertLine:
+;	;; TODO
+;	ld	hl,-ti.stack_size
+;	call	__frameset
+;	ld	bc,(ix+6)
+;	ld	de,(ix+9)
+;	ret
+
+; x,y
+; Returns offset hl, not including the buffer
+; Does not computer even/odd offset
+; Effectively computes x*120+y/2
+public _x4_GetPixelAddress
+_x4_GetPixelAddress:
+	.x	:=	ix+6		; Pixel x position
+	.y	:=	ix+9		; Pixel y position
+	ld	hl,-12
+	call	__frameset		; Frame is set up?		
+	ld	hl, (.x)
+		
+	ret;
 
 public _x4_PutPixel
 _x4_PutPixel:
-	; read x and y
-	pop hl
-	pop bc
-	pop de
-	pop af
-	push af
-	pish de
-	push bc
-	push hl
-	; hl = scrap
-	; bc = x
-	; de = y
-	; a = c
-	push	bc
-	; now bc can be scrap
-	pop	hl
-	; hl becomes the offset
-	ld	bc,120
-	call	__imulu
-	; hl now has the offset, part 1
-	push	hl
-	; hl and bc now scrap
-	; Now compute the second half of offset
-	; y/2
-	push	de
-	pop	hl
-	; hl now contains y
-	ld	bc,2
-	call	__idivs
-	; hl now contains result
-	pop	de
-	add	hl,de
-	; hl now has offset
-	//TODO TODO TODO TODO	
-
-	
-	
-
+	ret	
 section .data
 ; The currently active drawing buffer.
 public _x4_Buffer
@@ -250,4 +226,11 @@ _x4_d1			dl	0
 public _x4_d2
 _x4_d2			dl	0
 
+public _x4_d3
+_x4_d3			dl	0
+
+public _x4_d4
+ _x4_d4		dl	0
+
+extern __frameset;
 include 'font.asm'
