@@ -172,13 +172,15 @@ _x4_GetPixelAddress:
 	.y	:=	ix+9		; Pixel y position
 	ld	hl,-12
 	call	__frameset		; Frame is set up?		
-	ld	hl, (.x)
-		
+	ld	hl, (.x)		; Get x into hl
 	ret;
 
+; Write a pixel to the screen
 public _x4_PutPixel
 _x4_PutPixel:
-	ret	
+	ret
+
+
 section .data
 ; The currently active drawing buffer.
 public _x4_Buffer
