@@ -174,17 +174,26 @@ _x4_GetPixelAddress:
 	call	__frameset		; Frame is set up?		
 	ld	hl, (.x)		; Get x into hl
 					; Now do x*120 + y//2 to compute the base offset.
-	add	hl,hl
-	add	hl,hl
-	add	hl,hl
-	ld	de,hl
-	add	hl,hl
-	add	hl,hl
-	add	hl,hl
-	add	hl,hl
-	sub	hl,de			; Did a multiply by 120 of the x position
-	ld	bc,hl			; stash it
-	; Do moar stuff
+	
+	xor	a,a
+	sub	a,h
+	ld	h,120
+	and	a,h
+	mlt	hl
+	add	a,h
+	ld	h,a
+	; At this point, hl contains the result of the first multiply, x*120
+	
+	push	hl
+	pop	bc
+
+	ld	hl, (.y)
+	
+	srl	h	;prep the other part
+	rr	l	
+
+	add	hl,bc
+
 	ret;
 
 ; Write a pixel to the screen
