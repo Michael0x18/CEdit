@@ -235,8 +235,8 @@ _x4_PutPixel_Internal:
 	ld	bc, (_x4_Buffer)
 	add	hl, bc		; BC is still scratch
 	ld	a,(hl)
-	and	d
-	or	e
+	and	a,d
+	or	a,e
 	ld	(hl),a
 	ret
 
