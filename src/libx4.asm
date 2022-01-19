@@ -221,12 +221,14 @@ _x4_PutPixel_Internal:
 	call	_x4_GetPixelAddress_Internal
 	pop	bc
 	bit	0, c
+	ld	d,$F0
 	jr	z,.skip		;Shift if the offset is odd
 	ex	de,hl
 	repeat 4
 		add	hl,hl
 	end repeat
 	ex	de,hl
+	ld	d,$0F
 .skip:				;Write the pixel
 	;Current state:
 	; HL contains the offset
