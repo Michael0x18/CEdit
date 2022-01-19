@@ -197,9 +197,9 @@ _x4_GetPixelAddress:
 	ret;
 
 ; Write a pixel to the screen
-public _x4_PutPixel
-_x4_PutPixel:
-	ret
+;public _x4_PutPixel
+;_x4_PutPixel:
+;	ret
 
 
 section .data
