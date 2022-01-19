@@ -7,6 +7,7 @@
 include 'ti84pceg.inc'
 include 'spi.asm'
 
+; Sets up the screen in 4bpp, column major mode
 ; void x4_Begin(void)
 public _x4_Begin
 _x4_Begin:
@@ -23,6 +24,7 @@ _x4_Begin:
 	ld	(_x4_Buffer),hl
 	;ld	hl,(_x4_Buffer)
 	ret
+
 
 public _x4_LoadDefaultPalette
 _x4_LoadDefaultPalette:
@@ -173,27 +175,21 @@ _x4_GetPixelAddress:
 	ld	hl,-12
 	call	__frameset		; Frame is set up?		
 	ld	hl, (.x)		; Get x into hl
-					; Now do x*120 + y//2 to compute the base offset.
-	
-	xor	a,a
-	sub	a,h
+	ld	bc, (.y)
+	call	_x4_GetPixelAddress_Internal
+	ret;
+
+; backend for _x4_GetPixelAddress, can be called from assembly
+public _x4_GetPixelAddress_Internal
+_x4_GetPixelAddress_Internal:
+	bit	0,h
 	ld	h,120
-	and	a,h
+	jr	z,.skip
+	ld	b,h
+.skip:
 	mlt	hl
-	add	a,h
-	ld	h,a
-	; At this point, hl contains the result of the first multiply, x*120
-	
-	push	hl
-	pop	bc
-
-	ld	hl, (.y)
-	
-	srl	h	;prep the other part
-	rr	l	
-
+	srl	c
 	add	hl,bc
-
 	ret;
 
 ; Write a pixel to the screen
