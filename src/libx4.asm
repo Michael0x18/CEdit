@@ -234,7 +234,10 @@ _x4_PutPixel_Internal:
 	; DE contains the byte to write
 	ld	bc, (_x4_Buffer)
 	add	hl, bc		; BC is still scratch
-	and	(hl), e
+	ld	a,(hl)
+	and	d
+	or	e
+	ld	(hl),a
 	ret
 
 
