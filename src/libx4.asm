@@ -224,7 +224,7 @@ _x4_PutPixel_Internal:
 	jr	z,.skip		;Shift if the offset is odd
 	ex	de,hl
 	repeat 4
-	add	hl,hl
+		add	hl,hl
 	end repeat
 	ex	de,hl
 .skip:				;Write the pixel
@@ -234,7 +234,7 @@ _x4_PutPixel_Internal:
 	; DE contains the byte to write
 	ld	bc, (_x4_Buffer)
 	add	hl, bc		; BC is still scratch
-	ld	(hl), e
+	and	(hl), e
 	ret
 
 
