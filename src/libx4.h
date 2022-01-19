@@ -69,6 +69,9 @@ void *x4_GetScreenLocation(void);
  */
 void x4_BlitBuffer(void* dest, void* src);
 
+void x4_PutPixel(int24_t x, int24_t y, int24_t c);
+
+/*
 void x4_PutPixel(int x, int y, int c){
     int offset = x*120 + y/2;
     //int offset = y*160 + x/2;
@@ -82,7 +85,7 @@ void x4_PutPixel(int x, int y, int c){
     *((char*)x4_Buffer+offset)&=mask;
     *((char*)x4_Buffer+offset)|=c;
 }
-
+*/
 void x4_HorizLine(int x, int y, int len, int c)
 {
 	int offset = x * 120 + y / 2;

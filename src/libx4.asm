@@ -177,6 +177,8 @@ _x4_GetPixelAddress:
 	ld	hl, (.x)		; Get x into hl
 	ld	bc, (.y)
 	call	_x4_GetPixelAddress_Internal
+	ld	sp,ix
+	pop	ix
 	ret;
 
 ; backend for _x4_GetPixelAddress, can be called from assembly
@@ -193,9 +195,47 @@ _x4_GetPixelAddress_Internal:
 	ret;
 
 ; Write a pixel to the screen
-;public _x4_PutPixel
-;_x4_PutPixel:
-;	ret
+; void _x4_PutPixel(int24_t x, int24_t y, int c)
+public _x4_PutPixel
+_x4_PutPixel:
+	.x	:=	ix+6
+	.y	:=	ix+9
+	.c	:=	ix+12
+	ld	hl, -15
+	call	__frameset
+	ld	hl, (.x)
+	ld	bc, (.y)
+	ld	de, (.c)
+	call _x4_PutPixel_Internal
+	ld	sp,ix
+	pop	ix
+	ret
+
+; Internal function that puts pixel on screen
+; hl	x
+; bc	y
+; de	c
+public _x4_PutPixel_Internal
+_x4_PutPixel_Internal:
+	push	bc
+	call	_x4_GetPixelAddress_Internal
+	pop	bc
+	bit	0, c
+	jr	z,.skip		;Shift if the offset is odd
+	ex	de,hl
+	repeat 4
+	add	hl,hl
+	end repeat
+	ex	de,hl
+.skip:				;Write the pixel
+	;Current state:
+	; HL contains the offset
+	; BC is scratch register
+	; DE contains the byte to write
+	ld	bc, (_x4_Buffer)
+	add	hl, bc		; BC is still scratch
+	ld	(hl), e
+	ret
 
 
 section .data
