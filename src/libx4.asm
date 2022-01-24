@@ -4,17 +4,13 @@
 ;       License is LGPL
 ;       Michael0x18, beckadamtheinventor
 ;
-include 'ti84pceg.inc'
-include 'spi.asm'
-
-public _x4_null
-_x4_null:
-	ret
 
 section .data
+include 'ti84pceg.inc'
+include 'spi.asm'
 ; The currently active drawing buffer.
 public _x4_Buffer
-	_x4_Buffer	:=	ti.mpLcdLpbase
+_x4_Buffer	:=	ti.mpLcdLpbase
 ;	_x4_Buffer	dl	ti.vRam
 
 ; Palette data
