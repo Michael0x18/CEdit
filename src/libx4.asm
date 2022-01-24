@@ -7,41 +7,7 @@
 include 'ti84pceg.inc'
 include 'spi.asm'
 
-; Sets up the screen in 4bpp, column major mode
-; void x4_Begin(void)
-public _x4_Begin
-_x4_Begin:
-	;ei
-	ld	a,ti.lcdBpp4
-	ld	(ti.mpLcdCtrl), a
-	spi	$36, $2c		;Do mysterious spi stuff to get it in column-major mode
-	spi	$2a, 0,0, 0,$ef
-	spi	$2b, 0,0, 1,$3f
-        ld      hl,ti.mpLcdCtrl+1
-        set     12,(hl-1)
-        set     13,(hl-1)
-	ld	hl,ti.vRam
-	ld	(_x4_Buffer),hl
-	;ld	hl,(_x4_Buffer)
-	ret
 
-
-public _x4_LoadDefaultPalette
-_x4_LoadDefaultPalette:
-	ld	hl, _x4_DefaulPaletteData	; default palette entries
-	ld	de, ti.mpLcdPalette	; lcd palette entries
-	ld	bc, 16 * word
-	ldir
-	ret
-
-public _x4_End
-_x4_End:
-	spi	$2a, 0,0, 1,$3f
-	spi	$2b, 0,0, 0,$ef
-	spi	$36, $08
-	ld	a, ti.lcdBpp16
-	ld 	(ti.mpLcdCtrl), a
-	ret
 
 public _x4_FillScreen_nocheck
 _x4_FillScreen_nocheck:
@@ -250,8 +216,8 @@ public _x4_Buffer
 ;	_x4_Buffer	dl	ti.vRam
 
 ; Palette data
-public _x4_DefaulPaletteData
-_x4_DefaulPaletteData:
+public _x4_DefaultPaletteData
+_x4_DefaultPaletteData:
 	dw	$0000		;Black
 	dw	$A94A		;Dark Gray
 	dw	$4631		;Gray
@@ -296,21 +262,5 @@ _x4_d3			dl	0
 public _x4_d4
  _x4_d4		dl	0
 
-extern __frameset;
-;extern ti.vRam
-;extern ti.lcdWidth
-;extern ti.lcdHeight
-;extern ti.lcdBpp4
-;extern ti.mpLcdCtrl
-;extern ti.mpLcdPalette
-;extern ti.lcdBpp16
-;extern ti.mpLcdRis
-;extern ti.bLcdIntVcomp
-;extern ti.mpLcdCurr
-;extern ti.bLcdIntLNBU
-;extern ti.mpLcdBase
-;extern ti.mpLcdIcr
-;extern ti.lcdIntLNBU
-;extern ti.lcdIntVcomp
-;extern ti.mpLcdLpbase
+extern __frameset
 include 'font.asm'
