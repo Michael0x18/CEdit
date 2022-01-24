@@ -297,4 +297,20 @@ public _x4_d4
  _x4_d4		dl	0
 
 extern __frameset;
+;extern ti.vRam
+;extern ti.lcdWidth
+;extern ti.lcdHeight
+;extern ti.lcdBpp4
+;extern ti.mpLcdCtrl
+;extern ti.mpLcdPalette
+;extern ti.lcdBpp16
+;extern ti.mpLcdRis
+;extern ti.bLcdIntVcomp
+;extern ti.mpLcdCurr
+;extern ti.bLcdIntLNBU
+;extern ti.mpLcdBase
+;extern ti.mpLcdIcr
+;extern ti.lcdIntLNBU
+;extern ti.lcdIntVcomp
+;extern ti.mpLcdLpbase
 include 'font.asm'
