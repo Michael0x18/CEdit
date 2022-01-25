@@ -4,7 +4,7 @@
 #include <keypadc.h>
 #include <graphx.h>
 #include "libx4.h"
-
+/*
 int main(void)
 {
 
@@ -60,5 +60,55 @@ int main(void)
 	}
 
 	x4_SetScreenLocation(X4_BUFFER_1);
+	x4_End();
+}*/
+
+unsigned char cursor_bin[256]={
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+};
+
+void main(void) {
+	x4_Begin();
+	x4_FillScreen(15);
+	uint16_t x = 0, y = 0;
+	
+	// set the CPL
+	lcd_Timing2 = (uint32_t)(lcd_Timing2 & ~(uint32_t)0x03FF0000) | (uint32_t)(LCD_WIDTH - 1) << 16;
+
+	lcd_CrsrConfig = 0; // select 32x32, image0
+	lcd_CrsrPalette0 = 0x00000000; // set black palette color
+	lcd_CrsrPalette1 = 0x00FFFFFF; // set white palette color
+	lcd_CrsrXY = 0; // reset cursor position
+	lcd_CrsrClip = 0; // reset clipping
+	lcd_CrsrCtrl = 1; // enable cursor
+
+	while(!kb_IsDown(kb_KeyClear)) {
+		kb_Scan();
+		if(kb_IsDown(kb_KeyLeft)) x--;
+		if(kb_IsDown(kb_KeyRight)) x++;
+		if(kb_IsDown(kb_KeyUp)) y--;
+		if(kb_IsDown(kb_KeyDown)) y++;
+		lcd_CrsrX = x; // update the position of the cursor
+		lcd_CrsrY = y;
+	}
+
+	lcd_CrsrCtrl = 0; // disable cursor
+	// reset CPL
+	lcd_Timing2 = (uint32_t)(lcd_Timing2 & ~(uint32_t)0x03FF0000) | (uint32_t)(LCD_HEIGHT - 1) << 16;
 	x4_End();
 }
