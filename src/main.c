@@ -3,8 +3,9 @@
 #include <tice.h>
 #include <keypadc.h>
 #include <graphx.h>
+#include <string.h>
 #include "libx4.h"
-/*
+
 int main(void)
 {
 
@@ -61,7 +62,8 @@ int main(void)
 
 	x4_SetScreenLocation(X4_BUFFER_1);
 	x4_End();
-}*/
+}
+/*
 #define lcd_CrsrImage ((uint32_t*)0xE30800)
 
 unsigned char cursor_bin[256]={
@@ -113,4 +115,4 @@ void main(void) {
 	// reset CPL
 	lcd_Timing2 = (uint32_t)(lcd_Timing2 & ~(uint32_t)0x03FF0000) | (uint32_t)(LCD_HEIGHT - 1) << 16;
 	x4_End();
-}
+}*/
