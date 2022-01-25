@@ -62,6 +62,7 @@ int main(void)
 	x4_SetScreenLocation(X4_BUFFER_1);
 	x4_End();
 }*/
+#define lcd_CrsrImage ((uint32_t*)0xE30800)
 
 unsigned char cursor_bin[256]={
 	0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -89,6 +90,7 @@ void main(void) {
 	
 	// set the CPL
 	lcd_Timing2 = (uint32_t)(lcd_Timing2 & ~(uint32_t)0x03FF0000) | (uint32_t)(LCD_WIDTH - 1) << 16;
+	memcpy(lcd_CrsrImage, cursor_bin, 256); // set cursor image
 
 	lcd_CrsrConfig = 0; // select 32x32, image0
 	lcd_CrsrPalette0 = 0x00000000; // set black palette color
