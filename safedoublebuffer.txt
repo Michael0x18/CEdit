@@ -1,4 +1,0 @@
-Thread safe double buffering. Because the LCD driver is its own thing
-=====================================================================
-
-
