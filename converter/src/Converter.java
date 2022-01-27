@@ -1,12 +1,16 @@
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URI;
 
 import javax.swing.JFileChooser;
@@ -19,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -27,6 +32,8 @@ public class Converter {
 	String on_calc_name;
 	String on_comp_name;
 	String absolute_path;
+	
+	String oldtext;
 
 	JFrame frame;
 	JTextArea text;
@@ -45,14 +52,16 @@ public class Converter {
 	 * @param path
 	 */
 	public Converter(String path) {
+		oldtext="";
 		System.out.println("Converter window initializing");
 		this.absolute_path = path;
 		init();
 		System.out.println("Done\nLoading data...");
-		if(load_data(path)) {
+		if (load_data(path)) {
 			frame.dispose();
 			return;
 		}
+		update();
 		System.out.println("Done");
 		frame.setVisible(true);
 	}
@@ -107,15 +116,90 @@ public class Converter {
 		});
 		Save.addActionListener((e) -> {
 			if (!named) {
-				
+				conditional_save();
+			} else {
+				save_file();
 			}
 		});
 		Save_As.addActionListener((e) -> {
-			// TODO prompt and save
+			conditional_save();
 		});
 		Exit.addActionListener((e) -> {
 			frame.dispose();
 		});
+
+		KeyListener kl = new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				return;
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				return;
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				on_calc_name = name_area.getText();
+				if (e.getKeyChar() != KeyEvent.CHAR_UNDEFINED && (e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0) {
+					saved = false;
+					update();
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							write_swapfile();
+						}
+					});
+				}
+
+			}
+
+		};
+		text.addKeyListener(kl);
+		name_area.addKeyListener(kl);
+	}
+
+	private void write_swapfile() {
+		System.out.println("Writing to swapfile: " + tempfile.getAbsolutePath());
+		try {
+			PrintWriter out = new PrintWriter(new FileWriter(tempfile));
+			out.println(name_area.getText());
+			for (char c : text.getText().toCharArray()) {
+				out.write((int) c);
+			}
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Done!");
+	}
+
+	private void conditional_save() {
+		JFileChooser fd = new JFileChooser();
+		fd.setDialogTitle("Select file to save");
+		int which = fd.showSaveDialog(frame);
+		if (which == JFileChooser.APPROVE_OPTION) {
+			// Set the parameters; user has selected a file!
+			named = true;
+			on_comp_name = fd.getSelectedFile().getName();
+			absolute_path = fd.getSelectedFile().getAbsolutePath();
+			//Now move the swapfile
+			File f = fd.getSelectedFile();
+			tempfile.renameTo(new File(f.getParent() + File.separator + "." + f.getName() + ".swp"));
+			//Done!
+			save_file();
+		}
+		update();
+	}
+
+	private void save_file() {
+		// TODO save file and remove swapfile
+		System.out.println("TODO: SAVE FILE");
+
+		tempfile.delete();
+		saved = true;
+		update();
 	}
 
 	/**
@@ -125,73 +209,73 @@ public class Converter {
 		frame.setTitle(on_comp_name + (saved ? "" : "*"));
 	}
 
-	/*
-	 * Set up function - pulls in the
+	/**
+	 * Returns true if abort
+	 * 
+	 * @param path
+	 * @return
 	 */
 	private boolean load_data(String path) {
 		if (path == "") {
-			// We're starting with a blank file
+			// We were not given a file name, create a blank one
+			on_comp_name = "UNTITLED.8xv";
+			on_calc_name = "UNTITLED";
+			name_area.setText(on_calc_name);
+			File f = new File(on_comp_name);
+			absolute_path = f.getAbsolutePath();
+			System.out.println("new file path: " + absolute_path);
 			named = false;
 			saved = false;
-			on_calc_name = "UNTITLED";
-			on_comp_name = "UNTITLED.8xp";
-			path = "";// No path yet
-			tempfile = new File(".UNTITLED.8xv.swp");
-			name_area.setText(on_calc_name);
-			update();
-			return false;
-		}
-		File f = new File(path);
-		if (f.exists()) {
-			//We need to load from a file
-			try {
-				// First check for a swapfile
-				tempfile = new File(f.getParent() + File.separator + "." + f.getName() + ".swp");
-				System.out.println("Checking " + tempfile.getAbsolutePath());
-				if(tempfile.exists()) {
-					//Read in from swapfile
-					int which = JOptionPane.showConfirmDialog(frame, "Swapfile detected. Do you want to recover it?");
-					if(which==JOptionPane.YES_OPTION) {
-						//Load data from swapfile
-						BufferedReader br = new BufferedReader(new FileReader(tempfile));
-						String name = br.readLine();
-						String s="";
-						while(br.ready()) {
-							s+=(char)br.read();
-						}
-						text.setText(s);
-						br.close();
-						on_calc_name=name;
-						on_comp_name=f.getName();
-						saved=false;
-						named=true;
-						name_area.setText(on_calc_name);
-						update();
-					}else if(which==JOptionPane.NO_OPTION){
-						//Said no to recover
-						tempfile.delete();
-						load_from_8xv();
-					}else {
-						//abort;
-						return true;
-					}
-				}else {
-					load_from_8xv();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		} else {
-			//A file name was passed, but it doesn't exist yet
+			// We're given a file name
+			File f = new File(path);
 			on_comp_name = f.getName();
-			String tmp;
-			//Automatically infer the on-calc name
+			absolute_path = f.getAbsolutePath();
+			String tmp = "";
+			// Automatically infer oncalc name
 			on_calc_name = (tmp = on_comp_name.split("\\.")[0]).substring(0, Math.min(8, tmp.length())).toUpperCase();
-			saved = false;
 			named = true;
-			tempfile = new File("." + "on_comp_name" + ".swp");
-			name_area.setText(on_calc_name);
-			update();
+			saved = true;
+		}
+		File f = new File(absolute_path);
+		try {
+			tempfile = new File(f.getParent() + File.separator + "." + f.getName() + ".swp");
+			System.out.println("Checking " + tempfile.getAbsolutePath());
+			// Now check for a swapfile
+			if (tempfile.exists()) {
+				System.out.println("Found it");
+				// Read in from swapfile
+				int which = JOptionPane.showConfirmDialog(frame, "Swapfile detected. Do you want to recover it?");
+				if (which == JOptionPane.YES_OPTION) {
+					// Load data from swapfile
+					BufferedReader br = new BufferedReader(new FileReader(tempfile));
+					String name = br.readLine();
+					String s = "";
+					while (br.ready()) {
+						s += (char) br.read();
+					}
+					text.setText(s);
+					br.close();
+					on_calc_name = name;
+					on_comp_name = f.getName();
+					saved = false;
+					named = true;
+					name_area.setText(on_calc_name);
+				} else if (which == JOptionPane.NO_OPTION) {
+					// Said no to recover
+					tempfile.delete();
+					// load from the 8xv file
+					load_from_8xv();
+				} else {
+					// abort;
+					return true;
+				}
+			} else {
+				// If none, load from the 8xv file
+				load_from_8xv();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return false;
 	}
@@ -200,13 +284,13 @@ public class Converter {
 	 * Reads an 8xv file, and does setup stuff
 	 */
 	private void load_from_8xv() {
-		saved=true;
-		named=true;
+		saved = true;
+		named = true;
 		System.out.println("LOADING");
-		//TODO TODO TODO TODO
-		//TODO TODO TODO TODO
-		//TODO TODO TODO TODO
-		//TODO TODO TODO TODO
+		// TODO TODO TODO TODO
+		// TODO TODO TODO TODO
+		// TODO TODO TODO TODO
+		// TODO TODO TODO TODO
 	}
 
 	public static void launch_gui(String s) {
