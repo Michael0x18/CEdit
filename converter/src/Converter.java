@@ -3,8 +3,10 @@ import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -32,7 +34,7 @@ public class Converter {
 	String on_calc_name;
 	String on_comp_name;
 	String absolute_path;
-	
+
 	String oldtext;
 
 	JFrame frame;
@@ -52,17 +54,18 @@ public class Converter {
 	 * @param path
 	 */
 	public Converter(String path) {
-		oldtext="";
-		System.out.println("Converter window initializing");
+		oldtext = "";
+		System.out.println("Converter window initializing...");
 		this.absolute_path = path;
 		init();
-		System.out.println("Done\nLoading data...");
+		System.out.println("Loading data...");
 		if (load_data(path)) {
+			System.out.println("Aborted, cleaning up...");
 			frame.dispose();
 			return;
 		}
 		update();
-		System.out.println("Done");
+		System.out.println("Finished editor setup.");
 		frame.setVisible(true);
 	}
 
@@ -70,6 +73,7 @@ public class Converter {
 	 * Initialize GUI elements
 	 */
 	private void init() {
+		System.out.println("Generating GUI elements...");
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(0, 0, 600, 400);
@@ -83,6 +87,7 @@ public class Converter {
 		p.add(name_area, BorderLayout.CENTER);
 		frame.add(p, BorderLayout.NORTH);
 		text = new JTextArea();
+		System.out.println("Attempting to find font \"Monospaced\"");
 		text.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		text.setLineWrap(true);
 		JScrollPane jsp = new JScrollPane(text);
@@ -101,7 +106,7 @@ public class Converter {
 		File.add(Exit);
 		jmb.add(File);
 		frame.setJMenuBar(jmb);
-
+		System.out.println("Setting up event drivers...");
 		New.addActionListener((e) -> {
 			launch_gui("");
 		});
@@ -158,6 +163,7 @@ public class Converter {
 		};
 		text.addKeyListener(kl);
 		name_area.addKeyListener(kl);
+		System.out.println("Finished init!");
 	}
 
 	private void write_swapfile() {
@@ -176,21 +182,38 @@ public class Converter {
 	}
 
 	private void conditional_save() {
-		JFileChooser fd = new JFileChooser();
-		fd.setDialogTitle("Select file to save");
-		int which = fd.showSaveDialog(frame);
-		if (which == JFileChooser.APPROVE_OPTION) {
-			// Set the parameters; user has selected a file!
-			named = true;
-			on_comp_name = fd.getSelectedFile().getName();
-			absolute_path = fd.getSelectedFile().getAbsolutePath();
-			//Now move the swapfile
-			File f = fd.getSelectedFile();
-			tempfile.renameTo(new File(f.getParent() + File.separator + "." + f.getName() + ".swp"));
-			//Done!
-			save_file();
+		try {
+			JFileChooser fd = new JFileChooser();
+			fd.setDialogTitle("Select file to save");
+			int which = fd.showSaveDialog(frame);
+			if (which == JFileChooser.APPROVE_OPTION) {
+				// Set the parameters; user has selected a file!
+				named = true;
+				File f = new File(
+						fd.getSelectedFile().getAbsolutePath().endsWith(".8xv") ? fd.getSelectedFile().getAbsolutePath()
+								: fd.getSelectedFile().getAbsolutePath() + ".8xv");
+				on_comp_name = f.getName();
+				absolute_path = f.getAbsolutePath();
+				// Now move the swapfile
+				File tempfile_new = new File(f.getParent() + File.separator + "." + f.getName() + ".swp");
+				if (tempfile.exists()) {
+					BufferedReader br = new BufferedReader(new FileReader(tempfile));
+					PrintWriter out = new PrintWriter(new FileWriter(tempfile_new));
+					while (br.ready()) {
+						out.print((char) br.read());
+					}
+					br.close();
+					out.close();
+					tempfile.delete();
+				}
+				tempfile = tempfile_new;
+				// Done!
+				save_file();
+			}
+			update();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		update();
 	}
 
 	private void save_file() {
@@ -217,6 +240,7 @@ public class Converter {
 	 */
 	private boolean load_data(String path) {
 		if (path == "") {
+			System.out.println("No path given, use default: ./Untitled.8xv");
 			// We were not given a file name, create a blank one
 			on_comp_name = "UNTITLED.8xv";
 			on_calc_name = "UNTITLED";
@@ -227,6 +251,7 @@ public class Converter {
 			named = false;
 			saved = false;
 		} else {
+			System.out.println("Given filename:" + absolute_path);
 			// We're given a file name
 			File f = new File(path);
 			on_comp_name = f.getName();
@@ -239,39 +264,36 @@ public class Converter {
 		}
 		File f = new File(absolute_path);
 		try {
+			System.out.println("Initializing swapfile...");
 			tempfile = new File(f.getParent() + File.separator + "." + f.getName() + ".swp");
 			System.out.println("Checking " + tempfile.getAbsolutePath());
 			// Now check for a swapfile
 			if (tempfile.exists()) {
-				System.out.println("Found it");
+				System.out.println("Swapfile found, prompting user...");
 				// Read in from swapfile
 				int which = JOptionPane.showConfirmDialog(frame, "Swapfile detected. Do you want to recover it?");
 				if (which == JOptionPane.YES_OPTION) {
 					// Load data from swapfile
-					BufferedReader br = new BufferedReader(new FileReader(tempfile));
-					String name = br.readLine();
-					String s = "";
-					while (br.ready()) {
-						s += (char) br.read();
-					}
-					text.setText(s);
-					br.close();
-					on_calc_name = name;
+					System.out.println("User selected: yes");
+					System.out.println("Recover from swapfile");
 					on_comp_name = f.getName();
-					saved = false;
-					named = true;
-					name_area.setText(on_calc_name);
+					load_swapfile();
 				} else if (which == JOptionPane.NO_OPTION) {
+					System.out.println("User selected: no");
+					System.out.println("Deleting swapfile...");
 					// Said no to recover
 					tempfile.delete();
 					// load from the 8xv file
+					System.out.println("Attempting to load data from 8xv file");
 					load_from_8xv();
 				} else {
 					// abort;
+					System.out.println("User selected option: cancel");
 					return true;
 				}
 			} else {
 				// If none, load from the 8xv file
+				System.out.println("No swapfile detected, attempting to load from 8xv");
 				load_from_8xv();
 			}
 		} catch (Exception e) {
@@ -280,45 +302,57 @@ public class Converter {
 		return false;
 	}
 
+	private void load_swapfile() throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(tempfile));
+		String name = br.readLine();
+		String s = "";
+		while (br.ready()) {
+			s += (char) br.read();
+		}
+		text.setText(s);
+		br.close();
+		on_calc_name = name;
+		saved = false;
+		named = true;
+		name_area.setText(on_calc_name);
+	}
+
 	/**
 	 * Reads an 8xv file, and does setup stuff
 	 */
 	private void load_from_8xv() {
 		saved = true;
 		named = true;
-		System.out.println("LOADING");
-		// TODO TODO TODO TODO
-		// TODO TODO TODO TODO
-		// TODO TODO TODO TODO
-		// TODO TODO TODO TODO
+		System.out.println("Checking if 8xv file exists...");
+		File f = new File(absolute_path);
+		if (f.exists()) {
+			System.out.println("Found 8xv file, opening and decoding...");
+			System.out.println("Running calc2txt from file: " + absolute_path + " to " + tempfile.getAbsolutePath());
+			calc2text(f, tempfile);
+			try {
+				if (tempfile.exists()) {
+					load_swapfile();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("Swapfile loaded");
+		} else {
+			System.out.println("No 8xv file found, exiting subroutine...");
+		}
+
 	}
 
 	public static void launch_gui(String s) {
 		Converter c = new Converter(s);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {// \u0001 ree
 		try {
 			UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-//		try {
-//			System.out.println("Testing convbin");
-//			Process p = Runtime.getRuntime().exec("convbin");
-//			System.out.println("Testing done");
-//		} catch (IOException e) {
-//			int which = JOptionPane.showConfirmDialog(null,
-//					"This program requires convbin to run. Install it?\nNote: if you have it installed, make sure it is on the system path, e.g. in /usr/bin");
-//			if (which == 0) {
-//				try {
-//					Desktop.getDesktop().browse(new URI("https://github.com/mateoconlechuga/convbin/releases"));
-//				} catch (Exception e2) {
-//					e2.printStackTrace();
-//				}
-//			}
-//			return;
-//		}
 		if (args.length == 0) {
 			System.out.println("Launching");
 			launch_gui("");
@@ -326,4 +360,30 @@ public class Converter {
 			launch_gui(args[0]);
 		}
 	}
+
+	public static void calc2text(File calcfile, File compfile) {
+		try {
+			BufferedInputStream fis = new BufferedInputStream(new FileInputStream(calcfile));
+			for(int i = 0; i < 53; i++) {
+				fis.read();//Get rid of the **TI83F* header and the {26 10 00} and the comment
+			}
+			int b = fis.read();
+			int a = fis.read();
+			a<<=8;
+			a|=b;
+			for(int i = 0; i < a; i++) {
+				
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void text2calc(File compfile, File calcfile) {
+
+	}
+
 }
