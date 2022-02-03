@@ -5,7 +5,6 @@
 #include <graphx.h>
 #include <string.h>
 #include "libx4.h"
-/*
 int main(void)
 {
 
@@ -23,7 +22,8 @@ int main(void)
 		x4_FillScreen(15);
 		x4_PutPixel(120, 0, 0);
 
-		x4_FastLine_Fix(160, 120, cursor_x, cursor_y, 0);
+		x4_Line(160, 120, cursor_x, cursor_y, 0);
+		x4_VertLine(cursor_x,cursor_y,10,0);
 		kb_Scan();
 
 		if (kb_IsDown(kb_KeyLeft))
@@ -63,7 +63,7 @@ int main(void)
 	x4_SetScreenLocation(X4_BUFFER_1);
 	x4_End();
 }
-*/
+/*
 #define lcd_CrsrImage ((uint32_t*)0xE30800)
 
 unsigned char cursor_bin[] = {
@@ -149,4 +149,4 @@ void main(void) {
 	lcd_CrsrCtrl = 0; // disable cursor
 	x4_SetScreenLocation(X4_BUFFER_1);
 	x4_End();
-}
+}*/
