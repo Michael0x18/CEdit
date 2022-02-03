@@ -147,5 +147,6 @@ void main(void) {
 	}
 
 	lcd_CrsrCtrl = 0; // disable cursor
+	x4_SetScreenLocation(X4_BUFFER_1);
 	x4_End();
 }
