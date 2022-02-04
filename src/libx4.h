@@ -73,7 +73,20 @@ void x4_BlitBuffer(void* dest, void* src);
 void x4_PutPixel(int24_t x, int24_t y, int24_t c);
 
 //TODO implement this
-void x4_Rectangle(int x, int y, int width, int height);
+extern void x4_VertLine(int,int,int,int);
+extern void x4_HorizLine(int,int,int,int);
+void x4_FillRectangle(int x, int y, int width, int height, int c){
+	for(int i = 0; i < width; i++){
+		x4_VertLine(x+i,y,height,c);
+	}
+}
+
+void x4_Rectangle(int x, int y, int width, int height, int c){
+	x4_VertLine(x,y,height,c);
+	x4_VertLine(x+width-1,y,height,c);
+	x4_HorizLine(x,y,width,c);
+	x4_HorizLine(x,y+height-1,width,c);
+}
 
 const int fixfactor = 64;
 
@@ -128,7 +141,7 @@ void x4_Line(int x, int y, int x2, int y2, int c)
 }
 
 /*
- * Vertical line - very fast routine
+ * Vertical line - very fast routine *cough cough*
  * TODO
  */
 void x4_VertLine(int x, int y, int len, int c){
@@ -141,6 +154,25 @@ void x4_VertLine(int x, int y, int len, int c){
  * Horizontal line - not as fast
  * TODO
  */
-void x4_HorizLine(int x, int y, int len, int c);
+void x4_HorizLine(int x, int y, int len, int c){
+	for(int i = 0; i < len; i++){
+		x4_PutPixel(x+i,y,c);
+	}
+}
+
+//TODO implement this
+void x4_Circle(int x, int y, int r, int c);
+
+void x4_FillCircle(int x, int y, int r, int c){
+	//(x-h)^2+(y-k)^2<=r^2 -> draw or no draw
+	for(int x1 = x-r; x1 <= x+r; x1++){
+		for(int y1 = y-r; y1 <=y+r; y1++){
+			if((x1-x)*(x1-x)+(y1-y)*(y1-y)<= r*r){
+				x4_PutPixel(x1,y1,c);
+			}
+		}
+	}
+}
+
 
 #endif

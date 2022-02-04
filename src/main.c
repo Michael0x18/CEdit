@@ -14,16 +14,17 @@ int main(void)
 	x4_FillScreen(15);
 	x4_SetDrawLocation(X4_BUFFER_2);
 	x4_FillScreen(15);
-	int cursor_x = 0;
-	int cursor_y = 0;
+	int cursor_x = 60;
+	int cursor_y = 60;
 
 	while (!kb_IsDown(kb_KeyClear))
 	{
 		x4_FillScreen(15);
 		x4_PutPixel(120, 0, 0);
 
-		x4_Line(160, 120, cursor_x, cursor_y, 0);
-		x4_VertLine(cursor_x,cursor_y,100,0);
+		//x4_Line(160, 120, cursor_x, cursor_y, 0);
+		//x4_Rectangle(cursor_x,cursor_y,50,60,0);
+		x4_FillCircle(cursor_x, cursor_y,30,0);
 		kb_Scan();
 
 		if (kb_IsDown(kb_KeyLeft))
