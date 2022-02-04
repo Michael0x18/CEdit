@@ -1,7 +1,7 @@
 #ifndef libx4_h
 #define libx4_h
 
-#include "libx4_constants.h"
+#include "x4/libx4_constants.h"
 
 extern void *x4_Buffer;
 
@@ -131,7 +131,11 @@ void x4_Line(int x, int y, int x2, int y2, int c)
  * Vertical line - very fast routine
  * TODO
  */
-void x4_VertLine(int x, int y, int len, int c);
+void x4_VertLine(int x, int y, int len, int c){
+	for(int i = 0; i < len; i++){
+		x4_PutPixel(x,y+i,c);
+	}
+}
 
 /*
  * Horizontal line - not as fast

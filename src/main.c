@@ -23,7 +23,7 @@ int main(void)
 		x4_PutPixel(120, 0, 0);
 
 		x4_Line(160, 120, cursor_x, cursor_y, 0);
-		x4_VertLine(cursor_x,cursor_y,10,0);
+		x4_VertLine(cursor_x,cursor_y,100,0);
 		kb_Scan();
 
 		if (kb_IsDown(kb_KeyLeft))
