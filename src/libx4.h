@@ -174,5 +174,13 @@ void x4_FillCircle(int x, int y, int r, int c){
 	}
 }
 
+//TODO
+/*
+ * Draws a character at x,y, with color c
+ */
+void x4_PutChar(int x, int y, char ch, int color){
+	
+}
+
 
 #endif
