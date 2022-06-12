@@ -1,3 +1,6 @@
+
+section .text
+
 ;   DEFINES
 ti.WaitShort = 00003B4h
 ti.WaitLong  = 00003B8h

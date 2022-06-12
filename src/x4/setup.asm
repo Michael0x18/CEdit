@@ -1,6 +1,8 @@
 include 'ti84pceg.inc'
 include 'spi.asm'
 
+section .text
+
 ; Sets up the screen in 4bpp, column major mode
 ; void x4_Begin(void)
 public _x4_Begin

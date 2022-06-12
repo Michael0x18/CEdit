@@ -1,6 +1,8 @@
 include 'ti84pceg.inc'
 include 'spi.asm'
 
+section .text
+
 ; x,y
 ; Returns offset hl, not including the buffer
 ; Does not computer even/odd offset

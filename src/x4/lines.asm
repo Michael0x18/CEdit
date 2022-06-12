@@ -1,6 +1,8 @@
 include 'ti84pceg.inc'
 include 'spi.asm'
 
+section .text
+
 ;public _x4_VertLine
 ;_x4_VertLine:
 ;	.x	:=	ix+6
