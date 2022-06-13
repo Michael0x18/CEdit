@@ -1,8 +1,10 @@
+    assume adl=1
+    section .rodata
 ;TODO
 
-section .text
-
+;public default_font_spacing
 default_font_spacing:
 
-default_font_data:
+;public default_font_data:
+;default_font_data:
 

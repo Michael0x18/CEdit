@@ -1,6 +1,7 @@
+assume adl=1
+section .rodata
 
-section .data
-
+public default_font_spacing
 default_font_spacing:
 	db	8,8,8,8,8,8,8,8,8,8,8,8,8,2,8,8
 	db	8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
@@ -19,6 +20,7 @@ default_font_spacing:
 	db	8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
 	db	8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
 
+public default_font_data
 default_font_data:
 	db	$00,$00,$00,$00,$00,$00,$00,$00 ; .
 	db	$7E,$81,$A5,$81,$BD,$BD,$81,$7E ; .

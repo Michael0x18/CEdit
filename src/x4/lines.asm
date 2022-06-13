@@ -1,7 +1,8 @@
 include 'ti84pceg.inc'
-include 'spi.asm'
+include 'spi.inc'
 
-section .text
+    assume adl=1
+    section .text
 
 ;public _x4_VertLine
 ;_x4_VertLine:

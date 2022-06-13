@@ -4,10 +4,13 @@
 ;       License is LGPL
 ;       Michael0x18, beckadamtheinventor
 ;
-
-section .data
 include 'ti84pceg.inc'
-include 'spi.asm'
+include 'spi.inc'
+include 'font.asm'
+
+	assume adl=1
+	section .text
+
 ; The currently active drawing buffer.
 public _x4_Buffer
 _x4_Buffer	:=	ti.mpLcdLpbase
@@ -32,6 +35,8 @@ _x4_DefaultPaletteData:
 	dw	$FE05		;Orange
 	dw	$5880		;Brown
 	dw	$FFFF		;White2
+
+	section .data
 
 public _x4_FontSpacing
 _x4_FontSpacing	dl	default_font_spacing
@@ -61,4 +66,5 @@ public _x4_d4
  _x4_d4		dl	0
 
 extern __frameset
-include 'font.asm'
+extern default_font_spacing
+extern default_font_data

@@ -1,7 +1,8 @@
 include 'ti84pceg.inc'
-include 'spi.asm'
+include 'spi.inc'
 
-section .text
+	assume adl=1
+	section .text
 
 ; x,y
 ; Returns offset hl, not including the buffer

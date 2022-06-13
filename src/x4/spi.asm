@@ -1,5 +1,6 @@
+include 'ti84pceg.inc'
 
-section .text
+section .data
 
 ;   DEFINES
 ti.WaitShort = 00003B4h
@@ -22,20 +23,21 @@ lcd.width    = ti.lcdWidth
 lcd.height   = ti.lcdHeight
 lcd.size     = lcd.width * lcd.height
 
-macro spi cmd, params&
-	ld	a, cmd
-	call	spiCmd
-	match any, params
-		iterate param, any
-			ld	a, param
-			call	spiParam
-		end iterate
-	end match
-end macro
-;   END DEFINES
-;Jacobly's SPI stuff
-	;;;;;Jacobly's stuff
+;macro spi cmd, params&
+;	ld	a, cmd
+;	call	spiCmd
+;	match any, params
+;		iterate param, any
+;			ld	a, param
+;			call	spiParam
+;		end iterate
+;	end match
+;end macro
+;;   END DEFINES
+;;Jacobly's SPI stuff
+;	;;;;;Jacobly's stuff
 
+public spiParam
 spiParam:
 	scf
 	virtual
@@ -43,6 +45,7 @@ spiParam:
 		load .jr_nc : byte from $$
 	end virtual
 	db	.jr_nc
+public spiCmd
 spiCmd:
 	or	a, a
 	ld	hl, mpSpiData or spiValid shl 8
