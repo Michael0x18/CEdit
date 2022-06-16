@@ -4,6 +4,8 @@
 #include "libx4_constants.h"
 #include "font.h"
 
+#define fixfactor 64
+
 extern void *x4_Buffer;
 
 /*
@@ -89,7 +91,6 @@ void x4_Rectangle(int x, int y, int width, int height, int c){
 	x4_HorizLine(x,y+height-1,width,c);
 }
 
-const int fixfactor = 64;
 
 /*
  * EFLA routine
