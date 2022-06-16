@@ -12,11 +12,13 @@ int main(void)
 	x4_Begin();
 	x4_LoadDefaultPalette();
 	x4_FillScreen(15);
+	struct x4_font def = x4_get_default_font();
+
 	x4_SetDrawLocation(X4_BUFFER_2);
 	x4_FillScreen(15);
 	
 	while(true){
-
+		
 	}
 
 	x4_SetScreenLocation(X4_BUFFER_1);

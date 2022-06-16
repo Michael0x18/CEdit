@@ -1,7 +1,7 @@
 #include "font.h"
 
-struct x4_font get_default_font(void){
-static uint8_t topaz_font[128][8][8]={
+struct x4_font x4_get_default_font(void){
+static uint8_t topaz_font[128][8][2]={
 {{85, 85, },{170, 170, },{85, 85, },{170, 170, },{85, 85, },{170, 170, },{85, 85, },{170, 170, },},
 {{0, 0, },{0, 0, },{0, 0, },{0, 0, },{0, 0, },{0, 0, },{0, 0, },{0, 0, },},
 {{0, 0, },{0, 0, },{0, 0, },{0, 0, },{0, 0, },{0, 0, },{0, 0, },{0, 0, },},
@@ -136,4 +136,8 @@ static uint8_t topaz_font[128][8][8]={
     default_font_struct.char_height=16;
     default_font_struct.font_data=(uint8_t*)topaz_font;
     return default_font_struct;
+}
+
+void x4_PutChar(struct x4_font which, int x, int y, char ch, int color){
+
 }

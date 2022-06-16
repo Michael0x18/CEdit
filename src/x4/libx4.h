@@ -86,12 +86,6 @@ void x4_Circle(int x, int y, int r, int c);
 
 void x4_FillCircle(int x, int y, int r, int c);
 
-//TODO
-/*
- * Draws a character at x,y, with color c
- */
-void x4_PutChar(int x, int y, char ch, int color);
-
 void x4_FillRectangle(int x, int y, int width, int height, int c);
 
 void x4_Rectangle(int x, int y, int width, int height, int c);

@@ -24,6 +24,12 @@ struct x4_font{
  * Note that this means the font height must be even.
 */
 
-struct x4_font get_default_font(void);
+struct x4_font x4_get_default_font(void);
+
+//TODO
+/*
+ * Draws a character at x,y, with color c
+ */
+void x4_PutChar(struct x4_font which, int x, int y, char ch, int color);
 
 #endif /*font_h*/

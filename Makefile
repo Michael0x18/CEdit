@@ -5,7 +5,7 @@
 NAME = CEDIT
 ICON = icon.png
 DESCRIPTION = "CEdit editor"
-COMPRESSED = YES
+COMPRESSED = NO
 ARCHIVED = YES
 
 CFLAGS = -Wall -Wextra -Oz
