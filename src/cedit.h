@@ -8,7 +8,7 @@
 #include <graphx.h>
 #include <string.h>
 
-#include "libx4.h"
+#include "x4/libx4.h"
 
 struct editor_state{
     //Maximum size of the file being edited.

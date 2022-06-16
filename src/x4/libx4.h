@@ -1,7 +1,8 @@
 #ifndef libx4_h
 #define libx4_h
 
-#include "x4/libx4_constants.h"
+#include "libx4_constants.h"
+#include "font.h"
 
 extern void *x4_Buffer;
 
@@ -183,4 +184,4 @@ void x4_PutChar(int x, int y, char ch, int color){
 }
 
 
-#endif
+#endif /*libx4.h*/

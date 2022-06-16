@@ -6,7 +6,7 @@
 ;
 include 'ti84pceg.inc'
 include 'spi.inc'
-include 'font.asm'
+;include 'font.asm'
 
 	assume adl=1
 	section .text
@@ -66,5 +66,5 @@ public _x4_d4
  _x4_d4		dl	0
 
 extern __frameset
-extern default_font_spacing
-extern default_font_data
+;extern default_font_spacing
+;extern default_font_data
