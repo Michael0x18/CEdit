@@ -1,10 +1,12 @@
 #ifndef font_h
 #define font_h
 
+#include "cedit.h"
+
 struct x4_font{
     uint8_t char_width;
     uint8_t char_height;
-    
+    uint8_t *font_data;
 };
 
 /*
@@ -14,5 +16,7 @@ struct x4_font{
  * Each element holds holds font data (including color) for two pixels.
  * Note that this means the font height must be even.
 */
+
+struct x4_font get_default_font(void);
 
 #endif /*font_h*/

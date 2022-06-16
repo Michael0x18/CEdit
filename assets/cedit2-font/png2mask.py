@@ -8,7 +8,7 @@ char_height=16
 im = Image.open('CEdit_Font.png')
 p = im.load()
 chars = list()
-for i in range(0,16):#row
+for i in range(0,8):#row
     for j in range(0,16):#col
         #Extract a character
         a = list()
@@ -45,7 +45,7 @@ for c in chars:
         a.append(b)
     out.append(a)
 
-print('uint8_t topaz_font[256]['+str(char_width)+']['+str(char_height//2)+']={')
+print('uint8_t topaz_font[128]['+str(char_width)+']['+str(char_height//2)+']={')
 for c in out:
     print('{',end='')
     for i in range(0,char_width):
@@ -55,6 +55,6 @@ for c in out:
         print('},',end='')
         if i == char_width-1:
             print('},',end='')
-        print('')
+    print('')
 print('};')
 
