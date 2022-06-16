@@ -1,6 +1,13 @@
 #ifndef font_h
 #define font_h
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <tice.h>
+#include <keypadc.h>
+#include <graphx.h>
+#include <string.h>
+
 #include "cedit.h"
 
 struct x4_font{

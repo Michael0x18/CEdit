@@ -38,12 +38,6 @@ _x4_DefaultPaletteData:
 
 	section .data
 
-public _x4_FontSpacing
-_x4_FontSpacing	dl	default_font_spacing
-
-public _x4_FontData
-_x4_FontData	dl	default_font_data
-
 public _x4_PrevScrBuffer
 _x4_PrevScrBuffer	dl	ti.vRam
 
