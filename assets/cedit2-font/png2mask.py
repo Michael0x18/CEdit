@@ -37,11 +37,19 @@ for c in chars:
     a = list()
     for i in range(0,char_width):
         b = list()
-        for j in range(0,char_height//2):
-            v = 15 * c[i][j*2]
-            v = v<<4
-            v+=15*c[i][j*2+1];
+        for j in range(0,char_height//8):
+            v=0
+            for k in range(0,8):
+                v+=c[i][j*8+k];
+                if k != 7:
+                    v = v<<1
             b.append(v)
+            
+            
+            #v = 15 * c[i][j*2]
+            #v = v<<4
+            #v+=15*c[i][j*2+1];
+            #b.append(v)
         a.append(b)
     out.append(a)
 
@@ -50,7 +58,7 @@ for c in out:
     print('{',end='')
     for i in range(0,char_width):
         print('{',end='')
-        for j in range(0,char_height//2):
+        for j in range(0,char_height//8):
             print(c[i][j],end=', ')
         print('},',end='')
         if i == char_width-1:
