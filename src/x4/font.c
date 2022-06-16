@@ -139,5 +139,5 @@ static uint8_t topaz_font[128][8][2]={
 }
 
 void x4_PutChar(struct x4_font which, int x, int y, char ch, int color){
-
+    
 }
