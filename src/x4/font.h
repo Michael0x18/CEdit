@@ -25,8 +25,9 @@ void x4_load_default_font(uint8_t font_buffer[128][8][8], uint8_t fg, uint8_t bg
 
 //TODO
 /*
- * Draws a character at x,y, with color c
+ * Draws a character at x,y, with color c.
+ * Only supports drawing the character starting at an even row
  */
-void x4_PutChar(int x, int y, char ch, int color);
+void x4_PutChar(uint8_t font_buffer[128][8][8], int x, int y, char ch);
 
 #endif /*font_h*/

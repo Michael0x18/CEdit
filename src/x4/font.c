@@ -140,9 +140,9 @@ static uint8_t topaz_font[128][8][2]={
                 for(int l = 0; l < 8; l++){
                     if((topaz_font[i][j][k] & (1<<l)) > 0){
                         //We use the foreground color
-                        font_buffer[i][j][k*2+l/2]=(l%2==0)?font_buffer[i][j][k*2+l/2]|fg:font_buffer[i][j][k*2+l/2]|(fg<<4);
+                        //font_buffer[i][j][k*2+l/2]=(l%2==0)?font_buffer[i][j][k*2+l/2]|fg:font_buffer[i][j][k*2+l/2]|(fg<<4);
                     }else{
-                        font_buffer[i][j][k*2+l/2]=(l%2==0)?font_buffer[i][j][k*2+l/2]|bg:font_buffer[i][j][k*2+l/2]|(bg<<4);
+                        //font_buffer[i][j][k*2+l/2]=(l%2==0)?font_buffer[i][j][k*2+l/2]|bg:font_buffer[i][j][k*2+l/2]|(bg<<4);
                     }
                 }
             }
@@ -150,6 +150,10 @@ static uint8_t topaz_font[128][8][2]={
     }
 }
 
-void x4_PutChar(int x, int y, char ch, int color){
-    
+void x4_PutChar(uint8_t font_buffer[128][8][8], int x, int y, char ch){
+    for(int i = 0; i < 8; i++){
+        //col
+        int offset = (x+i)*240+y/2;
+        memcpy(x4_Buffer+offset, font_buffer+64*ch+8*i,8);
+    }
 }
