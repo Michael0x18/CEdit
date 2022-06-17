@@ -9,12 +9,14 @@
 
 int main(void)
 {
+	static uint8_t font_buffer[128][8][8];
 	x4_Begin();
 	x4_LoadDefaultPalette();
 	x4_FillScreen(15);
-	struct x4_font def = x4_get_default_font();
+	x4_load_default_font(font_buffer,0,15);
 	x4_Line_EFLA(0,0,20,20,2);
 	x4_HorizLine(10,10,100,1);
+	
 	x4_SetDrawLocation(X4_BUFFER_2);
 	x4_FillScreen(15);
 	

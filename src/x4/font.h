@@ -10,26 +10,23 @@
 
 #include "cedit.h"
 
-struct x4_font{
-    uint8_t char_width;
-    uint8_t char_height;
-    uint8_t *font_data;
-};
-
 /*
  * Font storage method:
- * Fonts are stored as an array, 256 entries in size, of font characters.
+ * Fonts are stored as an array, 128 entries in size, of font characters.
  * Each font character is a two dimensional array of uint8_t elements.
  * Each element holds holds font data (including color) for two pixels.
  * Note that this means the font height must be even.
 */
 
-struct x4_font x4_get_default_font(void);
+/*
+ * Unpacks the default font into the font buffer
+ */
+void x4_load_default_font(uint8_t font_buffer[128][8][8], uint8_t fg, uint8_t bg);
 
 //TODO
 /*
  * Draws a character at x,y, with color c
  */
-void x4_PutChar(struct x4_font which, int x, int y, char ch, int color);
+void x4_PutChar(int x, int y, char ch, int color);
 
 #endif /*font_h*/
