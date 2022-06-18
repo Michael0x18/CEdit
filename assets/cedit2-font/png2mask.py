@@ -53,6 +53,7 @@ for c in chars:
         a.append(b)
     out.append(a)
 
+print ('''#include "cedit.h"''');
 print('uint8_t topaz_font[128]['+str(char_width)+']['+str(char_height//8)+']={')
 for c in out:
     print('{',end='')

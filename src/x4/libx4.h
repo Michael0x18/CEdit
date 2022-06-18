@@ -8,6 +8,8 @@
 
 extern void *x4_Buffer;
 
+void *x4_GetPixelAddress(int24_t x, int24_t y);
+
 /*
  * Sets up the 4bpp drawing  
  * Note: You need to call the palette setting,

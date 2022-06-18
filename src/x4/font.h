@@ -30,4 +30,6 @@ void x4_load_default_font(uint8_t font_buffer[128][8][8], uint8_t fg, uint8_t bg
  */
 void x4_PutChar(uint8_t font_buffer[128][8][8], int x, int y, char ch);
 
+void x4_PutStr(uint8_t font_buffer[128][8][8], int x, int y, char* str);
+
 #endif /*font_h*/
