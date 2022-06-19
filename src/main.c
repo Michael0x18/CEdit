@@ -8,33 +8,44 @@
 
 #include "cedit.h"
 #include "config.h"
+#include "editor.h"
 
 void cedit_swapdraw(void)
 {
 	if (x4_Buffer == X4_BUFFER_1)
-		x4_Buffer = X4_BUFFER_2;
+	{
+		x4_SetDrawLocation(X4_BUFFER_2);
+		x4_SetScreenLocation(X4_BUFFER_1);
+	}
 	else
-		x4_Buffer = X4_BUFFER_1;
+	{
+		x4_SetDrawLocation(X4_BUFFER_1);
+		x4_SetScreenLocation(X4_BUFFER_2);
+	}
 }
 
 int main(int argc, char **argv)
 {
 	static struct estate state;
 
-	x4_Begin();
-	x4_LoadDefaultPalette();
-	x4_FillScreen(15);
+	initialize_default_state(&state);
 
-	x4_SetDrawLocation(X4_BUFFER_2);
-	x4_FillScreen(15);
+	if (argc > 2)
+	{
+		// TODO filename provided
+	}
+
+	initialize_x4();
+
+	redraw_editor(&state);
+	cedit_swapdraw();
 
 	while (!kb_IsDown(kb_KeyClear))
 	{
 		kb_Scan();
 	}
 
-	x4_SetScreenLocation(X4_BUFFER_1);
-	x4_End();
+	release_x4();
 }
 
 /*

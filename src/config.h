@@ -18,7 +18,7 @@
  *
  * TODO
  */
-void load_rc(void);
+void load_rc(struct estate *state);
 
 /*
  * Fills state with the default values.
@@ -33,6 +33,6 @@ void initialize_x4(void);
 /*
  * Releases resources held by the engine.
  */
-void relase_x4(void);
+void release_x4(void);
 
 #endif

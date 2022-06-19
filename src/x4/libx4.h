@@ -11,7 +11,7 @@ extern void *x4_Buffer;
 void *x4_GetPixelAddress(int24_t x, int24_t y);
 
 /*
- * Sets up the 4bpp drawing  
+ * Sets up the 4bpp drawing
  * Note: You need to call the palette setting,
  * vram clearing, and draw location stuff
  * separately. This is meant to give the user
@@ -29,8 +29,8 @@ void *x4_GetPixelAddress(int24_t x, int24_t y);
 void x4_Begin(void);
 
 /*
- * Restores OS defaults  
- * 
+ * Restores OS defaults
+ *
  */
 void x4_End(void);
 
@@ -42,7 +42,7 @@ void x4_FillScreen(int8_t color);
 
 /*
  * Loads the default palette, which consists
- * of the same colors as the TIOS palette, but 
+ * of the same colors as the TIOS palette, but
  * in a different order
  */
 void x4_LoadDefaultPalette(void);
@@ -70,7 +70,7 @@ void *x4_GetScreenLocation(void);
 /*
  * Copies 38400 bytes from src into dest
  */
-void x4_BlitBuffer(void* dest, void* src);
+void x4_BlitBuffer(void *dest, void *src);
 
 /*
  * Draws a pixel to the screen, at the point x,y, with color c
@@ -83,7 +83,7 @@ void x4_VertLine(int x, int y, int len, int c);
 
 void x4_HorizLine(int x, int y, int len, int c);
 
-//TODO implement this
+// TODO implement this
 void x4_Circle(int x, int y, int r, int c);
 
 void x4_FillCircle(int x, int y, int r, int c);
@@ -91,7 +91,5 @@ void x4_FillCircle(int x, int y, int r, int c);
 void x4_FillRectangle(int x, int y, int width, int height, int c);
 
 void x4_Rectangle(int x, int y, int width, int height, int c);
-
-
 
 #endif /*libx4.h*/

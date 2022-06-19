@@ -11,6 +11,37 @@
 
 #include "x4/libx4.h"
 
+#define TEXT_FG_COLOR 0
+#define TEXT_BG_COLOR 1
+#define HIGH_FG_COLOR 2
+#define HIGH_BG_COLOR 3
+#define SELE_FG_COLOR 4
+#define SELE_BG_COLOR 5
+#define STAT_FG_COLOR 6
+#define STAT_BG_COLOR 7
+#define EDIT_BG_COLOR 8
+#define SHAD_FG_COLOR 8
+
+/*
+in the graphics palette
+0   text foreground
+1   text bg
+2   highlight text fg
+3   htbg
+4   selection fg
+5   selection bg
+6   statusbar fg
+7   statusbar bg
+8   editor bg
+9   shadow color
+10
+11
+12
+13
+14
+15
+*/
+
 struct estate
 {
     // Maximum size of the file being edited.
@@ -40,7 +71,7 @@ struct estate
     bool named;
     // Eight character (maximum) file name.
     // This is the name that is displayed to the user.
-    char filename[9];
+    char filename[8];
     // If true, the first letter of the file name will be XOR'd with 64 before each
     // save, and then the unhidden version of the file (if it exists)
     bool hidden;
@@ -64,25 +95,6 @@ struct estate
     // Note that enabling this setting causes the editor core to reparse the
     // ENTIRE file, as things like line offsets must be recalculated from scratch.
     bool wordwrap;
-
-    // Foreground color of editor body text. This is also the cursor color
-    uint8_t text_color_foreground;
-    // Background (highlight) color of editor body text
-    uint8_t text_color_background;
-    // Foreground (text) color of status bars
-    uint8_t statusbar_color_foreground;
-    // Background color of status bars
-    uint8_t statusbar_color_background;
-    // Background color to use when highlighting text
-    uint8_t highlight_color_foreground;
-    // The background color for the entire body.
-    uint8_t editor_body_background;
-    // The color for the (tasteful) shadows drawn under UI elements
-    uint8_t shadow_color;
-    // Color for foreground of selected UI elements
-    uint8_t ui_selection_foreground_color;
-    // Color for background of selected UI elements
-    uint8_t ui_selection_background_color;
 
     // If true, the hardware cursor will be shown and the arrow keys will
     // control it. The 2nd key will click to move the cursor, and holding
@@ -112,7 +124,6 @@ struct estate
     uint8_t cursor_x;
     // The y position of the cursor, in characters.
     uint8_t cursor_y;
-
     // The total number of lines in the file. Including newlines and wraps
     uint24_t num_lines;
     // The number of newlines before the left cursor
@@ -146,3 +157,26 @@ int main(int argc, char **argv);
 void cedit_swapdraw(void);
 
 #endif
+
+/*
+
+// Foreground color of editor body text. This is also the cursor color
+    uint8_t text_color_foreground;
+    // Background (highlight) color of editor body text
+    uint8_t text_color_background;
+    // Foreground (text) color of status bars
+    uint8_t statusbar_color_foreground;
+    // Background color of status bars
+    uint8_t statusbar_color_background;
+    // Background color to use when highlighting text
+    uint8_t highlight_color_foreground;
+    // The background color for the entire body.
+    uint8_t editor_body_background;
+    // The color for the (tasteful) shadows drawn under UI elements
+    uint8_t shadow_color;
+    // Color for foreground of selected UI elements
+    uint8_t ui_selection_foreground_color;
+    // Color for background of selected UI elements
+    uint8_t ui_selection_background_color;
+
+*/
