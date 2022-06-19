@@ -4,43 +4,38 @@
 #include <keypadc.h>
 #include <graphx.h>
 #include <string.h>
+#include <debug.h>
 
 #include "cedit.h"
+#include "config.h"
 
-int main(void)
+void cedit_swapdraw(void)
 {
-	static uint8_t font_buffer[128][8][8];
-	static uint8_t font_buffer_blue[128][8][8];
+	if (x4_Buffer == X4_BUFFER_1)
+		x4_Buffer = X4_BUFFER_2;
+	else
+		x4_Buffer = X4_BUFFER_1;
+}
+
+int main(int argc, char **argv)
+{
+	static struct estate state;
+
 	x4_Begin();
 	x4_LoadDefaultPalette();
 	x4_FillScreen(15);
-	x4_load_default_font(font_buffer,0,15);
-	x4_load_default_font(font_buffer_blue,6,15);
-	//x4_Line_EFLA(0,0,20,20,2);
-	//x4_HorizLine(10,10,100,1);
-	
-	x4_PutStr(font_buffer,5,10,"CEdit2 is the next generation text");
-	x4_PutStr(font_buffer,5,27,"editor for the TI-84 Plus CE");
-	x4_PutStr(font_buffer_blue,5,44,"Now with custom fonts and colors!");
-
-	x4_PutPixel(5,10,6);
-	x4_PutPixel(5,27,6);
-	x4_PutPixel(5,44,6);
 
 	x4_SetDrawLocation(X4_BUFFER_2);
 	x4_FillScreen(15);
-	
-	while(!kb_IsDown(kb_KeyClear)){
+
+	while (!kb_IsDown(kb_KeyClear))
+	{
 		kb_Scan();
 	}
 
 	x4_SetScreenLocation(X4_BUFFER_1);
 	x4_End();
 }
-
-
-
-
 
 /*
 #define lcd_CrsrImage ((uint32_t*)0xE30800)
@@ -78,7 +73,7 @@ void main(void) {
 	x4_LoadDefaultPalette();
 	x4_FillScreen(15);
 	uint16_t x = 0, y = 0;
-	
+
 	// set the CPL
 	//lcd_Timing2 = (uint32_t)(lcd_Timing2 & ~(uint32_t)0x03FF0000) | (uint32_t)(LCD_WIDTH - 1) << 16;
 	memcpy(lcd_CrsrImage, cursor_bin, 256); // set cursor image
@@ -91,7 +86,7 @@ void main(void) {
 	lcd_CrsrCtrl = 1; // enable cursor
 	int bg=15;
 	x4_SetDrawLocation(X4_BUFFER_2);
-	                x4_SetScreenLocation(X4_BUFFER_1);
+					x4_SetScreenLocation(X4_BUFFER_1);
 
 	while(!kb_IsDown(kb_KeyClear)) {
 		kb_Scan();
