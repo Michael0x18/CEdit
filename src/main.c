@@ -10,15 +10,22 @@
 int main(void)
 {
 	static uint8_t font_buffer[128][8][8];
+	static uint8_t font_buffer_blue[128][8][8];
 	x4_Begin();
 	x4_LoadDefaultPalette();
 	x4_FillScreen(15);
 	x4_load_default_font(font_buffer,0,15);
+	x4_load_default_font(font_buffer_blue,6,15);
 	//x4_Line_EFLA(0,0,20,20,2);
 	//x4_HorizLine(10,10,100,1);
 	
-	x4_PutStr(font_buffer,0,10,"123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-	x4_PutStr(font_buffer,0,27,"0");
+	x4_PutStr(font_buffer,5,10,"CEdit2 is the next generation text");
+	x4_PutStr(font_buffer,5,27,"editor for the TI-84 Plus CE");
+	x4_PutStr(font_buffer_blue,5,44,"Now with custom fonts and colors!");
+
+	x4_PutPixel(5,10,6);
+	x4_PutPixel(5,27,6);
+	x4_PutPixel(5,44,6);
 
 	x4_SetDrawLocation(X4_BUFFER_2);
 	x4_FillScreen(15);
