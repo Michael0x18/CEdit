@@ -16,9 +16,10 @@ int main(void)
 	x4_load_default_font(font_buffer,0,15);
 	//x4_Line_EFLA(0,0,20,20,2);
 	//x4_HorizLine(10,10,100,1);
-	for(int i = 0; i < 231; i+=17)
-		x4_PutStr(font_buffer,0,i,"012345678901234567890123456789");
 	
+	x4_PutStr(font_buffer,0,10,"123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	x4_PutStr(font_buffer,0,27,"0");
+
 	x4_SetDrawLocation(X4_BUFFER_2);
 	x4_FillScreen(15);
 	
