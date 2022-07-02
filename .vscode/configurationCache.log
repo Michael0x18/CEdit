@@ -1,0 +1,1 @@
+{"buildTargets":[".PHONY","all","bin/CEDIT.8xp","bin/CEDIT.bin","clean","debug","gfx","obj/icon.src","obj/lto.bc","obj/lto.src","obj/src/clipboard.c.bc","test","version"],"launchTargets":["/home/michael2/CEdit>a.out()"],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}

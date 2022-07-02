@@ -11,7 +11,8 @@
             "compilerPath": "/opt/local/bin/gcc",
             "cStandard": "gnu11",
             "cppStandard": "gnu++98",
-            "intelliSenseMode": "macos-gcc-x64"
+            "intelliSenseMode": "macos-gcc-x64",
+            "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4
