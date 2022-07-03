@@ -8,10 +8,11 @@
 #include <keypadc.h>
 #include <graphx.h>
 #include <string.h>
+#include <limits.h>
 
 #include "cedit.h"
 
-extern char key_list[8][54];
+extern char key_list[16][60];
 
 uint8_t getkey(struct estate *state);
 
@@ -26,6 +27,6 @@ void process_modifiers(struct estate *state);
 
 uint8_t generate_mod_mask(struct estate *state);
 
-char ngetchx(struct estate *state);
+unsigned char ngetchx(struct estate *state);
 
 #endif

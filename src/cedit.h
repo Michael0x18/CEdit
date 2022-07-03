@@ -149,7 +149,7 @@ struct estate
     uint8_t font_buffer_select[128][8][8];
     uint8_t font_buffer_statusbar[128][8][8];
 
-    uint8_t modifiers[4]; // 2nd alpha mode graphvar
+    uint8_t modifiers[4]; // 2nd alpha mode graphvar = ctrl alpha meta shift
 
     bool cedit_enable_triplebuffer;
 };

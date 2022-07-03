@@ -9,6 +9,9 @@
 
 void redraw_editor(struct estate *state);
 void insert_char(struct estate *state, char c);
-bool is_control(char k);
+void backspace(struct estate *state);
+void delete (struct estate *state);
+bool is_control(unsigned char k);
+void editor_mainloop(struct estate *state);
 
 #endif
