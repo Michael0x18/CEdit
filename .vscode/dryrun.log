@@ -1,5 +1,6 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/michael2/CEdit'
+ 
 mkdir -p 'obj/src'
 echo [compiling] src/config.c
 /home/michael2/CEdev/bin/ez80-clang -MD -c -emit-llvm -nostdinc -isystem /home/michael2/CEdev/include -Isrc -fno-threadsafe-statics -Xclang -fforce-mangle-main-argc-argv -mllvm -profile-guided-section-prefix=false -DNDEBUG  -g0 -Wall -Wextra -Oz 'src/config.c' -o 'obj/src/config.c.bc'
@@ -21,6 +22,7 @@ echo [compiling] src/x4/cursor.c
 mkdir -p 'obj/src/x4'
 echo [compiling] src/x4/font.c
 /home/michael2/CEdev/bin/ez80-clang -MD -c -emit-llvm -nostdinc -isystem /home/michael2/CEdev/include -Isrc -fno-threadsafe-statics -Xclang -fforce-mangle-main-argc-argv -mllvm -profile-guided-section-prefix=false -DNDEBUG  -g0 -Wall -Wextra -Oz 'src/x4/font.c' -o 'obj/src/x4/font.c.bc'
+ 
 mkdir -p 'obj/src/x4'
 echo [compiling] src/x4/fontdata.c
 /home/michael2/CEdev/bin/ez80-clang -MD -c -emit-llvm -nostdinc -isystem /home/michael2/CEdev/include -Isrc -fno-threadsafe-statics -Xclang -fforce-mangle-main-argc-argv -mllvm -profile-guided-section-prefix=false -DNDEBUG  -g0 -Wall -Wextra -Oz 'src/x4/fontdata.c' -o 'obj/src/x4/fontdata.c.bc'

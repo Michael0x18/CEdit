@@ -9,6 +9,7 @@ include 'spi.inc'
 public _x4_Begin
 _x4_Begin:
 	;ei
+	call ti.boot.InitializeHardware
 	ld	a,ti.lcdBpp4
 	ld	(ti.mpLcdCtrl), a
 	spi	$36, $2c		;Do mysterious spi stuff to get it in column-major mode

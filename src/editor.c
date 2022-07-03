@@ -105,9 +105,36 @@ void backspace(struct estate *state)
 	if (state->cursor_left)
 	{
 		state->cursor_left--;
-		state->cursor_x--;
-		state->cursor_line_sub_offset--; // TODO fix this
-										 // TODO do the subtraction
+		if (state->cursor_x)
+		{									 // If we can still move on the line
+			state->cursor_x--;				 // Scoot this over
+			state->cursor_line_sub_offset--; // And this
+		}
+		else
+		{
+			state->cursor_line_actual--; // Gotta reduce this val
+			// Oh no, we just scooted over a line wrap or a newline
+			state->cursor_y--; // Scoot up. Oh well.
+			if (state->text[state->cursor_left] == '\n')
+			{							  // We just deleted a newline
+				state->num_lines--;		  // Again, we deleted a newline
+				state->cursor_line_raw--; // And now there's one less before the cursor
+				uint24_t i = 0;
+				for (; i < state->cursor_left; i++)
+				{
+					uint24_t index = state->cursor_left - i - 1;
+					if (state->text[index] == '\n')
+						break; // Cursed, but we found our newline
+				}
+				state->cursor_line_sub_offset = i;
+				state->cursor_x = i % 35; // TODO check this
+			}
+			else
+			{									 // Oh well. We crossed a boundary, but it wasn't a newline.
+				state->cursor_line_sub_offset--; // Looks like this gets changed
+				state->cursor_x = 34;			 // Scoot to end
+			}
+		}
 	}
 }
 
@@ -223,7 +250,7 @@ void move_left(struct estate *state)
 							break; // Cursed, but we found our newline
 					}
 					state->cursor_line_sub_offset = i;
-					state->cursor_x = i % 35; // TODO check this
+					state->cursor_x = i % 35; // TODO check this. Checked
 				}
 				else
 				{

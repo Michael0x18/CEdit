@@ -125,7 +125,7 @@ struct estate
     uint8_t cursor_x;
     // The y position of the cursor, in characters.
     uint8_t cursor_y;
-    // The total number of lines in the file. Including newlines and wraps
+    // The total number of lines in the file. Including newlines and wraps. Currently only includes newlines
     uint24_t num_lines;
     // The number of newlines before the left cursor
     uint24_t cursor_line_raw;
