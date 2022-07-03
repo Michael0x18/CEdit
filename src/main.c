@@ -40,13 +40,13 @@ void cedit_swapdraw(struct estate *state)
 		{
 			x4_SetDrawLocation(X4_BUFFER_2);
 			x4_SetScreenLocation(X4_BUFFER_1);
-			dbg_printf("switch 1\n");
+			// dbg_printf("switch 1\n");
 		}
 		else
 		{
 			x4_SetDrawLocation(X4_BUFFER_1);
 			x4_SetScreenLocation(X4_BUFFER_2);
-			dbg_printf("switch 2\n");
+			// dbg_printf("switch 2\n");
 		}
 	}
 }

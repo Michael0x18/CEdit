@@ -131,7 +131,7 @@ struct estate
     uint24_t cursor_line_raw;
     // The number of newlines plus the number of wraps before the left cursor
     uint24_t cursor_line_actual;
-    // The cursor position within the line.
+    // The cursor position within the line. (from the start of the line)
     uint24_t cursor_line_sub_offset;
 
     // Cache for status bars. This is the third x4 buffer plus 65536 bytes.

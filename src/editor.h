@@ -13,5 +13,8 @@ void backspace(struct estate *state);
 void delete (struct estate *state);
 bool is_control(unsigned char k);
 void editor_mainloop(struct estate *state);
+void move_left(struct estate *state);
+void move_right(struct estate *state);
+void handle_control(struct estate *state, unsigned char k);
 
 #endif

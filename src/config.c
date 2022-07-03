@@ -10,7 +10,7 @@ void initialize_default_state(struct estate *state)
 {
 	state->max_file_size = 65536;
 	state->cursor_left = 0;
-	state->cursor_right = 65536;
+	state->cursor_right = state->max_file_size - 1;
 	state->highlight_anchor = 0;
 	state->highlight_enabled = false;
 	state->saved = false;
@@ -46,8 +46,8 @@ void initialize_default_state(struct estate *state)
 	gfx_palette[9] = 6318;
 
 	x4_load_default_font(state->font_buffer, 0, 1);
-	x4_load_default_font(state->font_buffer_highlight, 2, 3);
-	x4_load_default_font(state->font_buffer_select, 4, 5);
+	// x4_load_default_font(state->font_buffer_highlight, 2, 3);
+	// x4_load_default_font(state->font_buffer_select, 4, 5);
 	x4_load_default_font(state->font_buffer_statusbar, 6, 7);
 
 	state->cedit_enable_triplebuffer = false;
