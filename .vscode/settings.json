@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "stdint.h": "c",
-        "inttypes.h": "c"
+        "inttypes.h": "c",
+        "limits.h": "c"
     }
 }

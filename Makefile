@@ -2,7 +2,7 @@
 # Makefile Options
 # ----------------------------
 
-NAME = CEDIT
+NAME = CEDIT2RA
 ICON = icon.png
 DESCRIPTION = "CEdit editor"
 COMPRESSED = NO

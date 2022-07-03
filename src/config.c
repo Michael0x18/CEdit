@@ -49,6 +49,8 @@ void initialize_default_state(struct estate *state)
 	x4_load_default_font(state->font_buffer_highlight, 2, 3);
 	x4_load_default_font(state->font_buffer_select, 4, 5);
 	x4_load_default_font(state->font_buffer_statusbar, 6, 7);
+
+	state->cedit_enable_triplebuffer = false;
 }
 
 void initialize_x4(void)

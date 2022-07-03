@@ -8,6 +8,7 @@
 #include <keypadc.h>
 #include <graphx.h>
 #include <string.h>
+#include <debug.h>
 
 #include "x4/libx4.h"
 
@@ -147,6 +148,10 @@ struct estate
     uint8_t font_buffer_highlight[128][8][8];
     uint8_t font_buffer_select[128][8][8];
     uint8_t font_buffer_statusbar[128][8][8];
+
+    uint8_t modifiers[4]; // 2nd alpha mode graphvar
+
+    bool cedit_enable_triplebuffer;
 };
 
 /*
@@ -154,7 +159,7 @@ struct estate
  */
 int main(int argc, char **argv);
 
-void cedit_swapdraw(void);
+void cedit_swapdraw(struct estate *state);
 
 #endif
 

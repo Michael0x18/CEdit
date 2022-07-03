@@ -9,18 +9,45 @@
 #include "cedit.h"
 #include "config.h"
 #include "editor.h"
+#include "ngetchx.h"
 
-void cedit_swapdraw(void)
+void cedit_swapdraw(struct estate *state)
 {
-	if (x4_Buffer == X4_BUFFER_1)
+	if (state->cedit_enable_triplebuffer)
 	{
-		x4_SetDrawLocation(X4_BUFFER_2);
-		x4_SetScreenLocation(X4_BUFFER_1);
+		if (x4_Buffer == X4_BUFFER_1)
+		{
+			x4_SetDrawLocation(X4_BUFFER_2);
+			x4_SetScreenLocation(X4_BUFFER_1);
+			dbg_printf("switch 1\n");
+		}
+		else if (x4_Buffer == X4_BUFFER_2)
+		{
+			x4_SetDrawLocation(X4_BUFFER_3);
+			x4_SetScreenLocation(X4_BUFFER_1);
+			dbg_printf("switch 2\n");
+		}
+		else if (x4_Buffer == X4_BUFFER_3)
+		{
+			x4_SetDrawLocation(X4_BUFFER_1);
+			x4_SetScreenLocation(X4_BUFFER_2);
+			dbg_printf("switch 3\n");
+		}
 	}
 	else
 	{
-		x4_SetDrawLocation(X4_BUFFER_1);
-		x4_SetScreenLocation(X4_BUFFER_2);
+		if (x4_Buffer == X4_BUFFER_1)
+		{
+			x4_SetDrawLocation(X4_BUFFER_2);
+			x4_SetScreenLocation(X4_BUFFER_1);
+			dbg_printf("switch 1\n");
+		}
+		else
+		{
+			x4_SetDrawLocation(X4_BUFFER_1);
+			x4_SetScreenLocation(X4_BUFFER_2);
+			dbg_printf("switch 2\n");
+		}
 	}
 }
 
@@ -37,13 +64,7 @@ int main(int argc, char **argv)
 
 	initialize_x4();
 
-	redraw_editor(&state);
-	cedit_swapdraw();
-
-	while (!kb_IsDown(kb_KeyClear))
-	{
-		kb_Scan();
-	}
+	editor_mainloop(&state);
 
 	release_x4();
 }
