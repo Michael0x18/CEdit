@@ -31,13 +31,16 @@ echo [compiling] src/x4/libx4.c
 /home/michael2/CEdev/bin/ez80-clang -MD -c -emit-llvm -nostdinc -isystem /home/michael2/CEdev/include -Isrc -fno-threadsafe-statics -Xclang -fforce-mangle-main-argc-argv -mllvm -profile-guided-section-prefix=false -DNDEBUG  -g0 -Wall -Wextra -Oz 'src/x4/libx4.c' -o 'obj/src/x4/libx4.c.bc'
 echo [lto opt] obj/lto.bc
 /home/michael2/CEdev/bin/ez80-link '/home/michael2/CEdit/obj/src/config.c.bc' '/home/michael2/CEdit/obj/src/editor.c.bc' '/home/michael2/CEdit/obj/src/keys.c.bc' '/home/michael2/CEdit/obj/src/main.c.bc' '/home/michael2/CEdit/obj/src/ngetchx.c.bc' '/home/michael2/CEdit/obj/src/x4/cursor.c.bc' '/home/michael2/CEdit/obj/src/x4/font.c.bc' '/home/michael2/CEdit/obj/src/x4/fontdata.c.bc' '/home/michael2/CEdit/obj/src/x4/libx4.c.bc' -o '/home/michael2/CEdit/obj/lto.bc'
+ 
 /home/michael2/CEdev/bin/ez80-clang -S -mllvm -profile-guided-section-prefix=false -Wall -Wextra -Oz '/home/michael2/CEdit/obj/lto.bc' -o '/home/michael2/CEdit/obj/lto.src'
 mkdir -p 'obj'
 echo [convimg] description
 /home/michael2/CEdev/bin/convimg --icon-output 'obj/icon.src' --icon-format asm --icon-description "CEdit editor"
+ 
 mkdir -p 'bin'
 echo [linking] bin/CEDIT2RA.bin
 /home/michael2/CEdev/bin/fasmg -n '/home/michael2/CEdev/meta/ld.alm' -i 'DEBUG := 0' -i 'HAS_PRINTF := 1' -i 'HAS_LIBC := 1' -i 'HAS_LIBCXX := 1' -i 'PREFER_OS_CRT := 0' -i 'PREFER_OS_LIBC := 1' -i 'include "/home/michael2/CEdev/meta/linker_script"' -i 'range .bss $D052C6 : $D13FD8' -i 'provide __stack = $D1A87E' -i 'locate .header at $D1A87F' -i map -i 'source "obj/icon.src", "/home/michael2/CEdev/lib/crt/crt0.src", "obj/lto.src", "src/x4/libx4.asm", "src/x4/lines.asm", "src/x4/pixelbase.asm", "src/x4/screenops.asm", "src/x4/setup.asm", "src/x4/spi.asm"' -i 'library "/home/michael2/CEdev/lib/libload/fileioc.lib", "/home/michael2/CEdev/lib/libload/fontlibc.lib", "/home/michael2/CEdev/lib/libload/graphx.lib", "/home/michael2/CEdev/lib/libload/keypadc.lib"'  bin/CEDIT2RA.bin
+ 
 mkdir -p 'bin'
 /home/michael2/CEdev/bin/convbin -k 8xp -u -n CEDIT2RA -i 'bin/CEDIT2RA.bin' -o 'bin/CEDIT2RA.8xp'
 make: Leaving directory '/home/michael2/CEdit'
