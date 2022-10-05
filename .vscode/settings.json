@@ -4,6 +4,8 @@
         "inttypes.h": "c",
         "limits.h": "c",
         "editor.h": "c",
-        "scroll.h": "c"
+        "scroll.h": "c",
+        "intce.h": "c",
+        "graphx.h": "c"
     }
 }
