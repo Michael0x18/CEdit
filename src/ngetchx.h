@@ -27,6 +27,6 @@ void process_modifiers(struct estate *state);
 
 uint8_t generate_mod_mask(struct estate *state);
 
-unsigned char ngetchx(struct estate *state);
+unsigned char ngetchx(struct estate *state, bool drawmod);
 
 #endif

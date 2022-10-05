@@ -146,41 +146,77 @@ void delete (struct estate *state)
 		state->cursor_right++;
 }
 
+bool editor_handle_keypress(struct estate *state, unsigned char k)
+{
+	if (k == KEY_ESCAPE)
+	{
+		return 1;
+	}
+	if (is_control(k))
+	{
+		handle_control(state, k);
+	}
+	else
+	{
+		insert_char(state, k);
+		// dbg_printf("Inserting char: %d\n", k);
+	}
+	return 0;
+}
+
 void editor_mainloop(struct estate *state)
 {
 	draw_shell(state);
 	cedit_swapdraw(state);
 	draw_shell(state);
+	unsigned char k;
 	while (1)
 	{
+		// Each large cycle, redraw the editor in full
 		redraw_editor(state);
+		// Swap draw to display the drawn editor
 		cedit_swapdraw(state);
-		unsigned char k = 0;
+		// Reset the keypress
+		k = 0;
+
+		// Wait for keypress
 		while (!k)
 		{
-			k = ngetchx(state);
+			k = ngetchx(state, true);
 			// dbg_printf("waiting\n");
-			// delay(5);
+			delay(5);
+		}
+		// Handle it rq
+		if (editor_handle_keypress(state, k))
+			goto end;
+		// After initial keypress, enter hyper-responsive burst mode
+		int timeout_max = 50;
+		int timeout_first = 15;
+		// Initialize the timeout
+		int timeout = timeout_first;
+		while ((timeout > 0))
+		{
+			// Poll for keypress
+			if (k = ngetchx(state, false))
+			{
+				if (editor_handle_keypress(state, k))
+					goto end;
+				timeout = timeout_max;
+			}
+			else
+			{
+				timeout--;
+				delay(1);
+			}
 		}
 		// dbg_printf("got keypress\n");
-		if (k == KEY_ESCAPE)
-		{
-			break;
-		}
-		if (is_control(k))
-		{
-			handle_control(state, k);
-		}
-		else
-		{
-			insert_char(state, k);
-			// dbg_printf("Inserting char: %d\n", k);
-		}
+
 		dbg_printf("cursor_x: %d cursor_y: %d num_lines: %d cursor_line_raw: %d actual: %d sub: %d \n",
 				   state->cursor_x, state->cursor_y, state->num_lines, state->cursor_line_raw,
 				   state->cursor_line_actual, state->cursor_line_sub_offset);
-		delay(10);
 	}
+end:;
+	// TODO cleanup
 }
 
 bool is_control(unsigned char k)

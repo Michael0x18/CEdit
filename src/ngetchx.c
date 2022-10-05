@@ -5,6 +5,11 @@ static const int8_t MOD_PRESS_NEW = 1;
 static const int8_t MOD_PRESS = 2;
 static const int8_t MOD_HELD = 3;
 
+// Chain segments are a state machine
+// 0 -press-> 1
+// 1->release-> 2
+// TODO add modifier locking
+
 void draw_mod_status(struct estate *state)
 {
 	char tmp[5] = "0000";
@@ -127,10 +132,11 @@ uint8_t getkey(struct estate *state)
 	return only_key;
 }
 
-unsigned char ngetchx(struct estate *state)
+unsigned char ngetchx(struct estate *state, bool drawmods)
 {
 	kb_Scan();
 	process_modifiers(state);
-	draw_mod_status(state);
+	if (drawmods)
+		draw_mod_status(state);
 	return key_list[generate_mod_mask(state)][getkey(state)];
 }
