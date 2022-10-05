@@ -8,7 +8,7 @@ DESCRIPTION = "CEdit editor"
 COMPRESSED = NO
 ARCHIVED = NO
 
-CFLAGS = -Wall -Wextra -Oz
+CFLAGS = -Wall -Wextra -O3
 CXXFLAGS = -Wall -Wextra -Oz
 
 # ----------------------------

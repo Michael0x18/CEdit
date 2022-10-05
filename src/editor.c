@@ -1,12 +1,13 @@
 #include "editor.h"
 #include <limits.h>
 
-const int8_t title_offset = 1;
+const int8_t title_offset = 10;
 
 void redraw_editor(struct estate *state)
 {
 	// x4_FillScreen(EDIT_BG_COLOR);
 	//   x4_FillRectangle(0, 0, 320, 16, STAT_BG_COLOR);
+	/////////////////////////////////DRAW STATUSBAR UPDATE//////////////////////////////////////
 	if (!state->saved || !state->named)
 	{
 		x4_PutChar(state->font_buffer_statusbar, title_offset + 9 * strlen(state->filename), 0, '*');
@@ -19,7 +20,10 @@ void redraw_editor(struct estate *state)
 	uint8_t r = 0;
 	uint8_t c = 0;
 	int draw_count = 0; // Count of the number of characters drawn. Used to update the screen parameters.
-
+	if (!state->screen_start_offset)
+	{
+		x4_PutChar(state->font_buffer_select, 1, 16, ':');
+	}
 	// x4_PutChar(state->font_buffer, 9, 16, state->text[state->cursor_left - 1]);
 
 	for (uint24_t i = state->screen_start_offset; i < state->cursor_left; i++)
@@ -35,6 +39,7 @@ void redraw_editor(struct estate *state)
 			}
 			r++;
 			c = 0;
+			x4_PutChar(state->font_buffer_select, 1, r * 16 + 16, ':');
 		}
 		else
 		{
@@ -44,14 +49,15 @@ void redraw_editor(struct estate *state)
 		{
 			c = 0;
 			r++;
+			x4_PutChar(state->font_buffer_select, 1, r * 16 + 16, '+');
 		}
 		if (r >= state->scr_height)
 		{
 			break;
 		}
 	}
-	// state->cursor_x = c;
-	// state->cursor_y = r;
+	state->cursor_x = c;
+	state->cursor_y = r;
 	for (uint24_t i = state->cursor_right + 1; i < state->max_file_size; i++)
 	{
 		x4_PutChar(state->font_buffer, 9 + 1 + c * 9, r * 16 + 16, state->text[i]);
@@ -63,10 +69,10 @@ void redraw_editor(struct estate *state)
 				// Clear rest of the line
 				x4_PutChar(state->font_buffer, 9 + 1 + c * 9, r * 16 + 16, ' ');
 				c++;
-				x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, ':');
 			}
 			r++;
 			c = 0;
+			x4_PutChar(state->font_buffer_select, 1, r * 16 + 16, ':');
 		}
 		else
 		{
@@ -76,6 +82,7 @@ void redraw_editor(struct estate *state)
 		{
 			c = 0;
 			r++;
+			x4_PutChar(state->font_buffer_select, 1, r * 16 + 16, '+');
 		}
 		if (r >= state->scr_height)
 		{
@@ -85,16 +92,17 @@ void redraw_editor(struct estate *state)
 	while (r < state->scr_height)
 	{
 		// Clear rest of the line
-		x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, ' ');
+		x4_PutChar(state->font_buffer, 9 + 1 + c * 9, r * 16 + 16, ' ');
 		c++;
 		if (c >= state->scr_width)
 		{
 			c = 0;
 			r++;
+			x4_PutChar(state->font_buffer, 1, r * 16 + 16, ' '); // Remove line indicators, if present
 		}
 	}
 
-	x4_Line_EFLA(state->cursor_x * 9 + title_offset, state->cursor_y * 16 + 16, state->cursor_x * 9 + title_offset, state->cursor_y * 16 + 31, TEXT_FG_COLOR);
+	x4_Line_EFLA(state->cursor_x * 9 + 1 + 9, state->cursor_y * 16 + 16, state->cursor_x * 9 + 1 + 9, state->cursor_y * 16 + 31, TEXT_FG_COLOR);
 	// x4_FillRectangle(0, 224, 320, 16, STAT_BG_COLOR);
 }
 
