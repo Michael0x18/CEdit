@@ -37,4 +37,5 @@ void cedit_swapdraw(void)
 
 void redraw_editor(struct estate *state)
 {
+	x4_PutStr(state->font_buffer_statusbar, 0, 0, state->filename);
 }

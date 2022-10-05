@@ -43,6 +43,7 @@ bool cedit_defaults(struct estate *state)
 	x4_load_default_font(state->font_buffer_statusbar, 6, 7);
 
 	state->screen_start_offset = 0;
+	state->cursor = 0;
 
 	return 0;
 }

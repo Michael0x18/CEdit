@@ -13,6 +13,8 @@
 #include "x4/libx4.h"
 #include "engine/textbuffer.h"
 #include "gfx.h"
+#include "ngetchx.h"
+#include "keys.h"
 
 #define TEXT_FG_COLOR 0
 #define TEXT_BG_COLOR 1
@@ -43,6 +45,8 @@ struct estate
 	int24_t timeout_first; // Low latency trigger timeout
 
 	int24_t screen_start_offset;
+
+	int24_t cursor;
 };
 
 struct cedit_config
