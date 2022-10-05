@@ -28,7 +28,7 @@ void redraw_editor(struct estate *state)
 		{
 			while (c < 35)
 			{
-				x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, '#');
+				x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, ' ');
 				c++;
 			}
 			r++;
@@ -190,8 +190,8 @@ void editor_mainloop(struct estate *state)
 		if (editor_handle_keypress(state, k))
 			goto end;
 		// After initial keypress, enter hyper-responsive burst mode
-		int timeout_max = 50;
-		int timeout_first = 15;
+		int timeout_max = state->timeout_max;
+		int timeout_first = state->timeout_first;
 		// Initialize the timeout
 		int timeout = timeout_first;
 		while ((timeout > 0))

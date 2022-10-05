@@ -52,8 +52,8 @@ void initialize_default_state(struct estate *state)
 
 	state->cedit_enable_triplebuffer = false;
 
-	state->DRAW_LOC = X4_BUFFER_2;
-	state->SCR_LOC = X4_BUFFER_1;
+	state->timeout_first = 20;
+	state->timeout_max = 100;
 }
 
 void initialize_x4(void)

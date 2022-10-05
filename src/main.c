@@ -39,18 +39,18 @@ void cedit_swapdraw(struct estate *state)
 		if (x4_Buffer == X4_BUFFER_1)
 		{
 			x4_SetDrawLocation(X4_BUFFER_2);
-			state->DRAW_LOC = X4_BUFFER_2;
+			// state->DRAW_LOC = X4_BUFFER_2;
 			x4_SetScreenLocation(X4_BUFFER_1);
-			state->SCR_LOC = X4_BUFFER_1;
-			// dbg_printf("switch 1\n");
+			// state->SCR_LOC = X4_BUFFER_1;
+			//  dbg_printf("switch 1\n");
 		}
 		else
 		{
 			x4_SetDrawLocation(X4_BUFFER_1);
-			state->DRAW_LOC = X4_BUFFER_1;
+			// state->DRAW_LOC = X4_BUFFER_1;
 			x4_SetScreenLocation(X4_BUFFER_2);
-			state->SCR_LOC = X4_BUFFER_2;
-			// dbg_printf("switch 2\n");
+			// state->SCR_LOC = X4_BUFFER_2;
+			//  dbg_printf("switch 2\n");
 		}
 	}
 }

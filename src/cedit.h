@@ -153,8 +153,8 @@ struct estate
 
     bool cedit_enable_triplebuffer;
 
-    void *SCR_LOC;
-    void *DRAW_LOC;
+    int timeout_max;
+    int timeout_first;
 };
 
 /*
