@@ -2,6 +2,7 @@
 #include "engine/textbuffer.h"
 #include "config.h"
 #include "gfx.h"
+#include "editor.h"
 
 int main(int argc, char **argv)
 {

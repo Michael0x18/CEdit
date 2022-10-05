@@ -12,9 +12,9 @@ bool editor_handle_keypress(struct estate *state, unsigned char k)
 	}
 	else
 	{
-		textbuffer_insert(state->text, k, state->cursor);
+		textbuffer_insert(state->text, state->cursor, k);
 		state->cursor++;
-		// dbg_printf("Inserting char: %d\n", k);
+		dbg_printf("Inserting char: %c\n", k);
 	}
 	return 0;
 }
@@ -57,6 +57,8 @@ void editor_mainloop(struct estate *state)
 
 	while (true)
 	{
+		render_to_cache(state);
+		// TODO scroll
 		redraw_editor(state);
 		cedit_swapdraw();
 		// Reset the keypress

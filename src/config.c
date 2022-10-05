@@ -45,6 +45,9 @@ bool cedit_defaults(struct estate *state)
 	state->screen_start_offset = 0;
 	state->cursor = 0;
 
+	state->cache = (char *)malloc((state->config->scr_width + 1) *
+								  (state->config->scr_height));
+
 	return 0;
 }
 
