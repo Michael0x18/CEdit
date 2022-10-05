@@ -6,6 +6,8 @@
         "editor.h": "c",
         "scroll.h": "c",
         "intce.h": "c",
-        "graphx.h": "c"
+        "graphx.h": "c",
+        "textbuffer.h": "c",
+        "tice.h": "c"
     }
 }
