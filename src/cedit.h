@@ -1,4 +1,5 @@
 #ifndef cedit_h
+#define cedit_h
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,6 +12,7 @@
 
 #include "x4/libx4.h"
 #include "engine/textbuffer.h"
+#include "gfx.h"
 
 #define TEXT_FG_COLOR 0
 #define TEXT_BG_COLOR 1
@@ -39,6 +41,8 @@ struct estate
 	uint8_t modifiers[4];  // Holds modifier keys
 	int24_t timeout_max;   // Low latency normal timeout
 	int24_t timeout_first; // Low latency trigger timeout
+
+	int24_t screen_start_offset;
 };
 
 struct cedit_config

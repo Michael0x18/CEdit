@@ -82,7 +82,7 @@ void textbuffer_align_gap(struct textbuffer_t *t, uint24_t index)
 
 unsigned char textbuffer_remove(struct textbuffer_t *t, uint24_t index)
 {
-	align_gap(t, index);
+	textbuffer_align_gap(t, index);
 	if (index < t->left_cursor)
 	{
 		// Left side, effective index remains the same

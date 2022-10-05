@@ -11,4 +11,6 @@ void draw_shell(struct estate *state);
 
 void cedit_swapdraw(void);
 
+void redraw_editor(struct estate *state);
+
 #endif
