@@ -18,12 +18,14 @@ void redraw_editor(struct estate *state)
 
 	uint8_t r = 0;
 	uint8_t c = 0;
+	int draw_count = 0; // Count of the number of characters drawn. Used to update the screen parameters.
 
 	// x4_PutChar(state->font_buffer, 9, 16, state->text[state->cursor_left - 1]);
 
 	for (uint24_t i = state->screen_start_offset; i < state->cursor_left; i++)
 	{
 		x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, state->text[i]);
+		draw_count++;
 		if (state->text[i] == '\n')
 		{
 			while (c < 35)
@@ -53,6 +55,7 @@ void redraw_editor(struct estate *state)
 	for (uint24_t i = state->cursor_right + 1; i < state->max_file_size; i++)
 	{
 		x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, state->text[i]);
+		draw_count++;
 		if (state->text[i] == '\n')
 		{
 			while (c < 35)
@@ -102,10 +105,15 @@ void draw_shell(struct estate *state)
 	x4_PutStr(state->font_buffer_statusbar, title_offset, 0, state->filename);
 }
 
+/**
+ * Handles a backspace operation, as opposed to delete, which deletes to the right
+ */
 void backspace(struct estate *state)
 {
+	// First check: if you can still move left
 	if (state->cursor_left)
 	{
+		// Move left
 		state->cursor_left--;
 		if (state->cursor_x)
 		{									 // If we can still move on the line
@@ -116,7 +124,15 @@ void backspace(struct estate *state)
 		{
 			state->cursor_line_actual--; // Gotta reduce this val
 			// Oh no, we just scooted over a line wrap or a newline
-			state->cursor_y--; // Scoot up. Oh well.
+			// gotta check if you need to scroll up
+			if (state->cursor_y)
+			{					   // If we still have headroom at the top
+				state->cursor_y--; // Scoot up. Oh well.
+			}
+			else
+			{ // we have to scroll now
+				scroll_up();
+			}
 			if (state->text[state->cursor_left] == '\n')
 			{							  // We just deleted a newline
 				state->num_lines--;		  // Again, we deleted a newline

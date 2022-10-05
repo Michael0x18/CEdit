@@ -2,6 +2,8 @@
     "files.associations": {
         "stdint.h": "c",
         "inttypes.h": "c",
-        "limits.h": "c"
+        "limits.h": "c",
+        "editor.h": "c",
+        "scroll.h": "c"
     }
 }

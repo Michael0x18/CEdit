@@ -6,6 +6,7 @@
 #include "cedit.h"
 #include "ngetchx.h"
 #include "keys.h"
+#include "scroll.h"
 
 void redraw_editor(struct estate *state);
 void insert_char(struct estate *state, char c);
