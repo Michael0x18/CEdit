@@ -116,12 +116,14 @@ void redraw_editor(struct estate *state)
 						break;
 					}
 				}
+
 				if (state->cursor_x > state->scr_width - j)
 				{
 					state->cursor_x = state->scr_width - (j - state->cursor_x);
 					state->cursor_y++;
 				}
 			}
+
 			c = 0;
 			r++;
 			x4_PutChar(state->font_buffer_select, 1, r * 16 + 16, '+');
