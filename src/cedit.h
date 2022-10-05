@@ -122,9 +122,9 @@ struct estate
     uint24_t screen_end_offset;
 
     // The x position of the cursor, in characters.
-    uint8_t cursor_x;
+    int24_t cursor_x;
     // The y position of the cursor, in characters.
-    uint8_t cursor_y;
+    int24_t cursor_y;
     // The total number of lines in the file. Including newlines and wraps. Currently only includes newlines
     uint24_t num_lines;
     // The number of newlines before the left cursor

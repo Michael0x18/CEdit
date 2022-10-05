@@ -124,15 +124,7 @@ void backspace(struct estate *state)
 		{
 			state->cursor_line_actual--; // Gotta reduce this val
 			// Oh no, we just scooted over a line wrap or a newline
-			// gotta check if you need to scroll up
-			if (state->cursor_y)
-			{					   // If we still have headroom at the top
-				state->cursor_y--; // Scoot up. Oh well.
-			}
-			else
-			{ // we have to scroll now
-				scroll_up();
-			}
+			state->cursor_y--; // Move up.
 			if (state->text[state->cursor_left] == '\n')
 			{							  // We just deleted a newline
 				state->num_lines--;		  // Again, we deleted a newline
@@ -188,6 +180,7 @@ void editor_mainloop(struct estate *state)
 	unsigned char k;
 	while (1)
 	{
+
 		// Each large cycle, redraw the editor in full
 		redraw_editor(state);
 		// Swap draw to display the drawn editor
@@ -226,7 +219,7 @@ void editor_mainloop(struct estate *state)
 			}
 		}
 		// dbg_printf("got keypress\n");
-
+		check_scroll_and_execute();
 		dbg_printf("cursor_x: %d cursor_y: %d num_lines: %d cursor_line_raw: %d actual: %d sub: %d \n",
 				   state->cursor_x, state->cursor_y, state->num_lines, state->cursor_line_raw,
 				   state->cursor_line_actual, state->cursor_line_sub_offset);
