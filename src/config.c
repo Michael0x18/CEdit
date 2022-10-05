@@ -51,6 +51,9 @@ void initialize_default_state(struct estate *state)
 	x4_load_default_font(state->font_buffer_statusbar, 6, 7);
 
 	state->cedit_enable_triplebuffer = false;
+
+	state->DRAW_LOC = X4_BUFFER_2;
+	state->SCR_LOC = X4_BUFFER_1;
 }
 
 void initialize_x4(void)

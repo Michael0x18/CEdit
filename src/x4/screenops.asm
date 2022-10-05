@@ -52,6 +52,12 @@ _x4_GetDrawLocation:
 	ld	hl,(_x4_Buffer)
 	ret
 
+;TODO returns the current screen location
+public _x4_GetScreenLocation
+_x4_GetScreenLocation:
+	ld	hl,(_x4_ScrLoc)
+	ret
+
 ; Sets the current drawing location. Takes in a buffer
 ; TODO make this wait for hw to finish moving buffer to
 ; GRAM only if the buffer passed in is the same as the
@@ -101,6 +107,7 @@ _x4_SetScreenLocation:
         ; Arguments
         pop     de							; Pop the return address
         pop     bc							; Pop the new pointer
+		ld	(_x4_ScrLoc),bc					; Stash the new screen location
         push    bc							; Restore the stack
         push    de							; 
         ; Wait
@@ -119,3 +126,4 @@ _x4_SetScreenLocation:
 
 extern _x4_Buffer
 extern _x4_PrevScrBuffer
+extern _x4_ScrLoc

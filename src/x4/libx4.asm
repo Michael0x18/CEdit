@@ -59,6 +59,9 @@ _x4_d3			dl	0
 public _x4_d4
  _x4_d4		dl	0
 
+public _x4_ScrLoc
+_x4_ScrLoc	dl	0
+
 extern __frameset
 ;extern default_font_spacing
 ;extern default_font_data

@@ -152,6 +152,9 @@ struct estate
     uint8_t modifiers[4]; // 2nd alpha mode graphvar = ctrl alpha meta shift
 
     bool cedit_enable_triplebuffer;
+
+    void *SCR_LOC;
+    void *DRAW_LOC;
 };
 
 /*

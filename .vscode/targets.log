@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jul 13 20:47:35 2022
+# Make data base, printed on Sat Sep  3 17:20:43 2022
 
 # Variables
 
@@ -37,7 +37,7 @@ LINK = $(call NATIVEPATH,$(BIN)/ez80-link)
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 247)
 FASMGFLAGS = $(FASMG_V) $(call QUOTE_ARG,$(call NATIVEPATH,$(CEDEV_TOOLCHAIN)/meta/ld.alm)) -i $(call QUOTE_ARG,DEBUG := $(LDDEBUG)) -i $(call QUOTE_ARG,HAS_PRINTF := $(LDHAS_PRINTF)) -i $(call QUOTE_ARG,HAS_LIBC := $(LDHAS_LIBC)) -i $(call QUOTE_ARG,HAS_LIBCXX := $(LDHAS_LIBCXX)) -i $(call QUOTE_ARG,PREFER_OS_CRT := $(LDPREFER_OS_CRT)) -i $(call QUOTE_ARG,PREFER_OS_LIBC := $(LDPREFER_OS_LIBC)) -i $(call QUOTE_ARG,include $(call FASMG_FILES,$(LINKER_SCRIPT))) -i $(call QUOTE_ARG,range .bss $$$(BSSHEAP_LOW) : $$$(BSSHEAP_HIGH)) -i $(call QUOTE_ARG,provide __stack = $$$(STACK_HIGH)) -i $(call QUOTE_ARG,locate .header at $$$(INIT_LOC)) $(LDMAPFLAG) -i $(call QUOTE_ARG,source $(LDICON)$(call FASMG_FILES,$(LDFILES))) -i $(call QUOTE_ARG,library $(LDLIBS)) $(EXTRA_LDFLAGS)
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1001/vscode-ipc-f2264bf7-b749-4c31-844a-c180cf6f7332.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1001/vscode-ipc-e89d559e-6567-4036-bdd1-bca597f7b106.sock
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 212)
 CONVBINFLAGS = -k 8xp -u -n $(NAME)
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 153)
@@ -93,7 +93,7 @@ DEPFILES = $(wildcard $(LINK_CSOURCES:%.bc=%.d) $(LINK_CPPSOURCES:%.bc=%.d))
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1001/.mutter-Xwaylandauth.VIARO1
+XAUTHORITY = /run/user/1001/.mutter-Xwaylandauth.JBTWR1
 # default
 .LOADED := 
 # default
@@ -157,7 +157,7 @@ VSCODE_VERBOSE_LOGGING = true
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 190)
 LDICON = $(call FASMG_FILES,$(ICONSRC))$(comma)$(space)
 # environment
-VSCODE_PID = 15685
+VSCODE_PID = 213418
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
@@ -171,11 +171,12 @@ LDFILES = $(LDCRT0) $(LDLTO) $(LINK_ASMSOURCES)
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 145)
 CPPSOURCES = $(sort $(call rwildcard,$(SRCDIR),*.$(CPP_EXTENSION)) $(EXTRA_CXX_SOURCES))
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 242)
+ 
 EZCFLAGS = $(EZCOMMONFLAGS) $(CFLAGS)
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 110)
 UPDIR_ADD = $(subst ../,_../,$(subst \,/,$1))
 # environment
-SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/2523,unix/unix:/tmp/.ICE-unix/2523
+SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/2348,unix/unix:/tmp/.ICE-unix/2348
 # automatic
 *F = $(notdir $*)
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 152)
@@ -219,7 +220,7 @@ MAKE = $(MAKE_COMMAND)
 # makefile (from 'Makefile', line 9)
 ARCHIVED = NO
 # environment
-PATH = /home/michael2/CEdev/bin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+PATH = /home/michael2/fstar_dev/fstar/bin:/home/michael2/CEdev/bin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
 # default
 MAKEFILES := 
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 46)
@@ -239,7 +240,7 @@ STACK_HIGH = D1A87E
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 58)
 comma := ,
 # environment
-INVOCATION_ID = 32b935c80d314f3fb6e7667eb39be229
+INVOCATION_ID = 5a7da0ca35e249cbbcf79c2df2595b1f
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 127)
 ICONIMG := 
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 97)
@@ -274,7 +275,6 @@ DESKTOP_SESSION = gnome
 ORIGINAL_XDG_CURRENT_DESKTOP = GNOME
 # 'override' directive
 GNUMAKEFLAGS := 
- 
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 39)
 C_EXTENSION = c
 # environment
@@ -290,7 +290,7 @@ CPP_EXTENSION = cpp
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 57)
 space := $(subst ,, )
 # environment
-SYSTEMD_EXEC_PID = 2583
+SYSTEMD_EXEC_PID = 2411
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 103)
 RM = rm -f $1
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 144)
@@ -300,6 +300,7 @@ EDITOR = /usr/bin/nano
 # environment
 DISPLAY = :0
 # environment
+ 
 USER = michael2
 # default
 MAKE_VERSION := 4.3
@@ -310,9 +311,9 @@ GFXDIR := src/gfx
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 126)
 TARGET8XP = $(NAME).8xp
 # environment
-MANAGERPID = 2431
+MANAGERPID = 2255
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 15192
+GIO_LAUNCHED_DESKTOP_FILE_PID = 213418
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 141)
 EXTRA_ASM_SOURCES = $(EXTRA_ASMSOURCES)
 # environment
@@ -332,7 +333,7 @@ OUTPUT_MAP = YES
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 233)
 LDHAS_LIBCXX := 1
 # environment
-JOURNAL_STREAM = 8:36114
+JOURNAL_STREAM = 8:33780
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 47)
 PREFER_OS_CRT = NO
 # environment
@@ -482,9 +483,10 @@ src/editor.c:
 
 # Not a target:
 /home/michael2/CEdev/include/cdefs.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/config.c:
@@ -496,71 +498,73 @@ src/config.c:
 # Not a target:
 obj/src/keys.c.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-03 14:34:08.773394424
+#  Last modified 2022-07-13 20:51:42.808003125
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 obj/src/editor.c.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-03 14:34:08.762394622
+#  Last modified 2022-07-13 20:51:42.775003788
 #  File has been updated.
 #  Successfully updated.
-
-obj/src/config.c.src: src/config.c src/cedit.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h src/config.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+ 
 
 # Not a target:
 src/config.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-02 14:45:59.166505403
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/x4/libx4.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-02 14:45:59.167505384
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 obj/src/x4/cursor.c.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-03 14:34:08.847393093
+#  Last modified 2022-07-13 20:51:43.010999045
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/stdarg.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/sys/timers.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/x4/font.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-02 14:45:59.167505384
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
- 
 /home/michael2/CEdev/include/graphx.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/ti/error.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/editor.h:
@@ -568,17 +572,17 @@ src/editor.h:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-obj/src/ngetchx.c.bc:
+obj/src/ngetchx.c.bc: src/ngetchx.c src/ngetchx.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/limits.h src/cedit.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
 /home/michael2/CEdev/include/keypadc.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # makefile (from '/home/michael2/CEdev/meta/makefile.mk', line 271)
 debug: DEBUGMODE = DEBUG
@@ -602,9 +606,10 @@ src/x4/libx4.asm:
 
 # Not a target:
 /home/michael2/CEdev/include/stdlib.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 Makefile:
@@ -615,9 +620,10 @@ Makefile:
 
 # Not a target:
 /home/michael2/CEdev/include/ti/ui.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 version:
 #  Phony target (prerequisite of .PHONY).
@@ -635,10 +641,10 @@ src/x4/fontdata.c:
 
 # 'override' directive
 obj/src/config.c.bc: .SHELLSTATUS := 0
-obj/src/config.c.bc: src/config.c Makefile /home/michael2/CEdev/meta/makefile.mk
+obj/src/config.c.bc: src/config.c Makefile /home/michael2/CEdev/meta/makefile.mk src/config.c src/cedit.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h src/config.h
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: 'src/config'
-#  File does not exist.
+#  Last modified 2022-07-13 20:51:42.647006361
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
@@ -648,13 +654,13 @@ obj/src/config.c.bc: src/config.c Makefile /home/michael2/CEdev/meta/makefile.mk
 # automatic
 # < := src/config.c
 # automatic
-# + := src/config.c Makefile /home/michael2/CEdev/meta/makefile.mk
+# + := src/config.c Makefile /home/michael2/CEdev/meta/makefile.mk src/config.c src/cedit.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h src/config.h
 # automatic
 # % := 
 # automatic
-# ^ := src/config.c Makefile /home/michael2/CEdev/meta/makefile.mk
+# ^ := src/config.c Makefile /home/michael2/CEdev/meta/makefile.mk src/cedit.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h src/config.h
 # automatic
-# ? := src/config.c Makefile /home/michael2/CEdev/meta/makefile.mk
+# ? := src/cedit.h
 # automatic
 # | := 
 # variable set hash-table stats:
@@ -674,7 +680,7 @@ obj/src/config.c.bc: src/config.c Makefile /home/michael2/CEdev/meta/makefile.mk
 # Not a target:
 obj/src/ngetchx.c.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-03 14:34:08.830393399
+#  Last modified 2022-07-13 20:51:42.96100005
 #  File has been updated.
 #  Successfully updated.
 
@@ -692,13 +698,14 @@ src/keys.h:
 
 # Not a target:
 /home/michael2/CEdev/include/ti/flags.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 bin/CEDIT2RA.bin: /home/michael2/CEdev/lib/crt/crt0.src obj/lto.src src/x4/libx4.asm src/x4/lines.asm src/x4/pixelbase.asm src/x4/screenops.asm src/x4/setup.asm src/x4/spi.asm obj/icon.src Makefile /home/michael2/CEdev/meta/makefile.mk
 #  Implicit rule search has not been done.
-#  Last modified 2022-07-03 14:35:46.476637791
+#  Last modified 2022-07-13 20:51:45.715944678
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
@@ -726,7 +733,7 @@ clean:
 
 obj/lto.bc: obj/src/config.c.bc obj/src/editor.c.bc obj/src/keys.c.bc obj/src/main.c.bc obj/src/ngetchx.c.bc obj/src/x4/cursor.c.bc obj/src/x4/font.c.bc obj/src/x4/fontdata.c.bc obj/src/x4/libx4.c.bc
 #  Implicit rule search has not been done.
-#  File does not exist.
+#  Last modified 2022-07-13 20:51:43.259994041
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
@@ -735,20 +742,10 @@ obj/lto.bc: obj/src/config.c.bc obj/src/editor.c.bc obj/src/keys.c.bc obj/src/ma
 	$(Q)echo [lto opt] $(call NATIVEPATH,$@)
 	$(Q)$(LINK) $(foreach d,$^,$(call QUOTE_ARG,$(addprefix $(CURDIR)/,$d))) -o $(call QUOTE_ARG,$(addprefix $(CURDIR)/,$@))
 
-obj/src/main.c.src: src/main.c /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/debug.h src/cedit.h /home/michael2/CEdev/include/intce.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h src/config.h src/editor.h src/ngetchx.h /home/michael2/CEdev/include/limits.h src/keys.h
+obj/src/x4/fontdata.c.bc: src/x4/fontdata.c src/cedit.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-obj/src/x4/fontdata.c.bc:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-obj/src/x4/font.c.src: src/x4/font.c src/x4/font.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h src/cedit.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
+ 
 #  File has not been updated.
 
 # Not a target:
@@ -759,19 +756,21 @@ src/x4/pixelbase.asm:
 
 # Not a target:
 src/cedit.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-13 20:54:06.880744845
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/stdbool.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 bin/CEDIT2RA.8xp: bin/CEDIT2RA.bin Makefile /home/michael2/CEdev/meta/makefile.mk
 #  Implicit rule search has not been done.
-#  Last modified 2022-07-03 14:35:46.483637665
+#  Last modified 2022-07-13 20:51:45.723944517
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
@@ -792,66 +791,65 @@ src/main.c:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-obj/src/x4/libx4.c.bc:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-obj/src/keys.c.src: src/keys.c src/keys.h
+obj/src/x4/libx4.c.bc: src/x4/libx4.c src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h src/cedit.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/debug.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
 /home/michael2/CEdev/include/string.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/ti/vars.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/ti/getcsc.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
+
+obj/src/x4/cursor.c.bc: src/x4/cursor.c /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/string.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
-obj/src/x4/cursor.c.bc:
  
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
 /home/michael2/CEdev/include/sys/rtc.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/ti/tokens.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 obj/src/x4/libx4.c.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-03 14:34:08.927391655
+#  Last modified 2022-07-13 20:51:43.233994563
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/sys/basicusb.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/x4/font.c:
@@ -859,26 +857,24 @@ src/x4/font.c:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-obj/src/editor.c.bc:
+obj/src/editor.c.bc: src/editor.c src/editor.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/cdefs.h src/cedit.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h src/ngetchx.h /home/michael2/CEdev/include/limits.h src/keys.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
 /home/michael2/CEdev/include/ti/debug.h:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
+
+obj/src/main.c.bc: src/main.c /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/debug.h src/cedit.h /home/michael2/CEdev/include/intce.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h src/config.h src/editor.h src/ngetchx.h /home/michael2/CEdev/include/limits.h src/keys.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-obj/src/main.c.bc:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-obj/src/x4/font.c.bc:
+obj/src/x4/font.c.bc: src/x4/font.c src/x4/font.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h src/cedit.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -891,14 +887,10 @@ obj/src/x4/font.c.bc:
 
 # Not a target:
 /home/michael2/CEdev/include/stdint.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-obj/src/x4/libx4.c.src: src/x4/libx4.c src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h src/cedit.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/debug.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 all: bin/CEDIT2RA.8xp
 #  Phony target (prerequisite of .PHONY).
@@ -912,26 +904,24 @@ all: bin/CEDIT2RA.8xp
 
 # Not a target:
 /home/michael2/CEdev/include/sys/power.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/sys/lcd.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-obj/src/x4/fontdata.c.src: src/x4/fontdata.c src/cedit.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/ti/python.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 test:
 #  Implicit rule search has not been done.
@@ -942,21 +932,22 @@ test:
 
 # Not a target:
 /home/michael2/CEdev/include/ti/real.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 obj/src/main.c.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-03 14:34:08.795394028
+#  Last modified 2022-07-13 20:51:42.870001879
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 obj/src/x4/font.c.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-03 14:34:08.87539259
+#  Last modified 2022-07-13 20:51:43.086997518
 #  File has been updated.
 #  Successfully updated.
 
@@ -973,30 +964,26 @@ src/x4/cursor.c:
 #  File has been updated.
 #  Successfully updated.
 
-# Not a target:
-obj/src/keys.c.bc:
+obj/src/keys.c.bc: src/keys.c src/keys.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
 /home/michael2/CEdev/include/intce.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/debug.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 .SECONDEXPANSION:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-obj/src/x4/cursor.c.src: src/x4/cursor.c /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/string.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -1009,38 +996,38 @@ src/x4/screenops.asm:
 
 # Not a target:
 src/x4/libx4_constants.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-obj/src/editor.c.src: src/editor.c src/editor.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/cdefs.h src/cedit.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h src/ngetchx.h /home/michael2/CEdev/include/limits.h src/keys.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-02 14:45:59.167505384
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/stddef.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/sys/util.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/ti/getkey.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/tice.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 gfx:
 #  Phony target (prerequisite of .PHONY).
@@ -1052,14 +1039,10 @@ gfx:
 
 # Not a target:
 /home/michael2/CEdev/include/ti/graph.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-obj/src/ngetchx.c.src: src/ngetchx.c src/ngetchx.h /home/michael2/CEdev/include/stdio.h /home/michael2/CEdev/include/cdefs.h /home/michael2/CEdev/include/stdarg.h /home/michael2/CEdev/include/stdlib.h /home/michael2/CEdev/include/tice.h /home/michael2/CEdev/include/sys/basicusb.h /home/michael2/CEdev/include/stdbool.h /home/michael2/CEdev/include/stdint.h /home/michael2/CEdev/include/sys/lcd.h /home/michael2/CEdev/include/sys/power.h /home/michael2/CEdev/include/sys/rtc.h /home/michael2/CEdev/include/sys/timers.h /home/michael2/CEdev/include/sys/util.h /home/michael2/CEdev/include/ti/debug.h /home/michael2/CEdev/include/stddef.h /home/michael2/CEdev/include/ti/error.h /home/michael2/CEdev/include/ti/flags.h /home/michael2/CEdev/include/ti/getcsc.h /home/michael2/CEdev/include/ti/getkey.h /home/michael2/CEdev/include/ti/graph.h /home/michael2/CEdev/include/ti/real.h /home/michael2/CEdev/include/ti/info.h /home/michael2/CEdev/include/ti/python.h /home/michael2/CEdev/include/ti/screen.h /home/michael2/CEdev/include/ti/ui.h /home/michael2/CEdev/include/ti/tokens.h /home/michael2/CEdev/include/ti/vars.h /home/michael2/CEdev/include/intce.h /home/michael2/CEdev/include/keypadc.h /home/michael2/CEdev/include/graphx.h /home/michael2/CEdev/include/string.h /home/michael2/CEdev/include/limits.h src/cedit.h /home/michael2/CEdev/include/debug.h src/x4/libx4.h src/x4/libx4_constants.h src/x4/font.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 .PHONY: all clean version gfx debug
 #  Implicit rule search has not been done.
@@ -1068,7 +1051,7 @@ obj/src/ngetchx.c.src: src/ngetchx.c src/ngetchx.h /home/michael2/CEdev/include/
 
 obj/lto.src: obj/lto.bc
 #  Implicit rule search has not been done.
-#  File does not exist.
+#  Last modified 2022-07-13 20:51:43.501989177
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
@@ -1087,12 +1070,12 @@ obj/icon.src: Makefile /home/michael2/CEdev/meta/makefile.mk
 
 # Not a target:
 /home/michael2/CEdev/include/ti/screen.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
- 
 src/keys.c:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -1106,9 +1089,10 @@ src/ngetchx.h:
 
 # Not a target:
 /home/michael2/CEdev/include/ti/info.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/x4/setup.asm:
@@ -1119,22 +1103,24 @@ src/x4/setup.asm:
 # Not a target:
 obj/src/config.c.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-03 14:34:08.711395539
+#  Last modified 2022-07-13 20:51:42.648006341
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 obj/src/x4/fontdata.c.d:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-03 14:34:08.896392212
+#  Last modified 2022-07-13 20:51:43.157996091
+ 
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 /home/michael2/CEdev/include/stdio.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-06-03 17:47:29
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 src/ngetchx.c:
@@ -1143,19 +1129,19 @@ src/ngetchx.c:
 #  File has not been updated.
 
 # files hash-table stats:
-# Load=101/1024=10%, Rehash=0, Collisions=6/475=1%
+# Load=92/1024=9%, Rehash=0, Collisions=4/474=1%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 161 / storage = 3056 B / avg = 18 B
-# current buf: size = 8162 B / used = 3056 B / count = 161 / avg = 18 B
+# strcache buffers: 1 (0) / strings = 152 / storage = 2859 B / avg = 18 B
+# current buf: size = 8162 B / used = 2859 B / count = 152 / avg = 18 B
 
-# strcache performance: lookups = 505 / hit rate = 68%
+# strcache performance: lookups = 505 / hit rate = 69%
 # hash-table stats:
-# Load=161/8192=2%, Rehash=0, Collisions=0/505=0%
-# Finished Make data base on Wed Jul 13 20:47:35 2022
+# Load=152/8192=2%, Rehash=0, Collisions=0/505=0%
+# Finished Make data base on Sat Sep  3 17:20:43 2022
 
  

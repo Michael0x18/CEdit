@@ -4,6 +4,20 @@ static const int8_t MOD_CLEAR = 0;
 static const int8_t MOD_PRESS_NEW = 1;
 static const int8_t MOD_PRESS = 2;
 static const int8_t MOD_HELD = 3;
+
+void draw_mod_status(struct estate *state)
+{
+	char tmp[5] = "0000";
+	for (int8_t i = 0; i < 4; ++i)
+	{
+		tmp[i] = state->modifiers[i] + '1';
+	}
+	void *tmp_buf = x4_GetDrawLocation();
+	x4_SetDrawLocation(x4_GetScreenLocation());
+	x4_PutStr(state->font_buffer_statusbar, 230, 0, tmp);
+	x4_SetDrawLocation(tmp_buf);
+}
+
 static kb_lkey_t modcodes[4] = {kb_Key2nd,
 								kb_KeyAlpha,
 								kb_KeyMode,
@@ -44,6 +58,10 @@ void process_modifiers(struct estate *state)
 	}
 }
 
+/*
+ * Generates a nibble sized mask corresponding to the set of modifiers currently pressed.
+ *
+ */
 uint8_t generate_mod_mask(struct estate *state)
 {
 	uint8_t ref = 0;
@@ -113,5 +131,6 @@ unsigned char ngetchx(struct estate *state)
 {
 	kb_Scan();
 	process_modifiers(state);
+	draw_mod_status(state);
 	return key_list[generate_mod_mask(state)][getkey(state)];
 }
