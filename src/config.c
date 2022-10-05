@@ -31,7 +31,7 @@ void initialize_default_state(struct estate *state)
 	state->cursor_y = 0;
 	state->num_lines = 0;
 	state->cursor_line_raw = 0;
-	state->scr_width = 35;
+	state->scr_width = 34;
 	state->scr_height = 12;
 
 	gfx_palette[0] = 0;

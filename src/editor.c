@@ -24,13 +24,13 @@ void redraw_editor(struct estate *state)
 
 	for (uint24_t i = state->screen_start_offset; i < state->cursor_left; i++)
 	{
-		x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, state->text[i]);
+		x4_PutChar(state->font_buffer, 9 + 1 + c * 9, r * 16 + 16, state->text[i]);
 		draw_count++;
 		if (state->text[i] == '\n')
 		{
-			while (c < 35)
+			while (c < state->scr_width)
 			{
-				x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, ' ');
+				x4_PutChar(state->font_buffer, 9 + 1 + c * 9, r * 16 + 16, ' ');
 				c++;
 			}
 			r++;
@@ -40,12 +40,12 @@ void redraw_editor(struct estate *state)
 		{
 			c++;
 		}
-		if (c >= 35)
+		if (c >= state->scr_width)
 		{
 			c = 0;
 			r++;
 		}
-		if (r >= 13)
+		if (r >= state->scr_height)
 		{
 			break;
 		}
@@ -54,15 +54,16 @@ void redraw_editor(struct estate *state)
 	// state->cursor_y = r;
 	for (uint24_t i = state->cursor_right + 1; i < state->max_file_size; i++)
 	{
-		x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, state->text[i]);
+		x4_PutChar(state->font_buffer, 9 + 1 + c * 9, r * 16 + 16, state->text[i]);
 		draw_count++;
 		if (state->text[i] == '\n')
 		{
-			while (c < 35)
+			while (c < state->scr_width)
 			{
 				// Clear rest of the line
-				x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, ' ');
+				x4_PutChar(state->font_buffer, 9 + 1 + c * 9, r * 16 + 16, ' ');
 				c++;
+				x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, ':');
 			}
 			r++;
 			c = 0;
@@ -71,22 +72,22 @@ void redraw_editor(struct estate *state)
 		{
 			c++;
 		}
-		if (c >= 35)
+		if (c >= state->scr_width)
 		{
 			c = 0;
 			r++;
 		}
-		if (r >= 13)
+		if (r >= state->scr_height)
 		{
 			break;
 		}
 	}
-	while (r < 13)
+	while (r < state->scr_height)
 	{
 		// Clear rest of the line
 		x4_PutChar(state->font_buffer, 1 + c * 9, r * 16 + 16, ' ');
 		c++;
-		if (c >= 35)
+		if (c >= state->scr_width)
 		{
 			c = 0;
 			r++;
@@ -137,12 +138,12 @@ void backspace(struct estate *state)
 						break; // Cursed, but we found our newline
 				}
 				state->cursor_line_sub_offset = i;
-				state->cursor_x = i % 35; // TODO check this
+				state->cursor_x = i % state->scr_width; // TODO check this
 			}
 			else
-			{									 // Oh well. We crossed a boundary, but it wasn't a newline.
-				state->cursor_line_sub_offset--; // Looks like this gets changed
-				state->cursor_x = 34;			 // Scoot to end
+			{											// Oh well. We crossed a boundary, but it wasn't a newline.
+				state->cursor_line_sub_offset--;		// Looks like this gets changed
+				state->cursor_x = state->scr_width - 1; // Scoot to end
 			}
 		}
 	}
@@ -206,7 +207,7 @@ void editor_mainloop(struct estate *state)
 		while ((timeout > 0))
 		{
 			// Poll for keypress
-			if (k = ngetchx(state, false))
+			if ((k = ngetchx(state, false)))
 			{
 				if (editor_handle_keypress(state, k))
 					goto end;
@@ -219,7 +220,7 @@ void editor_mainloop(struct estate *state)
 			}
 		}
 		// dbg_printf("got keypress\n");
-		check_scroll_and_execute();
+		check_scroll_and_execute(state);
 		dbg_printf("cursor_x: %d cursor_y: %d num_lines: %d cursor_line_raw: %d actual: %d sub: %d \n",
 				   state->cursor_x, state->cursor_y, state->num_lines, state->cursor_line_raw,
 				   state->cursor_line_actual, state->cursor_line_sub_offset);
@@ -248,13 +249,13 @@ void insert_char(struct estate *state, char c)
 	else
 	{
 		state->cursor_x++;
-		if (state->cursor_x >= 35)
+		if (state->cursor_x >= state->scr_width)
 		{
 			state->cursor_x = 0;
 			state->cursor_y++;
 		}
 		state->cursor_line_sub_offset++;
-		if (state->cursor_line_sub_offset % 35 == 0)
+		if (state->cursor_line_sub_offset % state->scr_width == 0)
 		{
 			state->cursor_line_actual++;
 		}
@@ -278,10 +279,10 @@ void move_left(struct estate *state)
 			state->cursor_y--;			 // First, go back a line (with the cursor)
 			state->cursor_line_actual--; // It's a real line anyway, so do this
 			if (state->cursor_line_sub_offset)
-			{									 // If this is a wrapped line
-				state->cursor_x = 34;			 // Move the cursor to the end of the previous line
-				state->cursor_line_sub_offset--; // Reduce the offset
-												 // We went one (real) line back
+			{											// If this is a wrapped line
+				state->cursor_x = state->scr_width - 1; // Move the cursor to the end of the previous line
+				state->cursor_line_sub_offset--;		// Reduce the offset
+														// We went one (real) line back
 			}
 			else
 			{
@@ -297,7 +298,7 @@ void move_left(struct estate *state)
 							break; // Cursed, but we found our newline
 					}
 					state->cursor_line_sub_offset = i;
-					state->cursor_x = i % 35; // TODO check this. Checked
+					state->cursor_x = i % state->scr_width; // TODO check this. Checked
 				}
 				else
 				{
@@ -326,7 +327,7 @@ void move_right(struct estate *state)
 			state->cursor_line_actual++;	   // This counts toward the actual offset
 			state->cursor_line_sub_offset = 0; // Reset this; we start over from this newline
 		}
-		else if (state->cursor_line_sub_offset % 35 == 0)
+		else if (state->cursor_line_sub_offset % state->scr_width == 0)
 		{								 // We're moving across a subline boundary
 			state->cursor_y++;			 // First move down
 			state->cursor_x = 0;		 // Then back to start

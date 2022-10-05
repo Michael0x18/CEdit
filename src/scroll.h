@@ -19,4 +19,6 @@ bool check_scroll_and_execute(struct estate *state);
  */
 void scroll_up(struct estate *state);
 
+void scroll_down(struct estate *state);
+
 #endif
