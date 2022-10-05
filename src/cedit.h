@@ -10,10 +10,11 @@
 #include <string.h>
 #include <debug.h>
 
+#include "ngetchx.h"
 #include "x4/libx4.h"
 #include "engine/textbuffer.h"
 #include "gfx.h"
-#include "ngetchx.h"
+#include "editor.h"
 #include "keys.h"
 
 #define TEXT_FG_COLOR 0

@@ -12,7 +12,8 @@ bool editor_handle_keypress(struct estate *state, unsigned char k)
 	}
 	else
 	{
-		textbuffer_insert(state->text, k);
+		textbuffer_insert(state->text, k, state->cursor);
+		state->cursor++;
 		// dbg_printf("Inserting char: %d\n", k);
 	}
 	return 0;
