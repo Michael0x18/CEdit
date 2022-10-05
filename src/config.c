@@ -19,7 +19,7 @@ void initialize_default_state(struct estate *state)
 	state->hidden = false;
 	memcpy(state->clipboard_var, "CLIPDATA", 8);
 	state->text = X4_BUFFER_3;
-	state->wordwrap = false;
+	state->wordwrap = true;
 	state->mouse_enabled = false;
 	state->blink_cursor = true;
 	state->screen_start_offset = 0;

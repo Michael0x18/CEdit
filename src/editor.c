@@ -47,6 +47,28 @@ void redraw_editor(struct estate *state)
 		}
 		if (c >= state->scr_width)
 		{
+			// Do word wrap
+			// First, count backwards
+			if (state->wordwrap)
+			{
+				uint24_t j;
+				for (j = 0; j < state->scr_width; j++)
+				{
+					if (state->text[i - j] == ' ')
+					{
+						// We found a word break. Stall it here, erase, backtrack, and move on
+						for (uint24_t k = 0; k < j; k++)
+							x4_PutChar(state->font_buffer, 9 + 1 + (state->scr_width - k - 1) * 9, r * 16 + 16, ' ');
+						i -= j;
+						break;
+					}
+				}
+				if (state->cursor_x > state->scr_width - j)
+				{
+					state->cursor_x = state->scr_width - (j - state->cursor_x);
+					state->cursor_y++;
+				}
+			}
 			c = 0;
 			r++;
 			x4_PutChar(state->font_buffer_select, 1, r * 16 + 16, '+');
@@ -80,6 +102,26 @@ void redraw_editor(struct estate *state)
 		}
 		if (c >= state->scr_width)
 		{
+			if (state->wordwrap)
+			{
+				uint24_t j;
+				for (j = 0; j < state->scr_width; j++)
+				{
+					if (state->text[i - j] == ' ')
+					{
+						// We found a word break. Stall it here, erase, backtrack, and move on
+						for (uint24_t k = 0; k < j; k++)
+							x4_PutChar(state->font_buffer, 9 + 1 + (state->scr_width - k - 1) * 9, r * 16 + 16, ' ');
+						i -= j;
+						break;
+					}
+				}
+				if (state->cursor_x > state->scr_width - j)
+				{
+					state->cursor_x = state->scr_width - (j - state->cursor_x);
+					state->cursor_y++;
+				}
+			}
 			c = 0;
 			r++;
 			x4_PutChar(state->font_buffer_select, 1, r * 16 + 16, '+');
