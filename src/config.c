@@ -39,6 +39,9 @@ bool cedit_defaults(struct estate *state)
 	gfx_palette[8] = 0xFFFF;
 	gfx_palette[9] = 6318;
 
+	state->cursor_x = 0;
+	state->cursor_y = 0;
+
 	x4_load_default_font(state->font_buffer, 0, 1);
 	x4_load_default_font(state->font_buffer_statusbar, 6, 7);
 

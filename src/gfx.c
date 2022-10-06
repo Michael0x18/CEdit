@@ -62,8 +62,6 @@ void render_to_cache(struct estate *state)
 				w = textbuffer_get(state->text, offset);
 				if (state->cache[r * (state->config->scr_width + 1) + c] == '\n')
 				{
-					/*memset(state->cache[r * (state->config->scr_width + 1) + c],
-						   ' ', state->config->scr_width - c);*/
 					newline = true;
 				}
 				offset++;

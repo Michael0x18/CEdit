@@ -46,6 +46,9 @@ struct estate
 
 	int24_t cursor; // The index the user's cursor is at
 
+	int8_t cursor_x;
+	int8_t cursor_y;
+
 	unsigned char *cache; // buffer of size (scr_width+1) * scr_height. Stores the text that will be drawn onto the screen.
 };
 
