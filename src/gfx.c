@@ -43,6 +43,7 @@ void redraw_editor(struct estate *state)
 	////Draw meat of editor////
 	for (int r = 0; r < state->config->scr_height; r++)
 	{
+		dbg_printf("=%s=\n", state->cache + r * (1 + state->config->scr_width));
 		x4_PutStr(state->font_buffer, 10, 16 + 16 * r, state->cache + r * (1 + state->config->scr_width));
 	}
 }
@@ -52,23 +53,23 @@ void render_to_cache(struct estate *state)
 	uint24_t offset = 0;
 	for (int r = 0; r < state->config->scr_height; r++)
 	{
+		bool newline = false;
 		for (int c = 0; c < state->config->scr_width; c++)
 		{
-			if (offset + state->screen_start_offset >= state->text->size)
+			char w = ' ';
+			if (!newline && offset + state->screen_start_offset < state->text->size)
 			{
-				dbg_printf("Offset is %d, with max %d. Exiting.", offset + state->screen_start_offset, state->text->size);
-				goto end;
+				w = textbuffer_get(state->text, offset);
+				if (state->cache[r * (state->config->scr_width + 1) + c] == '\n')
+				{
+					/*memset(state->cache[r * (state->config->scr_width + 1) + c],
+						   ' ', state->config->scr_width - c);*/
+					newline = true;
+				}
+				offset++;
 			}
-			dbg_printf("%c", textbuffer_get(state->text, offset));
-			state->cache[r * (state->config->scr_width + 1) + c] =
-				textbuffer_get(state->text,
-							   state->screen_start_offset + offset);
-			if (state->cache[r * (state->config->scr_width + 1) + c] == '\n')
-			{
-				break;
-			}
+			state->cache[r * (state->config->scr_width + 1) + c] = w;
 		}
 	}
-end:;
 	dbg_printf("Done rendering\n");
 }

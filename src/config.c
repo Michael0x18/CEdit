@@ -25,7 +25,7 @@ bool cedit_defaults(struct estate *state)
 	state->config->wordwrap = false;
 	state->config->blink_cursor = false;
 	state->config->scr_width = 34;
-	state->config->scr_height = 12;
+	state->config->scr_height = 13;
 	state->config->archive_on_save = false;
 
 	gfx_palette[0] = 0;
