@@ -124,6 +124,41 @@ _x4_SetScreenLocation:
         ld      (hl), ti.lcdIntLNBU or ti.lcdIntVcomp
         ret
 
+; dest, src,
+public _x4_Copy8Bytes
+_x4_Copy8Bytes:
+	pop		bc
+	pop		de
+	ex 		(sp), hl
+	push	de
+	push	bc
+	ld		bc,8
+	ldir
+	ret
+
+; Primitive sprite routine
+; As the name says, written by calc84maniac
+public _calc84maniac_Copy8x8
+_calc84maniac_Copy8x8:
+    pop bc
+    pop de
+    ex (sp),hl
+    push de
+    push bc
+    ld bc,8
+    ld a,c
+.loop:
+    ldir
+    ex de,hl
+    ld c,120-8
+    add hl,bc
+    ex de,hl
+    ld c,8
+    dec a
+    jr nz,.loop
+    ret
+
 extern _x4_Buffer
 extern _x4_PrevScrBuffer
 extern _x4_ScrLoc
+

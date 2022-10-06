@@ -8,6 +8,10 @@
 
 extern void *x4_Buffer;
 
+void x4_Copy8Bytes(void *dest, void *src);
+
+void calc84maniac_Copy8x8(void *dest, void *src);
+
 uint24_t x4_GetPixelAddress(int24_t x, int24_t y);
 
 /*

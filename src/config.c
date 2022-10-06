@@ -50,6 +50,7 @@ bool cedit_defaults(struct estate *state)
 
 	state->cache = (char *)malloc((state->config->scr_width + 1) *
 								  (state->config->scr_height));
+	memset(state->cache, 442, 0);
 
 	return 0;
 }

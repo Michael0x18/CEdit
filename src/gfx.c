@@ -56,6 +56,8 @@ void render_to_cache(struct estate *state)
 		bool newline = false;
 		for (int c = 0; c < state->config->scr_width; c++)
 		{
+			// if (offset + state->screen_start_offset > state->text->size)
+			// 	return;
 			char w = ' ';
 			if (!newline && offset + state->screen_start_offset < state->text->size)
 			{

@@ -5,11 +5,11 @@
 NAME = CEDIT2RA
 ICON = icon.png
 DESCRIPTION = "CEdit editor"
-COMPRESSED = YES
+COMPRESSED = NO
 ARCHIVED = NO
 
-CFLAGS = -Wall -Wextra -Oz
-CXXFLAGS = -Wall -Wextra -Oz
+CFLAGS = -Wall -Wextra -O3
+CXXFLAGS = -Wall -Wextra -O3
 
 # ----------------------------
 
