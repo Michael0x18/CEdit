@@ -57,8 +57,10 @@ void editor_mainloop(struct estate *state)
 
 	while (true)
 	{
+
 		render_to_cache(state);
 		//  TODO scroll
+		// draw_shell(state);
 		redraw_editor(state);
 		cedit_swapdraw();
 		// Reset the keypress

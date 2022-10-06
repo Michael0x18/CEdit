@@ -78,6 +78,7 @@ void render_to_cache(struct estate *state)
 				if (state->cache[r * (state->config->scr_width + 1) + c] == '\n')
 				{
 					newline = true;
+					// break;
 				}
 				offset++;
 			}
