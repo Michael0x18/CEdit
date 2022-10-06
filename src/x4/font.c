@@ -34,14 +34,14 @@ void x4_load_default_font(uint8_t font_buffer[128][8][8], uint8_t fg, uint8_t bg
 
 void x4_PutChar(uint8_t font_buffer[128][8][8], int x, int y, char ch)
 {
-    // for (int i = 0; i < 8; i++)
-    // {
-    //     // col
-    //     int offset = (x + i) * 120 + y / 2;
-    //     // int offset = x4_GetPixelAddress(x + i, y);
-    //     // memcpy(x4_Buffer + offset, font_buffer[(uint8_t)ch][i], 8);
-    //     x4_Copy8Bytes(x4_Buffer + offset, font_buffer[(uint8_t)ch][i]);
-    // }
+    for (int i = 0; i < 8; i++)
+    {
+        // col
+        int offset = (x + i) * 120 + y / 2;
+        // int offset = x4_GetPixelAddress(x + i, y);
+        // memcpy(x4_Buffer + offset, font_buffer[(uint8_t)ch][i], 8);
+        x4_Copy8Bytes(x4_Buffer + offset, font_buffer[(uint8_t)ch][i]);
+    }
     x4_Copy8x8(x, y, font_buffer[(uint8_t)ch]);
     // int offset = x4_GetPixelAddress(x, y);
     // calc84maniac_Copy8x8(x4_Buffer + offset, font_buffer[(uint8_t)ch]);

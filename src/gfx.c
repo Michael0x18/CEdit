@@ -51,6 +51,19 @@ void redraw_editor(struct estate *state)
 
 void render_to_cache(struct estate *state)
 {
+	// uint24_t offset = state->screen_start_offset;
+	// for (int r = 0; r < state->config->scr_height; r++)
+	// {
+	// 	bool newline = true;
+	// 	for (int c = 0; c < state->config->scr_width; c++)
+	// 	{
+	// 		char w = '!';
+	// 		if(!newline && offset < state->text->size){
+	// 			w = textbuffer_get(state->text, offset)
+	// 		}
+	// 	}
+	// }
+
 	uint24_t offset = state->screen_start_offset;
 	for (int r = 0; r < state->config->scr_height; r++)
 	{
@@ -61,6 +74,7 @@ void render_to_cache(struct estate *state)
 			if (!newline && offset < state->text->size)
 			{
 				w = textbuffer_get(state->text, offset);
+				dbg_printf("%c", w);
 				if (state->cache[r * (state->config->scr_width + 1) + c] == '\n')
 				{
 					newline = true;

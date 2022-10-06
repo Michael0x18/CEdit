@@ -58,7 +58,7 @@ void editor_mainloop(struct estate *state)
 	while (true)
 	{
 		render_to_cache(state);
-		// TODO scroll
+		//  TODO scroll
 		redraw_editor(state);
 		cedit_swapdraw();
 		// Reset the keypress
@@ -69,8 +69,8 @@ void editor_mainloop(struct estate *state)
 		{
 			delay(2);
 			k = ngetchx(state, false);
-			// dbg_printf("waiting\n");
 		}
+		dbg_printf("%d\n", k);
 		if (editor_handle_keypress(state, k))
 		{
 			goto end;
