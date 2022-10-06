@@ -44,7 +44,7 @@ void redraw_editor(struct estate *state)
 	for (int r = 0; r < state->config->scr_height; r++)
 	{
 		dbg_printf("=%s=\n", state->cache + r * (1 + state->config->scr_width));
-		// x4_PutStr(state->font_buffer, 10, 16 + 16 * r, state->cache + r * (1 + state->config->scr_width));
+		x4_PutStr(state->font_buffer, 10, 16 + 16 * r, state->cache + r * (1 + state->config->scr_width));
 	}
 }
 
