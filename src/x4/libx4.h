@@ -12,6 +12,8 @@ void x4_Copy8Bytes(void *dest, void *src);
 
 void calc84maniac_Copy8x8(void *dest, void *src);
 
+void x4_Copy8x8(uint24_t x, uint24_t y, void *src);
+
 uint24_t x4_GetPixelAddress(int24_t x, int24_t y);
 
 /*

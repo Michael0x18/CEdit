@@ -42,8 +42,9 @@ void x4_PutChar(uint8_t font_buffer[128][8][8], int x, int y, char ch)
     //     // memcpy(x4_Buffer + offset, font_buffer[(uint8_t)ch][i], 8);
     //     x4_Copy8Bytes(x4_Buffer + offset, font_buffer[(uint8_t)ch][i]);
     // }
-    int offset = x4_GetPixelAddress(x, y);
-    calc84maniac_Copy8x8(x4_Buffer + offset, font_buffer[(uint8_t)ch]);
+    x4_Copy8x8(x, y, font_buffer[(uint8_t)ch]);
+    // int offset = x4_GetPixelAddress(x, y);
+    // calc84maniac_Copy8x8(x4_Buffer + offset, font_buffer[(uint8_t)ch]);
 }
 
 void x4_PutStr(uint8_t font_buffer[128][8][8], int x, int y, char *str)

@@ -46,20 +46,19 @@ void redraw_editor(struct estate *state)
 		dbg_printf("=%s=\n", state->cache + r * (1 + state->config->scr_width));
 		x4_PutStr(state->font_buffer, 10, 16 + 16 * r, state->cache + r * (1 + state->config->scr_width));
 	}
+	x4_Line_EFLA(10 + 9 * state->cursor_x, 16 + 16 * state->cursor_y, 10 + 9 * state->cursor_x, 32 + 16 * state->cursor_y, TEXT_FG_COLOR);
 }
 
 void render_to_cache(struct estate *state)
 {
-	uint24_t offset = 0;
+	uint24_t offset = state->screen_start_offset;
 	for (int r = 0; r < state->config->scr_height; r++)
 	{
 		bool newline = false;
 		for (int c = 0; c < state->config->scr_width; c++)
 		{
-			// if (offset + state->screen_start_offset > state->text->size)
-			// 	return;
 			char w = ' ';
-			if (!newline && offset + state->screen_start_offset < state->text->size)
+			if (!newline && offset < state->text->size)
 			{
 				w = textbuffer_get(state->text, offset);
 				if (state->cache[r * (state->config->scr_width + 1) + c] == '\n')
@@ -71,7 +70,6 @@ void render_to_cache(struct estate *state)
 			dbg_printf("%c", w);
 			state->cache[r * (state->config->scr_width + 1) + c] = w;
 		}
-		dbg_printf("\n");
 	}
 	dbg_printf("Done rendering\n");
 }
