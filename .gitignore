@@ -4,3 +4,6 @@
 /bosbin/
 /bosobj/
 .DS_Store
+.settings
+.github
+.vscode
