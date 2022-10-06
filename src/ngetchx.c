@@ -135,8 +135,10 @@ uint8_t getkey(struct estate *state)
 unsigned char ngetchx(struct estate *state, bool drawmods)
 {
 	kb_Scan();
+	static uint8_t mod_mask_last = 255;
+	uint8_t mod_mask = generate_mod_mask(state);
 	process_modifiers(state);
-	if (drawmods)
+	if (drawmods && mod_mask != mod_mask_last)
 		draw_mod_status(state);
-	return key_list[generate_mod_mask(state)][getkey(state)];
+	return key_list[mod_mask][getkey(state)];
 }

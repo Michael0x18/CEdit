@@ -8,8 +8,8 @@ DESCRIPTION = "CEdit editor"
 COMPRESSED = YES
 ARCHIVED = NO
 
-CFLAGS = -Wall -Wextra -O3
-CXXFLAGS = -Wall -Wextra -O3
+CFLAGS = -Wall -Wextra -Oz
+CXXFLAGS = -Wall -Wextra -Oz
 
 # ----------------------------
 
