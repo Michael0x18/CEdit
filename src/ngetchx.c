@@ -80,6 +80,25 @@ uint8_t generate_mod_mask(struct estate *state)
 	return ref;
 }
 
+uint8_t getkey_new(struct estate *state)
+{
+	static bool old_matrix[128];
+	uint8_t current_key = 0;
+	for (uint8_t key = 1, group = 7; mask; mask <<= 1, ++key)
+	{
+		if (kb_Data[group] & mask)
+		{
+			if (key == 40 || key == 48 || key == 54 || key == 55)
+				continue;
+			// Global rising edge detector
+			if (!old_matrix[key])
+		}
+		else
+		{
+		}
+	}
+}
+
 uint8_t getkey(struct estate *state)
 {
 
