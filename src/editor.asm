@@ -1,8 +1,12 @@
-include 'ti84pceg.inc'
-include 'spi.inc'
+include 'x4/ti84pceg.inc'
+include 'x4/spi.inc'
 
 	assume adl=1
 	section .text
+
+
+
+section .data
 
 extern _x4_Buffer
 extern _x4_PrevScrBuffer

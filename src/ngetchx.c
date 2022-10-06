@@ -80,21 +80,30 @@ uint8_t generate_mod_mask(struct estate *state)
 	return ref;
 }
 
-uint8_t getkey_new(struct estate *state)
+uint8_t getkey_internal(struct estate *state)
 {
 	static bool old_matrix[128];
-	uint8_t current_key = 0;
-	for (uint8_t key = 1, group = 7; mask; mask <<= 1, ++key)
+	for (uint8_t key = 1, group = 7; group; --group)
 	{
-		if (kb_Data[group] & mask)
+		for (uint8_t mask = 1; mask; mask <<= 1, ++key)
 		{
-			if (key == 40 || key == 48 || key == 54 || key == 55)
-				continue;
-			// Global rising edge detector
-			if (!old_matrix[key])
-		}
-		else
-		{
+			if (kb_Data[group] & mask)
+			{ // If key is pressed
+				if (key == 40 || key == 48 || key == 54 || key == 55)
+					continue;
+				// skip the modifiers
+				// Global rising edge detector
+				if (!old_matrix[key])
+				{
+					// If it was not pressed previously but it now is
+					old_matrix[key] = true;
+					return key;
+				}
+			}
+			else
+			{
+				old_matrix[key] = false;
+			}
 		}
 	}
 }
@@ -102,32 +111,34 @@ uint8_t getkey_new(struct estate *state)
 uint8_t getkey(struct estate *state)
 {
 
-	static uint8_t last_key;
-	uint8_t only_key = 0;
-	for (uint8_t key = 1, group = 7; group; --group)
-	{
-		for (uint8_t mask = 1; mask; mask <<= 1, ++key)
-		{
-			if (kb_Data[group] & mask)
-			{
-				if (key == 40 || key == 48 || key == 54 || key == 55)
-					continue;
-				if (only_key)
-				{
-					last_key = 0;
-					return 0;
-				}
-				else
-				{
-					only_key = key;
-				}
-			}
-		}
-	}
-	if (only_key == last_key)
-	{
-		return 0;
-	}
+	// static uint8_t last_key;
+	// uint8_t only_key = 0;
+	// for (uint8_t key = 1, group = 7; group; --group)
+	// {
+	// 	for (uint8_t mask = 1; mask; mask <<= 1, ++key)
+	// 	{
+	// 		if (kb_Data[group] & mask)
+	// 		{
+	// 			if (key == 40 || key == 48 || key == 54 || key == 55)
+	// 				continue;
+	// 			if (only_key)
+	// 			{
+	// 				last_key = 0;
+	// 				return 0;
+	// 			}
+	// 			else
+	// 			{
+	// 				only_key = key;
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// if (only_key == last_key)
+	// {
+	// 	return 0;
+	// }
+
+	uint8_t only_key = getkey_internal(state);
 
 	if (only_key)
 	{
@@ -147,7 +158,7 @@ uint8_t getkey(struct estate *state)
 		}
 	}
 
-	last_key = only_key;
+	// last_key = only_key;
 	return only_key;
 }
 
