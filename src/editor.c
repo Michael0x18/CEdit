@@ -67,9 +67,9 @@ void editor_mainloop(struct estate *state)
 		// Wait for keypress
 		while (!k)
 		{
+			delay(4);
 			k = ngetchx(state, true);
 			// dbg_printf("waiting\n");
-			delay(5);
 		}
 		if (editor_handle_keypress(state, k))
 		{
