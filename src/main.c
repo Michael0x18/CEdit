@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
 	static struct estate editor_state;
 
 	if (initialize(&editor_state)) {
-		gui_PrintLine_wrapper("E0: gfx-err");
+		gui_PrintLine("E0: gfx-err");
 		ngetchx();
 		return 1;
 	}
