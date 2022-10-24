@@ -531,6 +531,7 @@ void cursor_to_right_word_select(struct estate *state)
 
 int draw_editor_full(struct estate *state)
 {
+	gfx_SetDrawBuffer();
     gfx_FillScreen(state->background_color);
 	//Initialize temporary variables
 	int24_t i = state->scr_offset;
@@ -565,7 +566,7 @@ int draw_editor_full(struct estate *state)
 			}
 
 			i = state->c2 + 1;
-			drawn = 1;
+			drawn = true;
 			if (i >= MAX_BUFFER_SIZE)
 				break;
 		}
@@ -647,6 +648,150 @@ int draw_editor_full(struct estate *state)
 	fontlib_SetForegroundColor(state->text_color);
 	fontlib_SetBackgroundColor(state->text_highlight_color);
 	fontlib_SetTransparency(true);
+	gfx_BlitBuffer();
+	if (!drawn)
+	{
+		if (state->c1 < state->scr_offset)
+		{
+			scroll_up(state);
+		}
+		else
+		{
+			scroll_down(state);
+		}
+		//gfx_SwapDraw();
+		draw_editor_full(state);
+	}
+
+	//fontlib_DrawInt(state->selection_anchor, 5);
+	return 0;
+
+}
+
+int draw_editor(struct estate *state)
+{
+	//Initialize temporary variables
+	int24_t i = state->scr_offset;
+	int8_t row = 0;
+	int8_t col = 0;
+	int24_t cp = 0;
+	bool drawn = false;
+	//Start drawing
+	gfx_SetDrawBuffer();
+	fontlib_SetForegroundColor(state->text_color);
+	fontlib_SetBackgroundColor(state->background_color);
+	fontlib_SetCursorPosition(0, LINE_SPACING);
+	gfx_SetColor(state->background_color);
+	gfx_FillRectangle(0, LINE_SPACING * row + LINE_SPACING, 320, 226 - LINE_SPACING);
+	fontlib_DrawGlyph(state->scr_line_offset ? '+' : ':');
+	//Iterate buffer
+	while (i < MAX_BUFFER_SIZE && (cp < MAX_BUFFER_SIZE - state->c2 + state->c1) && row < NUM_LINES + 1)
+	{
+		fontlib_SetForegroundColor(state->text_color);
+		fontlib_SetBackgroundColor(state->background_color);
+		// fontlib_SetBackgroundColor(state->text_highlight_color);
+		fontlib_SetTransparency(false);
+		if (i == state->c1)
+		{
+			if (col >= NUM_COLS)
+			{
+				gfx_VertLine_NoClip(319, LINE_SPACING * row + FONT_WIDTH + 1,
+									LINE_SPACING);
+				state->cx = 319, state->cy = LINE_SPACING * row + FONT_WIDTH + 1;
+			}
+			else
+			{
+				gfx_VertLine_NoClip((FONT_WIDTH + FONT_WIDTH * col),
+									LINE_SPACING * row + LINE_SPACING + 1, LINE_SPACING);
+				state->cx = (FONT_WIDTH + FONT_WIDTH * col), state->cy =
+																 LINE_SPACING * row + LINE_SPACING + 1;
+			}
+
+			i = state->c2 + 1;
+			drawn = 1;
+			if (i >= MAX_BUFFER_SIZE)
+				break;
+		}
+
+		if (state->text[i] == '\n')
+		{
+			row++;
+			col = 0;
+			i++;
+			cp++;
+			fontlib_SetCursorPosition(0, LINE_SPACING * row + LINE_SPACING);
+			fontlib_DrawGlyph(':');
+			continue;
+		}
+		if (state->selection_active && ((state->selection_anchor <= i && i < state->c1) || (state->selection_anchor >= i && i > state->c2)))
+		{
+			fontlib_SetForegroundColor(state->text_selection_color);
+			fontlib_SetBackgroundColor(state->text_selection_highlight_color);
+			fontlib_SetTransparency(false);
+		}
+		else
+		{
+			fontlib_SetForegroundColor(state->text_color);
+			fontlib_SetBackgroundColor(state->background_color);
+			//fontlib_SetBackgroundColor(state->text_highlight_color);
+			fontlib_SetTransparency(false);
+		}
+		fontlib_DrawGlyph(state->text[i]);
+
+		i++;
+		cp++;
+		col++;
+		if (col >= NUM_COLS)
+		{
+			col = 0;
+			row++;
+			fontlib_SetCursorPosition(FONT_WIDTH,
+									  LINE_SPACING * row + LINE_SPACING);
+		}
+	}
+	fontlib_SetForegroundColor(state->statusbar_text_color);
+	//fontlib_SetBackgroundColor(state->text_highlight_color);
+	fontlib_SetBackgroundColor(state->background_color);
+	fontlib_SetTransparency(true);
+	//Draw statusbars
+	gfx_SetColor(state->statusbar_color);
+	gfx_FillRectangle_NoClip(0, 0, 320, 12);  //Top
+	gfx_FillRectangle_NoClip(1, 228, 62, 12); //Floating segments
+	gfx_FillRectangle_NoClip(65, 228, 62, 12);
+	gfx_FillRectangle_NoClip(129, 228, 62, 12);
+	gfx_FillRectangle_NoClip(193, 228, 62, 12);
+	gfx_FillRectangle_NoClip(257, 228, 62, 12);
+	//Draw text on segs
+	fontlib_SetCursorPosition(20, 226);
+	fontlib_DrawString("Cut");
+	fontlib_SetCursorPosition(80, 226);
+	fontlib_DrawString("Copy");
+	fontlib_SetCursorPosition(140, 226);
+	fontlib_DrawString("Paste");
+	fontlib_SetCursorPosition(200, 226);
+	fontlib_DrawString("Search");
+	fontlib_SetCursorPosition(272, 226);
+	fontlib_DrawString("Menu");
+	//Draw drop shadows
+	gfx_SetColor(state->dropshadow_color);
+	gfx_VertLine_NoClip(63, 229, 11);
+	gfx_VertLine_NoClip(127, 229, 11);
+	gfx_VertLine_NoClip(191, 229, 11);
+	gfx_VertLine_NoClip(255, 229, 11);
+	gfx_VertLine_NoClip(319, 229, 11);
+	//Top
+	gfx_HorizLine_NoClip(0, 12, 320);
+
+	//Draw top text
+	fontlib_SetCursorPosition(0, 0);
+	if (!state->saved)
+		fontlib_DrawGlyph('*');
+	fontlib_DrawString(state->named ? state->filename : "Untitled Document");
+	if (!state->saved)
+		fontlib_DrawGlyph('*');
+	fontlib_SetForegroundColor(state->text_color);
+	fontlib_SetBackgroundColor(state->text_highlight_color);
+	fontlib_SetTransparency(true);
 	if (!drawn)
 	{
 		if (state->c1 < state->scr_offset)
@@ -659,151 +804,14 @@ int draw_editor_full(struct estate *state)
 		}
 		//gfx_SwapDraw();
 		draw_editor(state);
+	} else {
+		gfx_BlitBuffer();
+		gfx_SetDrawScreen();
 	}
 
 	//fontlib_DrawInt(state->selection_anchor, 5);
 	return 0;
-
-}
-
-int draw_editor(struct estate *state)
-{
-	// //Initialize temporary variables
-	// int24_t i = state->scr_offset;
-	// int8_t row = 0;
-	// int8_t col = 0;
-	// int24_t cp = 0;
-	// bool drawn = false;
-	// //Start drawing
-	// fontlib_SetForegroundColor(state->text_color);
-	// fontlib_SetBackgroundColor(state->background_color);
-	// fontlib_SetCursorPosition(0, LINE_SPACING);
-	// fontlib_DrawGlyph(state->scr_line_offset ? '+' : ':');
-	// //Iterate buffer
-	// while (i < MAX_BUFFER_SIZE && (cp < MAX_BUFFER_SIZE - state->c2 + state->c1) && row < NUM_LINES + 1)
-	// {
-	// 	fontlib_SetForegroundColor(state->text_color);
-	// 	fontlib_SetBackgroundColor(state->background_color);
-	// 	// fontlib_SetBackgroundColor(state->text_highlight_color);
-	// 	fontlib_SetTransparency(false);
-	// 	if (i == state->c1)
-	// 	{
-	// 		if (col >= NUM_COLS)
-	// 		{
-	// 			gfx_VertLine_NoClip(319, LINE_SPACING * row + FONT_WIDTH + 1,
-	// 								LINE_SPACING);
-	// 			state->cx = 319, state->cy = LINE_SPACING * row + FONT_WIDTH + 1;
-	// 		}
-	// 		else
-	// 		{
-	// 			gfx_VertLine_NoClip((FONT_WIDTH + FONT_WIDTH * col),
-	// 								LINE_SPACING * row + LINE_SPACING + 1, LINE_SPACING);
-	// 			state->cx = (FONT_WIDTH + FONT_WIDTH * col), state->cy =
-	// 															 LINE_SPACING * row + LINE_SPACING + 1;
-	// 		}
-
-	// 		i = state->c2 + 1;
-	// 		drawn = 1;
-	// 		if (i >= MAX_BUFFER_SIZE)
-	// 			break;
-	// 	}
-
-	// 	if (state->text[i] == '\n')
-	// 	{
-	// 		row++;
-	// 		col = 0;
-	// 		i++;
-	// 		cp++;
-	// 		fontlib_SetCursorPosition(0, LINE_SPACING * row + LINE_SPACING);
-	// 		fontlib_DrawGlyph(':');
-	// 		continue;
-	// 	}
-	// 	if (state->selection_active && ((state->selection_anchor <= i && i < state->c1) || (state->selection_anchor >= i && i > state->c2)))
-	// 	{
-	// 		fontlib_SetForegroundColor(state->text_selection_color);
-	// 		fontlib_SetBackgroundColor(state->text_selection_highlight_color);
-	// 		fontlib_SetTransparency(false);
-	// 	}
-	// 	else
-	// 	{
-	// 		fontlib_SetForegroundColor(state->text_color);
-	// 		fontlib_SetBackgroundColor(state->background_color);
-	// 		//fontlib_SetBackgroundColor(state->text_highlight_color);
-	// 		fontlib_SetTransparency(false);
-	// 	}
-	// 	fontlib_DrawGlyph(state->text[i]);
-
-	// 	i++;
-	// 	cp++;
-	// 	col++;
-	// 	if (col >= NUM_COLS)
-	// 	{
-	// 		col = 0;
-	// 		row++;
-	// 		fontlib_SetCursorPosition(FONT_WIDTH,
-	// 								  LINE_SPACING * row + LINE_SPACING);
-	// 	}
-	// }
-	// fontlib_SetForegroundColor(state->statusbar_text_color);
-	// //fontlib_SetBackgroundColor(state->text_highlight_color);
-	// fontlib_SetBackgroundColor(state->background_color);
-	// fontlib_SetTransparency(true);
-	// //Draw statusbars
-	// gfx_SetColor(state->statusbar_color);
-	// gfx_FillRectangle_NoClip(0, 0, 320, 12);  //Top
-	// gfx_FillRectangle_NoClip(1, 228, 62, 12); //Floating segments
-	// gfx_FillRectangle_NoClip(65, 228, 62, 12);
-	// gfx_FillRectangle_NoClip(129, 228, 62, 12);
-	// gfx_FillRectangle_NoClip(193, 228, 62, 12);
-	// gfx_FillRectangle_NoClip(257, 228, 62, 12);
-	// //Draw text on segs
-	// fontlib_SetCursorPosition(20, 228);
-	// fontlib_DrawString("Cut");
-	// fontlib_SetCursorPosition(80, 226);
-	// fontlib_DrawString("Copy");
-	// fontlib_SetCursorPosition(140, 228);
-	// fontlib_DrawString("Paste");
-	// fontlib_SetCursorPosition(200, 228);
-	// fontlib_DrawString("Search");
-	// fontlib_SetCursorPosition(272, 228);
-	// fontlib_DrawString("Menu");
-	// //Draw drop shadows
-	// gfx_SetColor(state->dropshadow_color);
-	// gfx_VertLine_NoClip(63, 229, 11);
-	// gfx_VertLine_NoClip(127, 229, 11);
-	// gfx_VertLine_NoClip(191, 229, 11);
-	// gfx_VertLine_NoClip(255, 229, 11);
-	// gfx_VertLine_NoClip(319, 229, 11);
-	// //Top
-	// gfx_HorizLine_NoClip(0, 12, 320);
-
-	// //Draw top text
-	// fontlib_SetCursorPosition(0, 0);
-	// if (!state->saved)
-	// 	fontlib_DrawGlyph('*');
-	// fontlib_DrawString(state->named ? state->filename : "Untitled Document");
-	// if (!state->saved)
-	// 	fontlib_DrawGlyph('*');
-	// fontlib_SetForegroundColor(state->text_color);
-	// fontlib_SetBackgroundColor(state->text_highlight_color);
-	// fontlib_SetTransparency(true);
-	// if (!drawn)
-	// {
-	// 	if (state->c1 < state->scr_offset)
-	// 	{
-	// 		scroll_up(state);
-	// 	}
-	// 	else
-	// 	{
-	// 		scroll_down(state);
-	// 	}
-	// 	//gfx_SwapDraw();
-	// 	draw_editor(state);
-	// }
-
-	// //fontlib_DrawInt(state->selection_anchor, 5);
-	// return 0;
-	return draw_editor_full(state);
+	// return draw_editor_full(state);
 }
 
 void editor_mainloop(struct estate *state)

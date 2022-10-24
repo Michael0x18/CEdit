@@ -164,7 +164,8 @@ short ngetchx_xy(struct estate *state,int cx, int cy) {
     uint8_t k = 0;
     int frame = 0;
     bool on = true;
-    //gfx_SetDrawScreen();
+    bool old_draw_loc = gfx_GetDraw();
+	//gfx_SetDrawScreen();
     gfx_SetColor(state->text_color);
     gfx_VertLine_NoClip(cx,cy,12);
 
@@ -184,7 +185,7 @@ short ngetchx_xy(struct estate *state,int cx, int cy) {
                 }
             }
     }
-    //gfx_SetDrawBuffer();
+    gfx_SetDraw(old_draw_loc);
     if (kb_IsDown(kb_Key2nd) && kb_IsDown(kb_KeyGraphVar)) {
         return ksecshift[k];
     } else if (kb_IsDown(kb_KeyMode) && kb_IsDown(kb_KeyGraphVar)) {

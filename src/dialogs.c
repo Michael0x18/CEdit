@@ -53,6 +53,7 @@ void show_search_dialog(struct estate *state)
 	int cx = 52;
 	while (true)
 	{
+		gfx_SetDrawBuffer();
 		draw_dialog(state, 20, 60, 280, 100);
 		gfx_SetColor(state->border_color);
 		gfx_HorizLine_NoClip(20, 80, 280);
@@ -69,7 +70,8 @@ void show_search_dialog(struct estate *state)
 		fontlib_DrawString(state->search_buffer);
 		gfx_VertLine(52 + FONT_WIDTH * numchars, 112, 12);
 		cx = 52 + FONT_WIDTH * numchars;
-		//gfx_BlitBuffer();
+		gfx_BlitBuffer();
+		gfx_SetDrawScreen();
 		k = ngetchx_xy(state, cx, 112);
 		if (k == KEY_CLEAR)
 		{
@@ -109,6 +111,7 @@ uint8_t show_color_selection_dialog(struct estate *state, uint8_t current_value)
 	short index = current_value;
 	while (k != KEY_CLEAR)
 	{
+		gfx_SetDrawBuffer();
 		state->transparent_color = temp_transparent_color;
 		draw_dialog(state, 20, 20, 280, 200);
 		gfx_SetColor(state->border_color);
@@ -132,7 +135,8 @@ uint8_t show_color_selection_dialog(struct estate *state, uint8_t current_value)
 		gfx_SetColor(state->border_color);
 		gfx_Rectangle_NoClip(32 + 8 * (index % 32), 72 + 8 * (index >> 5), 8, 8);
 		gfx_Rectangle_NoClip(31 + 8 * (index % 32), 71 + 8 * (index >> 5), 10, 10);
-		//gfx_BlitBuffer();
+		gfx_BlitBuffer();
+		gfx_SetDrawScreen();
 		k = ngetchx();
 		if (k == KEY_CLEAR)
 		{
@@ -171,6 +175,7 @@ void show_editor_settings_dialog(struct estate *state)
 	short index = 0;
 	while (k != KEY_CLEAR)
 	{
+		gfx_SetDrawBuffer();
 		draw_dialog(state, 20, 20, 280, 200);
 		gfx_SetColor(state->border_color);
 		gfx_HorizLine_NoClip(20, 40, 280);
@@ -212,7 +217,8 @@ void show_editor_settings_dialog(struct estate *state)
 		fontlib_SetCursorPosition(24, 96 + 55 + 30);
 		fontlib_DrawString("by editing CEDITRC");
 		//~~//~~//~~//~~//~~//~~//~~//~~//~~//~~//
-		//gfx_BlitBuffer();
+		gfx_BlitBuffer();
+		gfx_SetDrawScreen();
 		k = ngetchx();
 		if (k == KEY_DOWN)
 		{
@@ -261,6 +267,7 @@ void show_editor_settings_dialog(struct estate *state)
 void show_keybind_dialog(struct estate *state)
 {
 	//short k = 0;
+	gfx_SetDrawBuffer();
 	draw_dialog(state, 40, 40, 240, 160);
 	gfx_SetColor(state->border_color);
 	gfx_HorizLine_NoClip(40, 60, 240);
@@ -273,7 +280,8 @@ void show_keybind_dialog(struct estate *state)
 	fontlib_DrawString("Hold modifiers like 2nd.");
 	fontlib_SetCursorPosition(51, 86);
 	fontlib_DrawString("See docs for more info.");
-	//gfx_BlitBuffer();
+	gfx_BlitBuffer();
+	gfx_SetDrawScreen();
 	ngetchx();
 }
 
@@ -283,6 +291,7 @@ void show_appearance_settings_dialog(struct estate *state)
 	int index = 0;
 	while (k != KEY_CLEAR)
 	{
+		gfx_SetDrawBuffer();
 		draw_dialog(state, 20, 20, 280, 200);
 		gfx_SetColor(state->border_color);
 		gfx_HorizLine_NoClip(20, 40, 280);
@@ -378,7 +387,8 @@ void show_appearance_settings_dialog(struct estate *state)
 		fontlib_SetCursorPosition(31, 202);
 		fontlib_DrawString("permanent.");
 
-		//gfx_BlitBuffer();
+		gfx_BlitBuffer();
+		gfx_SetDrawScreen();
 		k = ngetchx();
 		if (k == KEY_RIGHT || k == '\n')
 		{
@@ -449,6 +459,7 @@ void show_appearance_settings_dialog_nocolor(struct estate *state)
 	int index = 0;
 	while (k != KEY_CLEAR)
 	{
+		gfx_SetDrawBuffer();
 		draw_dialog(state, 20, 20, 280, 200);
 		gfx_SetColor(state->border_color);
 		gfx_HorizLine_NoClip(20, 40, 280);
@@ -543,7 +554,8 @@ void show_appearance_settings_dialog_nocolor(struct estate *state)
 		fontlib_SetCursorPosition(31, 202);
 		fontlib_DrawString("permanent.");
 
-		//gfx_BlitBuffer();
+		gfx_BlitBuffer();
+		gfx_SetDrawScreen();
 		k = ngetchx();
 		if (k == KEY_RIGHT || k == '\n')
 		{
@@ -645,6 +657,7 @@ void menu_backend_draw(struct estate *state, int index)
 void show_persistence_dialog(struct estate *state)
 {
 	//short k = 0;
+	gfx_SetDrawBuffer();
 	draw_dialog(state, 20, 20, 280, 200);
 	gfx_SetColor(state->border_color);
 	gfx_HorizLine_NoClip(20, 40, 280);
@@ -657,7 +670,8 @@ void show_persistence_dialog(struct estate *state)
 	fontlib_DrawString("not currently supported.");
 	fontlib_SetCursorPosition(31, 66);
 	fontlib_DrawString("Please edit CEDITRC instead.");
-	//gfx_BlitBuffer();
+	gfx_BlitBuffer();
+	gfx_SetDrawScreen();
 	ngetchx();
 }
 
@@ -846,6 +860,7 @@ bool show_open_dialog(struct estate *state)
 	int numfiles = i;
 	while (k != KEY_CLEAR)
 	{
+		gfx_SetDrawBuffer();
 		draw_dialog(state, 20, 20, 280, 200);
 		gfx_SetColor(state->border_color);
 		gfx_HorizLine_NoClip(20, 40, 280);
@@ -880,7 +895,8 @@ bool show_open_dialog(struct estate *state)
 			//Draw file preview.
 			fontlib_DrawStringL(arr + 24 * (i + scrstart) + 8, 16);
 		}
-		//gfx_BlitBuffer();
+		gfx_BlitBuffer();
+		gfx_SetDrawScreen();
 		k = ngetchx();
 		if (k == KEY_UP)
 		{
@@ -961,6 +977,7 @@ bool show_save_dialog(struct estate *state)
 	int cx = 52;
 	while (true)
 	{
+		gfx_SetDrawBuffer();
 		draw_dialog(state, 20, 60, 280, 100);
 		gfx_SetColor(state->border_color);
 		gfx_HorizLine_NoClip(20, 80, 280);
@@ -977,7 +994,8 @@ bool show_save_dialog(struct estate *state)
 		fontlib_DrawString(buffer);
 		gfx_VertLine(52 + FONT_WIDTH * numchars, 112, 12);
 		cx = 52 + FONT_WIDTH * numchars;
-		//gfx_BlitBuffer();
+		gfx_BlitBuffer();
+		gfx_SetDrawScreen();
 		k = ngetchx_xy(state, cx, 112);
 		if (k == KEY_CLEAR)
 		{
@@ -1020,6 +1038,7 @@ bool show_save_dialog(struct estate *state)
 
 void show_about_dialog(struct estate *state)
 {
+	gfx_SetDrawBuffer();
 	draw_dialog(state, 60, 60, 200, 120);
 	gfx_SetColor(state->border_color);
 	gfx_HorizLine_NoClip(60, 80, 200);
@@ -1028,13 +1047,15 @@ void show_about_dialog(struct estate *state)
 	fontlib_DrawString("About CEdit");
 	fontlib_SetCursorPosition(80, 120);
 	fontlib_DrawString(CEDIT_VERSION_STRING);
-	//gfx_BlitBuffer();
+	gfx_BlitBuffer();
+	gfx_SetDrawScreen();
 	ngetchx();
 }
 
 //TODO fix this - it's disgusting
 bool show_unsaved_dialog(struct estate *state)
 {
+	gfx_SetDrawBuffer();
 	draw_dialog(state, 60, 60, 200, 120);
 	gfx_SetColor(state->border_color);
 	gfx_HorizLine_NoClip(60, 80, 200);
@@ -1045,7 +1066,8 @@ bool show_unsaved_dialog(struct estate *state)
 	fontlib_DrawString("[enter]: discard");
 	fontlib_SetCursorPosition(65, 91);
 	fontlib_DrawString("[clear]: cancel");
-	//gfx_BlitBuffer();
+	gfx_BlitBuffer();
+	gfx_SetDrawScreen();
 	short k = ngetchx();
 	if (k == '\n')
 	{
