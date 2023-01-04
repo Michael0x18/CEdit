@@ -78,17 +78,17 @@ int main(void)
 					bg = 0;
 				x4_FillScreen(bg);
 				dbg_printf("%u\n", X4_DRAW_LOCATION);
-				if (X4_DRAW_LOCATION == X4_BUFFER_0)
+				if (X4_SCREEN_LOCATION == X4_BUFFER_2)
 				{
 					x4_SetDrawLocation(X4_BUFFER_1);
 					x4_SetScreenLocation(X4_BUFFER_0);
 				}
-				else if (X4_DRAW_LOCATION == X4_BUFFER_1)
+				else if (X4_SCREEN_LOCATION == X4_BUFFER_0)
 				{
 					x4_SetDrawLocation(X4_BUFFER_2);
 					x4_SetScreenLocation(X4_BUFFER_1);
 				}
-				else if (X4_DRAW_LOCATION == X4_BUFFER_2)
+				else if (X4_SCREEN_LOCATION == X4_BUFFER_1)
 				{
 					x4_SetDrawLocation(X4_BUFFER_0);
 					x4_SetScreenLocation(X4_BUFFER_2);
