@@ -1,3 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <tice.h>
+#include <intce.h>
+#include <keypadc.h>
+#include <graphx.h>
+#include <string.h>
+#include <debug.h>
+
+#include "x4/libx4.h"
 
 void init_x4(void)
 {
@@ -14,15 +24,7 @@ void end_x4(void)
 
 int main(int argc, char **argv)
 {
-	static struct estate state;
-	dbg_printf("Begin CEdit execution\n");
-	dbg_printf("argc: %d\n", argc);
-	dbg_printf("File IO is unimplemented. TODO!\n");
-	cedit_defaults(&state);
 	init_x4();
-	editor_mainloop(&state);
+
 	end_x4();
-	free(state.config);
-	free(state.text);
-	dbg_printf("End Execution\nBye!\n");
 }
