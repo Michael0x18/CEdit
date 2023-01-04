@@ -39,6 +39,9 @@ void x4_End(void);
 /**
  * Returns the address of the location libx4 will use
  * to draw.
+ *
+ * It is recommended to directly use X4_DRAW_LOCATION instead.
+ * This avoids a call and lets it be inlined
  */
 void *x4_GetDrawLocation(void);
 
@@ -62,6 +65,9 @@ void x4_SetScreenLocation(void *addr);
 /**
  * Returns the location that the screen is currently being
  * driven from.
+ *
+ * It is recommended to directly use X4_SCREEN_LOCATION instead
+ * This avoids a call and lets it be inlined
  */
 void *x4_GetScreenLocation(void);
 
