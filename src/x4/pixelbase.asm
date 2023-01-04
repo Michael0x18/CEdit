@@ -50,6 +50,35 @@ _x4_Copy8x8:
 	pop		ix
     ret
 
+; 8x8 sprite routine
+public _x4_Sprt8
+_x4_Sprt8:
+	.x := ix + 6
+	.y := ix + 9
+	.src := ix + 12
+	ld		hl, -15
+	call	__frameset
+	ld		hl, (.x)
+	ld		bc, (.y)
+	call	_x4_GetPixelAddress_Internal ; stores it in hl
+	ld		de, (_x4_Buffer)
+	add		hl, de
+	ex		de, hl
+	ld		hl, (.src)
+	ld 		bc,4
+    ld 		a,c
+.loop:
+    ldir
+    ex 		de,hl
+    ld 		c,120-8
+    add 	hl,bc
+    ex 		de,hl
+    ld 		c,8
+    dec 	a
+    jr 		nz,.loop
+	ld		sp,ix
+	pop		ix
+    ret
 
 
 ; backend for _x4_GetPixelAddress, can be called from assembly
