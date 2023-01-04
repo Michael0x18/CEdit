@@ -5,6 +5,8 @@
 #include <graphx.h>
 #include <string.h>
 
+#include <debug.h>
+
 #include "x4/libx4.h"
 
 //#define lcd_CrsrImage ((uint32_t *)0xE30800)
@@ -39,6 +41,7 @@ int main(void)
 	x4_Begin();
 	x4_LoadDefaultPalette();
 	x4_FillScreen(15);
+	x4_SetDrawLocation(X4_BUFFER_0);
 	uint16_t x = 300, y = 0;
 
 	// set the CPL
@@ -51,8 +54,8 @@ int main(void)
 	lcd_CrsrXY = 0;				   // reset cursor position
 	lcd_CrsrClip = 0;			   // reset clipping
 	lcd_CrsrCtrl = 1;			   // enable cursor
-	while (!kb_IsDown(kb_KeyEnter))
-		;
+	uint8_t bg = 0;
+	bool pressed = false;
 	while (!kb_IsDown(kb_KeyClear))
 	{
 		kb_Scan();
@@ -64,6 +67,39 @@ int main(void)
 			y--;
 		if (kb_IsDown(kb_KeyDown))
 			y++;
+		if (kb_IsDown(kb_KeyEnter))
+		{
+			if (pressed == false)
+			{
+				bg++;
+				pressed = true;
+
+				if (bg >= 16)
+					bg = 0;
+				x4_FillScreen(bg);
+				dbg_printf("%u\n", X4_DRAW_LOCATION);
+				if (X4_DRAW_LOCATION == X4_BUFFER_0)
+				{
+					x4_SetDrawLocation(X4_BUFFER_1);
+					x4_SetScreenLocation(X4_BUFFER_0);
+				}
+				else if (X4_DRAW_LOCATION == X4_BUFFER_1)
+				{
+					x4_SetDrawLocation(X4_BUFFER_2);
+					x4_SetScreenLocation(X4_BUFFER_1);
+				}
+				else if (X4_DRAW_LOCATION == X4_BUFFER_2)
+				{
+					x4_SetDrawLocation(X4_BUFFER_0);
+					x4_SetScreenLocation(X4_BUFFER_2);
+				}
+			}
+		}
+		else
+		{
+			pressed = false;
+		}
+
 		if (x > 1000)
 			x = 0;
 		if (x >= 320)
@@ -72,10 +108,12 @@ int main(void)
 			y = 0;
 		if (y >= 240)
 			y = 239;
+
 		lcd_CrsrYFull = x; // update the position of the cursor
 		lcd_CrsrX = y;
 	}
 
 	lcd_CrsrCtrl = 0; // disable cursor
+	x4_SetScreenLocation(X4_BUFFER_0);
 	x4_End();
 }

@@ -10,7 +10,7 @@
 #define X4_fixed_point_factor 64
 
 #define X4_SCREEN_LOCATION lcd_UpBase
-extern void *X4_Buffer;
-#define X4_DRAW_LOCATION X4_Buffer
+extern void *x4_Buffer;
+#define X4_DRAW_LOCATION x4_Buffer
 
 #endif

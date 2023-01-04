@@ -48,7 +48,7 @@ void *x4_GetDrawLocation(void);
  *
  * If not, it should be at least 38400 bytes in size.
  */
-void *x4_SetDrawLocation(void);
+void x4_SetDrawLocation(void *addr);
 
 /**
  * Sets the screen location that the LCD controller will
