@@ -65,7 +65,7 @@ _x4_Sprt8:
 	add		hl, de
 	ex		de, hl
 	ld		hl, (.src)
-	ld 		bc,4
+	ld 		bc,8
     ld 		a,c
 .loop:
     ldir
@@ -73,7 +73,7 @@ _x4_Sprt8:
     ld 		c,120-8
     add 	hl,bc
     ex 		de,hl
-    ld 		c,8
+    ld 		c,4
     dec 	a
     jr 		nz,.loop
 	ld		sp,ix

@@ -1,8 +1,16 @@
-#include "cedit.h"
-#include "engine/textbuffer.h"
-#include "config.h"
-#include "gfx.h"
-#include "editor.h"
+
+void init_x4(void)
+{
+	x4_Begin();
+	x4_SetScreenLocation(X4_BUFFER_1);
+	x4_SetDrawLocation(X4_BUFFER_2);
+}
+
+void end_x4(void)
+{
+	x4_SetScreenLocation(X4_BUFFER_1);
+	x4_End();
+}
 
 int main(int argc, char **argv)
 {
