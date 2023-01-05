@@ -41,7 +41,7 @@ int main(void)
 	x4_Begin();
 	x4_LoadDefaultPalette();
 	x4_FillScreen(15);
-	x4_SetDrawLocation(X4_BUFFER_0);
+	x4_SetDrawLocation(X4_BUFFER_1);
 	uint16_t x = 300, y = 0;
 
 	// set the CPL
@@ -78,21 +78,22 @@ int main(void)
 					bg = 0;
 				x4_FillScreen(bg);
 				dbg_printf("%u\n", X4_DRAW_LOCATION);
-				if (X4_SCREEN_LOCATION == X4_BUFFER_2)
-				{
-					x4_SetDrawLocation(X4_BUFFER_1);
-					x4_SetScreenLocation(X4_BUFFER_0);
-				}
-				else if (X4_SCREEN_LOCATION == X4_BUFFER_0)
-				{
-					x4_SetDrawLocation(X4_BUFFER_2);
-					x4_SetScreenLocation(X4_BUFFER_1);
-				}
-				else if (X4_SCREEN_LOCATION == X4_BUFFER_1)
-				{
-					x4_SetDrawLocation(X4_BUFFER_0);
-					x4_SetScreenLocation(X4_BUFFER_2);
-				}
+				// if (X4_SCREEN_LOCATION == X4_BUFFER_2)
+				// {
+				// 	x4_SetDrawLocation(X4_BUFFER_1);
+				// 	x4_SetScreenLocation(X4_BUFFER_0);
+				// }
+				// else if (X4_SCREEN_LOCATION == X4_BUFFER_0)
+				// {
+				// 	x4_SetDrawLocation(X4_BUFFER_2);
+				// 	x4_SetScreenLocation(X4_BUFFER_1);
+				// }
+				// else if (X4_SCREEN_LOCATION == X4_BUFFER_1)
+				// {
+				// 	x4_SetDrawLocation(X4_BUFFER_0);
+				// 	x4_SetScreenLocation(X4_BUFFER_2);
+				// }
+				x4_SlideBuffer_FromTop(X4_SCREEN_LOCATION, X4_DRAW_LOCATION);
 			}
 		}
 		else

@@ -1,9 +1,18 @@
 #ifndef general_h
 #define general_h
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <tice.h>
+#include <keypadc.h>
+#include <graphx.h>
+#include <string.h>
+
 /**
  * general.h contains definitions for general purpose sub
  */
 #include "../macros.h"
+#include "../libx4_constants.h"
 
 /**
  * Initializes x4
@@ -121,13 +130,15 @@ void x4_FillScreen(uint8_t color);
  */
 void x4_FillScreen_PrePacked(uint8_t color);
 
-// TODO
 void x4_SlideBuffer_FromRight(void *dest, void *src);
-// TODO
 void x4_SlideBuffer_FromLeft(void *dest, void *src);
-// TODO
 void x4_SlideBuffer_FromTop(void *dest, void *src);
-// TODO
 void x4_SlideBuffer_FromBottom(void *dest, void *src);
+
+// TODO these four
+void x4_SlideBuffer_FromRight_sync(void *dest, void *scratch, void *src);
+void x4_SlideBuffer_FromLeft_sync(void *dest, void *scratch, void *src);
+void x4_SlideBuffer_FromTop_sync(void *dest, void *scratch, void *src);
+void x4_SlideBuffer_FromBottom_sync(void *dest, void *scratch, void *src);
 
 #endif /*general_h*/
