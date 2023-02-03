@@ -11,6 +11,10 @@
 #include "find.h"
 //#include "softc.h"
 
+#ifdef BOS_BUILD
+#include <bos.h>
+#endif
+
 bool is_control(short k)
 {
 	return (k <= 0) || (k >= 256);
