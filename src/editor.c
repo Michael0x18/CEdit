@@ -15,6 +15,11 @@
 #include <bos.h>
 #endif
 
+#ifdef BOS_BUILD
+const char *default_ceditrc_data = "TC:0\nTHC:255\nTSC:120\nTSHC:30\nBGC:255\nTPC:1\nSBTC:255\nSBC:11\nBC:0\nDSC:10\nFC:142\nAA:1\nCB:1\nHSF:1";
+#endif
+
+
 bool is_control(short k)
 {
 	return (k <= 0) || (k >= 256);
@@ -40,7 +45,7 @@ void insert_char(struct estate *state, char c)
 	state->saved = false;
 	state->text[state->c1] = c;
 	state->c1++;
-	if (state->text[state->c1 - 1] == '\n')
+	if (c == '\n')
 	{
 		insert_newline(state);
 	}
@@ -1125,7 +1130,140 @@ Parse the CEDITRC file.
 void parseRC(struct estate *state)
 {
 #ifdef BOS_BUILD
-//TODO Fix this
+	void *fd = fs_OpenFile("/etc/config/cedit/CEDITRC");
+	if (fd == -1) {
+		if (fs_OpenFile("/etc/config/cedit") == -1)
+			fs_CreateDir("/etc/config/cedit", 0x10);
+		fd = fs_CreateFile("/etc/config/cedit/CEDITRC", 0, strlen(default_ceditrc_data));
+		if (fd != -1)
+			fs_WriteRaw(default_ceditrc_data, strlen(default_ceditrc_data), 1, fd, 0);
+	} else {
+		void *ptr = fs_GetFDPtr(fd);
+		if (ptr != -1) {
+			void *end = &ptr[fs_GetFDLen(fd)];
+			while (ptr)
+			{
+				if (0 == strncmp(ptr, "TC:", 3))
+				{
+					int val = atoi(ptr + 3);
+					if (val < 256 && val >= 0)
+					{
+						state->text_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "THC:", 4))
+				{
+					int val = atoi(ptr + 4);
+					if (val < 256 && val >= 0)
+					{
+						state->text_highlight_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "TSC:", 4))
+				{
+					int val = atoi(ptr + 4);
+					if (val < 256 && val >= 0)
+					{
+						state->text_selection_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "TSHC:", 5))
+				{
+					int val = atoi(ptr + 5);
+					if (val < 256 && val >= 0)
+					{
+						state->text_selection_highlight_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "BGC:", 4))
+				{
+					int val = atoi(ptr + 4);
+					if (val < 256 && val >= 0)
+					{
+						state->background_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "TRC:", 4))
+				{
+					int val = atoi(ptr + 4);
+					if (val < 256 && val >= 0)
+					{
+						state->transparent_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "SBC:", 4))
+				{
+					int val = atoi(ptr + 4);
+					if (val < 256 && val >= 0)
+					{
+						state->statusbar_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "SBTC:", 5))
+				{
+					int val = atoi(ptr + 5);
+					if (val < 256 && val >= 0)
+					{
+						state->statusbar_text_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "TSHC:", 5))
+				{
+					int val = atoi(ptr + 5);
+					if (val < 256 && val >= 0)
+					{
+						state->text_selection_highlight_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "BC:", 3))
+				{
+					int val = atoi(ptr + 3);
+					if (val < 256 && val >= 0)
+					{
+						state->border_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "DSC:", 4))
+				{
+					int val = atoi(ptr + 4);
+					if (val < 256 && val >= 0)
+					{
+						state->dropshadow_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "FC:", 3))
+				{
+					int val = atoi(ptr + 3);
+					if (val < 256 && val >= 0)
+					{
+						state->focus_color = val;
+					}
+				}
+				if (0 == strncmp(ptr, "AA:", 3))
+				{
+					int val = atoi(ptr + 3);
+					if (val)
+					{
+						state->autoarchive = 1;
+					}
+				}
+				if (0 == strncmp(ptr, "CB:", 3))
+				{
+					int val = atoi(ptr + 3);
+					if (val)
+					{
+						state->blinkcursor = 1;
+					}
+				}
+				if (0==strncmp(ptr, "HSF:",4)){
+					int val = atoi(ptr + 4);
+					if(val==0)
+						state->hide_special_files=0;
+				}
+				ptr = memchr(ptr, '\n', end-ptr);
+			}
+		}
+	}
 #else
 	FILE *f = fopen("CEDITRC", "r");
 	if (!f)

@@ -6,7 +6,7 @@
 NAME         ?= CEDIT
 ICON         ?= icon.png
 DESCRIPTION  ?= "CEdit editor"
-#COMPRESSED   ?= YES
+COMPRESSED   ?= YES
 #ARCHIVED     ?= YES
 
 # ----------------------------

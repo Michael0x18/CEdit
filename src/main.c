@@ -10,7 +10,7 @@
 #include "libmalloc.h"
 #ifdef BOS_BUILD
 #include <bos.h>
-#define BOS_SAFERAM 0xD00E00
+#define BOS_SAFERAM 0xD03FD8
 #define gui_PrintLine_wrapper gui_PrintLine
 #endif
 
@@ -36,9 +36,6 @@ bool initialize(struct estate *state)
 	//Default is true, if enabled, parse ceditrc from /etc/cedit/ceditrc. Otherwise use /home/.ceditrc
 	//Does nothin on TIOS
 	state->bos_use_system_config = true;
-	//Default is false. If enabled, boost BOS maximum buffer size to 128Kb
-	//Does nothing on TIOS
-	state->bos_use_extra_buffer = false;
 	char buf1[10] = "Untitled";
 	char buf2[10] = "DrMono";
 	state->multi_lines = 5;
@@ -75,16 +72,15 @@ bool initialize(struct estate *state)
 	state->font = 0;
 	state->fonttype = 3;
     state->hide_special_files=1;
-#ifndef BOS_BUILD
+#ifdef BOS_BUILD
+	state->text = BOS_SAFERAM;
+#else
     //os_MemChk(&state->text);
     state->text=(char*)gfx_vram;
     state->text+=76800;
 	//state->text=malloc_noheap(MAX_BUFFER_SIZE);
 	//state->text = malloc(MAX_BUFFER_SIZE);
 	//Temporary workaround to avoid buffer being yeeted by fileIO.
-#else
-	//BOS toolchain is okay with more than 64Kb, so just use static buffer
-	state->text = BOS_SAFERAM;
 #endif
 #ifdef BOS_BUILD
 	if ((font = (fontlib_font_pack_t *)fs_GetFilePtr("/etc/fontlibc/DrMono")) != -1)
@@ -133,7 +129,7 @@ int main(int argc, char *argv[]) {
 		} else {
 			editor_state.fontname = 0;
 		}
-		memcpy(editor_state.filename, argv[1], 256);
+		strncpy(editor_state.filename, argv[1], 256);
 		editor_state.named = true;
 	}
 	gfx_Begin();
