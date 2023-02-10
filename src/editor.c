@@ -1259,7 +1259,7 @@ void parseRC(struct estate *state)
 				}
 				ptr = memchr(ptr, '\n', end-ptr);
 				if (ptr)
-					ptr++
+					ptr++;
 				else
 					break;
 			} while (1);
