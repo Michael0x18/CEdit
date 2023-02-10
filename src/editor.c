@@ -1141,7 +1141,7 @@ void parseRC(struct estate *state)
 		void *ptr = fs_GetFDPtr(fd);
 		if (ptr != -1) {
 			void *end = &ptr[fs_GetFDLen(fd)];
-			while (ptr)
+			do
 			{
 				if (0 == strncmp(ptr, "TC:", 3))
 				{
@@ -1151,7 +1151,7 @@ void parseRC(struct estate *state)
 						state->text_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "THC:", 4))
+				else if (0 == strncmp(ptr, "THC:", 4))
 				{
 					int val = atoi(ptr + 4);
 					if (val < 256 && val >= 0)
@@ -1159,7 +1159,7 @@ void parseRC(struct estate *state)
 						state->text_highlight_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "TSC:", 4))
+				else if (0 == strncmp(ptr, "TSC:", 4))
 				{
 					int val = atoi(ptr + 4);
 					if (val < 256 && val >= 0)
@@ -1167,7 +1167,7 @@ void parseRC(struct estate *state)
 						state->text_selection_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "TSHC:", 5))
+				else if (0 == strncmp(ptr, "TSHC:", 5))
 				{
 					int val = atoi(ptr + 5);
 					if (val < 256 && val >= 0)
@@ -1175,7 +1175,7 @@ void parseRC(struct estate *state)
 						state->text_selection_highlight_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "BGC:", 4))
+				else if (0 == strncmp(ptr, "BGC:", 4))
 				{
 					int val = atoi(ptr + 4);
 					if (val < 256 && val >= 0)
@@ -1183,7 +1183,7 @@ void parseRC(struct estate *state)
 						state->background_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "TRC:", 4))
+				else if (0 == strncmp(ptr, "TRC:", 4))
 				{
 					int val = atoi(ptr + 4);
 					if (val < 256 && val >= 0)
@@ -1191,7 +1191,7 @@ void parseRC(struct estate *state)
 						state->transparent_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "SBC:", 4))
+				else if (0 == strncmp(ptr, "SBC:", 4))
 				{
 					int val = atoi(ptr + 4);
 					if (val < 256 && val >= 0)
@@ -1199,7 +1199,7 @@ void parseRC(struct estate *state)
 						state->statusbar_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "SBTC:", 5))
+				else if (0 == strncmp(ptr, "SBTC:", 5))
 				{
 					int val = atoi(ptr + 5);
 					if (val < 256 && val >= 0)
@@ -1207,7 +1207,7 @@ void parseRC(struct estate *state)
 						state->statusbar_text_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "TSHC:", 5))
+				else if (0 == strncmp(ptr, "TSHC:", 5))
 				{
 					int val = atoi(ptr + 5);
 					if (val < 256 && val >= 0)
@@ -1215,7 +1215,7 @@ void parseRC(struct estate *state)
 						state->text_selection_highlight_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "BC:", 3))
+				else if (0 == strncmp(ptr, "BC:", 3))
 				{
 					int val = atoi(ptr + 3);
 					if (val < 256 && val >= 0)
@@ -1223,7 +1223,7 @@ void parseRC(struct estate *state)
 						state->border_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "DSC:", 4))
+				else if (0 == strncmp(ptr, "DSC:", 4))
 				{
 					int val = atoi(ptr + 4);
 					if (val < 256 && val >= 0)
@@ -1231,7 +1231,7 @@ void parseRC(struct estate *state)
 						state->dropshadow_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "FC:", 3))
+				else if (0 == strncmp(ptr, "FC:", 3))
 				{
 					int val = atoi(ptr + 3);
 					if (val < 256 && val >= 0)
@@ -1239,7 +1239,7 @@ void parseRC(struct estate *state)
 						state->focus_color = val;
 					}
 				}
-				if (0 == strncmp(ptr, "AA:", 3))
+				else if (0 == strncmp(ptr, "AA:", 3))
 				{
 					int val = atoi(ptr + 3);
 					if (val)
@@ -1247,21 +1247,18 @@ void parseRC(struct estate *state)
 						state->autoarchive = 1;
 					}
 				}
-				if (0 == strncmp(ptr, "CB:", 3))
+				else if (0 == strncmp(ptr, "CB:", 3))
 				{
 					int val = atoi(ptr + 3);
-					if (val)
-					{
-						state->blinkcursor = 1;
-					}
+					state->blinkcursor = (val > 0);
 				}
-				if (0==strncmp(ptr, "HSF:",4)){
+				else if (0==strncmp(ptr, "HSF:",4))
+				{
 					int val = atoi(ptr + 4);
-					if(val==0)
-						state->hide_special_files=0;
+					state->hide_special_files = (val > 0);
 				}
-				ptr = memchr(ptr, '\n', end-ptr);
 			}
+			while ((ptr = memchr(ptr, '\n', end-ptr)));
 		}
 	}
 #else
