@@ -1076,8 +1076,8 @@ void write_file(struct estate *state)
 	}
 	if (fullsize > 0)
 	{
-		fd = fs_WriteDirectly(state->text, state->c1, 1, fd, 0);
-		fd = fs_WriteDirectly(&state->text[state->c2 + 1], MAX_BUFFER_SIZE - (state->c2 + 1), 1, fd, state->c1);
+		fd = fs_Write(state->text, state->c1, 1, fd, 0);
+		fd = fs_Write(&state->text[state->c2 + 1], MAX_BUFFER_SIZE - (state->c2 + 1), 1, fd, state->c1);
 	}
 #else
 
