@@ -1257,8 +1257,12 @@ void parseRC(struct estate *state)
 					int val = atoi(ptr + 4);
 					state->hide_special_files = (val > 0);
 				}
-			}
-			while ((ptr = memchr(ptr, '\n', end-ptr)));
+				ptr = memchr(ptr, '\n', end-ptr);
+				if (ptr)
+					ptr++
+				else
+					break;
+			} while (1);
 		}
 	}
 #else
