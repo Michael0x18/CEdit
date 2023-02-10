@@ -1040,7 +1040,8 @@ void load_text(struct estate *state)
 		char *end = &ptr[fs_GetFDLen(fd)];
 		while (ptr < end)
 		{
-			insert_char(state, *ptr++);
+			insert_char(state, *ptr);
+			ptr++;
 		}
 	}
 #else
