@@ -679,6 +679,8 @@ void show_menu_dialog(struct estate *state)
 {
 	short k = 0;
 	int index = 0;
+	gfx_SetDrawBuffer();
+    gfx_FillScreen(state->background_color);
 	while (k != KEY_CLEAR)
 	{
 		if (k == '\n' || k == KEY_RIGHT)
@@ -725,7 +727,7 @@ void show_menu_dialog(struct estate *state)
 		}
 		menu_backend_draw(state, index);
 
-		//gfx_BlitBuffer();
+		gfx_BlitBuffer();
 		k = ngetchx();
 	}
 }
